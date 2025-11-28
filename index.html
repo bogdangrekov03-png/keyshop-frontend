@@ -280,54 +280,69 @@
         margin-bottom: 18px;
     }
 
-    /* ===== КАРТКИ ЗАСОБІВ ===== */
-/* КАРТКА – МІНІАТЮРА */
+   /* ===== СІТКА КАРТОК ===== */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 16px;
+    padding: 10px 0;
+}
+
+/* ===== КАРТКА ===== */
 .weapon-card {
-    width: 140px;             /* фіксована ширина */
+    width: 100%;
     background: #0d0d11;
     border-radius: 12px;
     border: 1px solid rgba(255,39,39,0.5);
-    box-shadow: 0 0 14px rgba(255,39,39,0.4);
     overflow: hidden;
     cursor: pointer;
     transition: 0.2s;
     display: flex;
     flex-direction: column;
+    box-shadow: 0 0 10px rgba(255,39,39,0.3);
 }
 
-/* при наведенні */
 .weapon-card:hover {
-    box-shadow: 0 0 22px rgba(255,39,39,1);
     transform: translateY(-4px);
+    box-shadow: 0 0 20px rgba(255,39,39,0.7);
 }
 
 /* Фото */
 .weapon-image {
     width: 100%;
-    height: 120px;             /* стало маленьке */
+    height: 100px;
     object-fit: cover;
-    display: block;
 }
 
-/* Тіло картки */
+/* Назва */
 .weapon-body {
     padding: 6px;
     text-align: center;
 }
 
-/* Тільки назва */
 .weapon-name {
     font-size: 12px;
     color: #ff5757;
     font-weight: 600;
 }
 
-/* Ховаємо опис */
+/* Ховаємо зайве */
 .weapon-tag,
 .weapon-meta,
 .weapon-desc {
-    display: none !important;
+    display: none;
 }
+
+/* ===== МОБІЛЬНА АДАПТАЦІЯ ===== */
+@media (max-width: 480px) {
+    .weapon-image {
+        height: 80px;
+    }
+    .weapon-name {
+        font-size: 11px;
+    }
+}
+
 
 /* ===== стиль ссилки ===== */
     footer a {
@@ -961,6 +976,7 @@ function applySearchFilter() {
 </script>
 </body>
 </html>
+
 
 
 
