@@ -491,69 +491,17 @@ mark {
     padding: 0 2px;
     border-radius: 4px;
 }
-/* ===== МОДАЛЬНЕ ВІКНО — ФІКСОВАНИЙ РОЗМІР + СКРОЛ ===== */
-.weapon-modal-content {
-    background: #0b0b0f;
-    border-radius: 16px;
-    border: 1px solid rgba(255,39,39,0.7);
-    box-shadow: 0 0 25px rgba(255,0,0,0.7);
-    width: 90%;
-    max-width: 500px;
-    max-height: 85vh;        /* ← Висота вікна зафіксована */
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;        /* ← Забороняємо вихід за межі */
-    position: relative;
-    animation: modalIn 0.25s ease;
-}
-
-/* Картинка зверху */
-.modal-img {
-    width: 100%;
-    height: 260px;
-    object-fit: contain;         /* ↑ НЕ обрізає картинку */
-    background: #000;
-    border-bottom: 1px solid rgba(255,39,39,0.4);
-}
-
-/* Заголовок + текст — в одному скрол-блоці */
-.modal-scroll {
-    padding: 16px 20px;
-    overflow-y: auto;
-    max-height: calc(85vh - 260px - 20px);  /* ← Авто-скрол */
-}
-
-/* Стиль заголовка */
-.weapon-modal h2 {
-    margin-bottom: 6px;
-    font-size: 20px;
-    color: #ff5757;
-}
-
-/* Дальність / тип */
-.modal-range {
-    font-size: 13px;
-    margin-bottom: 10px;
-    color: #bbbbbb;
-}
-
-/* Текст опису */
-.modal-desc {
-    font-size: 14px;
-    line-height: 1.5;
-    color: #e5e5e5;
-}
+/* ====== МОДАЛКА ====== */
 .weapon-modal {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.82);
-    backdrop-filter: blur(6px);
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9990;
-    transition: 0.25s;
+    z-index: 9999;
+    transition: 0.3s ease;
 }
 
 .weapon-modal.hidden {
@@ -562,42 +510,126 @@ mark {
 }
 
 .weapon-modal-content {
+    width: 92%;
+    max-width: 520px;
+    height: 82vh;                 /* фіксована висота */
     background: #0b0b0f;
-    border-radius: 16px;
-    border: 1px solid rgba(255,39,39,0.7);
-    box-shadow: 0 0 25px rgba(255,0,0,0.7);
-    width: 90%;
-    max-width: 500px;
-    height: 80vh;                 /* ← Висота фіксована */
+    border: 1px solid rgba(255, 39, 39, 0.7);
+    border-radius: 18px;
+    padding: 14px;
+    box-shadow: 0 0 35px rgba(255,0,0,0.7);
     display: flex;
     flex-direction: column;
-    padding: 20px;
     position: relative;
+    animation: modalAppear 0.25s ease-out;
+}
+
+@keyframes modalAppear {
+    from { transform: scale(0.8); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+
+/* ====== ХРЕСТИК ====== */
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,39,39,0.6);
+    background: rgba(10, 0, 0, 0.85);
+    color: #ff5757;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255,39,39,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s ease;
+}
+
+.modal-close:hover {
+    background: rgba(40, 0, 0, 1);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(255,0,0,1);
+    transform: scale(1.15);
+}
+
+/* ====== ЗОБРАЖЕННЯ ====== */
+.modal-img-wrapper {
+    width: 100%;
+    height: 38vh;                /* НЕ змінюється */
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(255, 39, 39, 0.5);
 }
 
 .modal-img {
     width: 100%;
-    max-height: 45%;
-    object-fit: contain;
-    border-radius: 12px;
+    height: 100%;
+    object-fit: contain;         /* 🔥 ідеальне масштабування */
+    background: #000;
+}
+
+/* ====== ПРОКРУТКА ====== */
+.modal-scroll {
+    margin-top: 14px;
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.modal-scroll::-webkit-scrollbar {
+    width: 7px;
+}
+
+.modal-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255,39,39,0.6);
+    border-radius: 5px;
+}
+
+.modal-scroll::-webkit-scrollbar-track {
+    background: rgba(60,0,0,0.4);
+}
+
+/* ====== ТЕКСТ ====== */
+.weapon-modal h2 {
+    font-size: 22px;
+    color: #ff5757;
+    margin-bottom: 6px;
+}
+
+.modal-range {
+    font-size: 14px;
+    color: #bbbbbb;
     margin-bottom: 12px;
 }
 
-.modal-scroll {
-    flex: 1;
-    overflow-y: auto;
-    padding-right: 10px;
+.modal-desc {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #e5e5e5;
 }
+
 
 </style>
 </head>
-<!-- ===== МОДАЛЬНЕ ВІКНО ЗАСОБУ УРАЖЕННЯ ===== -->
+    /* ====== модалка ====== */
 <div id="weaponModal" class="weapon-modal hidden">
     <div class="weapon-modal-content">
-        
-        <button class="modal-close">✖</button>
 
-        <img id="modalImg" class="modal-img" alt="">
+        <button class="modal-close">
+            ✖
+        </button>
+
+        <div class="modal-img-wrapper">
+            <img id="modalImg" class="modal-img" alt="">
+        </div>
 
         <div class="modal-scroll">
             <h2 id="modalName"></h2>
@@ -607,6 +639,7 @@ mark {
 
     </div>
 </div>
+
 
 
 <body>
@@ -1037,6 +1070,7 @@ function applySearchFilter() {
 </script>
 </body>
 </html>
+
 
 
 
