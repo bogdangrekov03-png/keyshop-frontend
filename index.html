@@ -295,16 +295,41 @@ section {
 }
 
 
+/* ===== АДАПТИВНА СІТКА КАРТОК ===== */
+
+/* ДЕФОЛТ: 4 картки в ряд */
 .weapon-card {
-    width: 150px;                 /* фіксована ширина іконки */
+    width: calc(25% - 14px);
+    max-width: 180px;
     background: var(--bg-card);
     border-radius: 12px;
-    border: 1px solid rgba(255, 39, 39, 0.5);
-    box-shadow: 0 0 12px rgba(255, 39, 39, 0.4);
+    border: 1px solid rgba(255,39,39,0.5);
+    box-shadow: 0 0 12px rgba(255,39,39,0.4);
     overflow: hidden;
     text-align: center;
-    padding: 0;
 }
+
+/* ПЛАНШЕТ: 3 картки */
+@media (max-width: 900px) {
+    .weapon-card {
+        width: calc(33.33% - 14px);
+    }
+}
+
+/* ВЕЛИКИЙ МОБІЛЬНИЙ: 2 картки */
+@media (max-width: 600px) {
+    .weapon-card {
+        width: calc(50% - 14px);
+    }
+}
+
+/* МАЛИЙ МОБІЛЬНИЙ: 1 картка */
+@media (max-width: 380px) {
+    .weapon-card {
+        width: 100%;
+    }
+}
+
 
 .weapon-image {
     width: 100%;
@@ -978,6 +1003,7 @@ function applySearchFilter() {
 </script>
 </body>
 </html>
+
 
 
 
