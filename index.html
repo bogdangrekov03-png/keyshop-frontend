@@ -281,57 +281,54 @@
     }
 
     /* ===== КАРТКИ ЗАСОБІВ ===== */
-/* Картка стає компактною */
+/* КАРТКА – МІНІАТЮРА */
 .weapon-card {
-    background: var(--bg-card);
-    border-radius: 14px;
-    border: 1px solid rgba(255, 39, 39, 0.6);
-    box-shadow: 0 0 18px rgba(255, 39, 39, 0.5);
+    width: 140px;             /* фіксована ширина */
+    background: #0d0d11;
+    border-radius: 12px;
+    border: 1px solid rgba(255,39,39,0.5);
+    box-shadow: 0 0 14px rgba(255,39,39,0.4);
     overflow: hidden;
-    position: relative;
-    cursor: pointer;           /* важливо для кліка */
+    cursor: pointer;
     transition: 0.2s;
+    display: flex;
+    flex-direction: column;
 }
 
+/* при наведенні */
 .weapon-card:hover {
-    box-shadow: 0 0 24px rgba(255, 39, 39, 0.9);
-    transform: translateY(-3px);
+    box-shadow: 0 0 22px rgba(255,39,39,1);
+    transform: translateY(-4px);
 }
 
-/* Фото — квадратне, маленьке */
+/* Фото */
 .weapon-image {
     width: 100%;
-    aspect-ratio: 1 / 1;
+    height: 120px;             /* стало маленьке */
     object-fit: cover;
-    filter: contrast(1.2) brightness(.9);
-    border-bottom: 1px solid rgba(255, 39, 39, 0.3);
     display: block;
 }
 
-/* Тіло карти — тільки ім’я */
+/* Тіло картки */
 .weapon-body {
-    padding: 8px 10px;
-}
-
-/* Рядок з назвою */
-.weapon-header {
-    display: block;
+    padding: 6px;
     text-align: center;
 }
 
-/* Назва */
+/* Тільки назва */
 .weapon-name {
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 12px;
     color: #ff5757;
+    font-weight: 600;
 }
 
-/* Тег, дальність, опис — ховаємо на самій картці */
+/* Ховаємо опис */
 .weapon-tag,
 .weapon-meta,
 .weapon-desc {
-    display: none;
+    display: none !important;
 }
+
 /* ===== стиль ссилки ===== */
     footer a {
     color: var(--accent-soft);
@@ -787,34 +784,46 @@ function renderWeapons(list) {
     list.forEach(item => {
         if (!sectors[item.type]) return;
 
-        const wrapper = document.createElement("article");
-        wrapper.className = "weapon-card";
+        const card = document.createElement("div");
+        card.className = "weapon-card";
 
-        wrapper.innerHTML = `
-            <img class="weapon-image" src="${item.img || ""}">
+        card.innerHTML = `
+            <img class="weapon-image" src="${item.img}">
             <div class="weapon-body">
-                <div class="weapon-header">
-                    <div class="weapon-name">${item.name || ""}</div>
-                    <div class="weapon-tag">${item.tag || ""}</div>
-                </div>
-                <div class="weapon-meta">
-                    <span>${item.range || ""}</span>
-                </div>
-                <div class="weapon-desc">${item.desc || ""}</div>
+                <div class="weapon-name">${item.name}</div>
             </div>
         `;
 
-        // клік по картці → відкриваємо модальне вікно
-        wrapper.addEventListener("click", () => {
-            openModalFromCard(wrapper);
-        });
+        // прикріпити відкриття модалки
+        card.addEventListener("click", () => openModal(item));
 
-        sectors[item.type].appendChild(wrapper);
+        sectors[item.type].appendChild(card);
     });
-
-    updateCardCache();
-    applySearchFilter();
 }
+
+/* ===== МОДАЛЬНЕ ВІКНО ===== */
+const modal = document.getElementById("weaponModal");
+const modalImg = document.getElementById("modalImg");
+const modalName = document.getElementById("modalName");
+const modalRange = document.getElementById("modalRange");
+const modalDesc = document.getElementById("modalDesc");
+
+function openModal(item) {
+    modalImg.src = item.img;
+    modalName.textContent = item.name;
+    modalRange.textContent = item.range;
+    modalDesc.textContent = item.desc;
+
+    modal.classList.remove("hidden");
+}
+
+document.querySelector(".modal-close").addEventListener("click", () => {
+    modal.classList.add("hidden");
+});
+
+modal.addEventListener("click", e => {
+    if (e.target === modal) modal.classList.add("hidden");
+});
 
 
 function renderDaily(list) {
@@ -952,6 +961,7 @@ function applySearchFilter() {
 </script>
 </body>
 </html>
+
 
 
 
