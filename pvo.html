@@ -629,7 +629,7 @@
 <div class="hud-nav">
     <div class="hud-logo">
         <div class="hud-logo-main">Засоби ураження</div>
-        <div class="hud-logo-sub">боєприпаси</div>
+        <div class="hud-logo-sub">ППО</div>
     </div>
     <div class="hud-burger" id="hudBurger">
         <span></span>
@@ -643,6 +643,7 @@
             <li><button data-link="rockets.html">Ракетні комплекси <span>RK</span></button></li>
             <li><button data-link="pvo.html">ППО <span>PVO</span></button></li>
             <li><button data-link="uav.html">БпЛА <span>UAV</span></button></li>
+            <li><button data-link="admin.html">Адмін-панель <span>ADMIN</span></button></li>
         </ul>
     </div>
 </div>
@@ -652,13 +653,13 @@
         <div class="hero-badge">категорія • ППО</div>
         <h1 class="hero-title">ППО</h1>
         <p class="hero-sub">
-            Снаряди, міни, патрони, інженерні заряди та інші засоби ураження, безпосередньо
-            призначені для враження живої сили, техніки, споруд та виконання спеціальних завдань
-            (освітлення, димові завіси, інженерні роботи тощо).
+            Засоби протиповітряної оборони, призначені для виявлення, супроводу та знищення
+            повітряних цілей: БпЛА, літаків, гелікоптерів, керованих та балістичних ракет противника,
+            забезпечуючи прикриття військ і важливих об’єктів.
         </p>
 
         <div class="search-box">
-            <input id="searchInput" type="text" placeholder="Пошук по назві боєприпасу..." />
+            <input id="searchInput" type="text" placeholder="Пошук по назві засобу ППО..." />
             <div class="search-icon">🔍</div>
             <div id="searchDropdown" class="search-dropdown"></div>
             <div id="noResults" class="no-results">Нічого не знайдено</div>
@@ -672,6 +673,7 @@
 
 <footer>
     © 2025 Засоби ураження • ППО
+</footer>
 
 <script type="module">
     /* ========= HUD НАВІГАЦІЯ ========= */
@@ -701,7 +703,7 @@
     } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
     const firebaseConfig = {
-      apiKey: "AIzaSyDRSzMxpXUox4_pW4ruMXZsXw1Kppi_P8Y",
+      apiKey: "AIzaSyDRSzMxpXUox4_pW4ruMXЗsXw1Kppi_P8Y",
       authDomain: "rooot-71962.firebaseapp.com",
       projectId: "rooot-71962",
       storageBucket: "rooot-71962.firebasestorage.app",
@@ -712,7 +714,7 @@
     const app = initializeApp(firebaseConfig);
     const db  = getFirestore(app);
 
-    const TYPE_FILTER = "pvo"; // 🔥 ЦЯ СТОРІНКА – тільки боєприпаси
+    const TYPE_FILTER = "pvo"; // 🔥 ЦЯ СТОРІНКА – тільки ППО
 
     const container = document.getElementById("weapons-grid");
 
