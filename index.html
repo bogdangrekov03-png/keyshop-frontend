@@ -786,10 +786,23 @@ footer a:hover {
     }
 
     loadData();
+    \// ========= ПОШУК =========
+const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("input", () => {
+    const q = searchInput.value.toLowerCase().trim();
+    const cards = document.querySelectorAll(".weapon-card");
+
+    cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(q) ? "" : "none";
+    });
+});
 </script>
 
 </body>
 </html>
+
 
 
 
