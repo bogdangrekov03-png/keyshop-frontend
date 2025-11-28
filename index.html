@@ -503,24 +503,17 @@ mark {
     /* ===== ВИПАДАЮЧИЙ СПИСОК ПОШУКУ ===== */
 .search-dropdown {
     position: fixed;
-    top: 185px; /* можна підкоригувати */
-    left: 50%;
-    transform: translateX(-50%);
-
-    width: 100%;
-    max-width: 420px;
-
     background: rgba(10,10,12,0.95);
     border: 1px solid rgba(255,39,39,0.6);
     border-radius: 12px;
     padding: 6px 0;
+    width: 100%;
+    max-width: 420px;
     box-shadow: 0 0 20px rgba(255,39,39,0.7);
     backdrop-filter: blur(10px);
-
     z-index: 9999;
     display: none;
 }
-
 
 .search-item {
     padding: 10px 14px;
@@ -531,15 +524,11 @@ mark {
     transition: 0.2s;
 }
 
-.search-item:last-child {
-    border-bottom: none;
+.search-item:hover {
+    background: rgba(255,39,39,0.2);
+    padding-left: 20px;
 }
 
-.search-item:hover {
-    background: rgba(255,39,39,0.15);
-    color: #fff;
-    padding-left: 18px;
-}
 
 </style>
 </head>
@@ -893,7 +882,7 @@ searchInput.addEventListener("input", () => {
 
         if (name.includes(q) || desc.includes(q)) {
             results.push({
-                name: card.querySelector(".weapon-name")?.innerText,
+                name: card.querySelector(".weapon-name").innerText,
                 element: card
             });
         }
@@ -901,9 +890,15 @@ searchInput.addEventListener("input", () => {
 
     if (results.length === 0) return;
 
+    // ==== ПОЗИЦІОНУВАННЯ СПИСКУ ПІД ІНПУТОМ ====
+    const rect = searchInput.getBoundingClientRect();
+    dropdown.style.top = (rect.bottom + 6) + "px";
+    dropdown.style.left = rect.left + "px";
+    dropdown.style.width = rect.width + "px";
+
     dropdown.style.display = "block";
 
-    results.slice(0, 8).forEach(item => {
+    results.slice(0, 10).forEach(item => {
         const div = document.createElement("div");
         div.className = "search-item";
         div.innerHTML = item.name;
@@ -916,16 +911,14 @@ searchInput.addEventListener("input", () => {
                 block: "center"
             });
 
-            // коротка підсвітка картки
             item.element.style.boxShadow = "0 0 25px rgba(255,39,39,1)";
-            setTimeout(() => {
-                item.element.style.boxShadow = "";
-            }, 900);
+            setTimeout(() => item.element.style.boxShadow = "", 900);
         });
 
         dropdown.appendChild(div);
     });
 });
+
 
 // Закривання списку при кліку поза ним
 document.addEventListener("click", (e) => {
@@ -967,6 +960,7 @@ function applySearchFilter() {
 
 </body>
 </html>
+
 
 
 
