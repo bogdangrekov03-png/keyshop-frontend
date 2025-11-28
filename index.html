@@ -423,6 +423,19 @@
         color: var(--text-muted);
         font-size: 11px;
     }
+    
+    footer a {
+    color: var(--accent-soft);
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+footer a:hover {
+    color: var(--accent);
+    text-shadow: 0 0 8px rgba(255, 39, 39, 0.7);
+}
+
 </style>
 </head>
 <body>
@@ -578,12 +591,13 @@
 </section>
 
 <footer>
-    Міністерство оборони України<br>
-     <br>
-    © 2025 Засоби ураження • тактичний інформаційний портал<br>
-     <br>
-   www.zbroya-portal.com.ua
+    © 2025 Засоби ураження • тактичний інформаційний портал
+    <br><br>
+    <a href="https://zbroya-portal.com.ua" target="_blank">
+        www.zbroya-portal.com.ua
+    </a>
 </footer>
+
 
 <!-- ===== JS + FIREBASE (MODULE) ===== -->
 <script type="module">
@@ -744,6 +758,7 @@
 
 </body>
 </html>
+
 
 
 
