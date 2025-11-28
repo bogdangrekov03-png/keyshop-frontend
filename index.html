@@ -436,50 +436,70 @@ footer a:hover {
     color: var(--accent);
     text-shadow: 0 0 8px rgba(255, 39, 39, 0.7);
 }
-/* ===== ІКОНКА ПОШУКУ ===== */
+/* ===== ПОШУК З 🔍 ІКОНОЮ ===== */
 .search-box {
-    position: relative;
     margin-top: 22px;
+    width: 100%;
     max-width: 420px;
+    position: relative;
 }
 
 .search-box input {
-    padding-left: 38px;
+    width: 100%;
+    padding: 10px 42px 10px 16px; /* місце під іконку */
+    border-radius: 999px;
+    background: rgba(10,10,12,0.85);
+    border: 1px solid rgba(255,39,39,0.6);
+    color: var(--text-main);
+    font-size: 14px;
+    outline: none;
+    box-shadow: 0 0 12px rgba(255,39,39,0.5);
+    transition: 0.2s;
 }
 
-.search-box::before {
-    content: "🔍";
+.search-box input::placeholder {
+    color: var(--text-muted);
+}
+
+.search-box input:focus {
+    background: rgba(18,0,0,0.9);
+    border-color: var(--accent);
+    box-shadow: 0 0 18px rgba(255,39,39,0.9);
+}
+
+/* 🔍 Іконка */
+.search-icon {
     position: absolute;
+    right: 14px;
     top: 50%;
-    left: 14px;
     transform: translateY(-50%);
-    font-size: 16px;
-    opacity: 0.6;
+    font-size: 18px;
+    color: var(--accent-soft);
+    pointer-events: none;
+    text-shadow: 0 0 8px rgba(255,39,39,0.8);
 }
 
-/* ===== НІЧОГО НЕ ЗНАЙДЕНО ===== */
+/* ⛔ Повідомлення “нічого не знайдено” */
 .no-results {
     margin-top: 12px;
-    font-size: 14px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: rgba(40,0,0,0.55);
+    border: 1px solid rgba(255,39,39,0.5);
     color: var(--accent-soft);
-    text-shadow: 0 0 12px rgba(255,39,39,0.9);
-    animation: fadeIn 0.25s;
+    font-size: 14px;
+    display: none;
+    box-shadow: 0 0 16px rgba(255,39,39,0.35);
+    text-align: center;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(4px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ===== ПІДСВІТКА ПОШУКУ ===== */
+/* 🟥 Підсвітка слова */
 mark {
-    background: rgba(255, 39, 39, 0.45);
+    background: rgba(255,39,39,0.35);
     color: #fff;
-    padding: 1px 3px;
+    padding: 0 2px;
     border-radius: 4px;
 }
-
-
 </style>
 </head>
 <body>
@@ -865,6 +885,7 @@ function applySearchFilter() {
 
 </body>
 </html>
+
 
 
 
