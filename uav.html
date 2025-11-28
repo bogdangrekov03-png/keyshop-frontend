@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>БпЛА</title>
+<title>БпЛА – Засоби ураження</title>
 
 <style>
     :root {
@@ -629,7 +629,7 @@
 <div class="hud-nav">
     <div class="hud-logo">
         <div class="hud-logo-main">Засоби ураження</div>
-        <div class="hud-logo-sub">боєприпаси</div>
+        <div class="hud-logo-sub">БпЛА</div>
     </div>
     <div class="hud-burger" id="hudBurger">
         <span></span>
@@ -650,16 +650,16 @@
 
 <section class="hero">
     <div class="hero-inner">
-        <div class="hero-badge">категорія • боєприпаси</div>
-        <h1 class="hero-title">Боєприпаси</h1>
+        <div class="hero-badge">категорія • БпЛА</div>
+        <h1 class="hero-title">БпЛА</h1>
         <p class="hero-sub">
-            Снаряди, міни, патрони, інженерні заряди та інші засоби ураження, безпосередньо
-            призначені для враження живої сили, техніки, споруд та виконання спеціальних завдань
-            (освітлення, димові завіси, інженерні роботи тощо).
+            Безпілотні літальні апарати різних типів: розвідувальні, ударні, коригувальні та FPV,
+            призначені для ведення спостереження, цілевказання, ураження цілей і підтримки дій підрозділів
+            на полі бою в режимі реального часу.
         </p>
 
         <div class="search-box">
-            <input id="searchInput" type="text" placeholder="Пошук по назві боєприпасу..." />
+            <input id="searchInput" type="text" placeholder="Пошук по назві БпЛА..." />
             <div class="search-icon">🔍</div>
             <div id="searchDropdown" class="search-dropdown"></div>
             <div id="noResults" class="no-results">Нічого не знайдено</div>
@@ -672,7 +672,7 @@
 </section>
 
 <footer>
-    © 2025 Засоби ураження • боєприпаси
+    © 2025 Засоби ураження • БпЛА
 </footer>
 
 <script type="module">
@@ -703,7 +703,7 @@
     } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
     const firebaseConfig = {
-      apiKey: "AIzaSyDRSzMxpXUox4_pW4ruMXZsXw1Kppi_P8Y",
+      apiKey: "AIzaSyDRSzMxpXUox4_pW4ruMXЗsXw1Kppi_P8Y",
       authDomain: "rooot-71962.firebaseapp.com",
       projectId: "rooot-71962",
       storageBucket: "rooot-71962.firebasestorage.app",
@@ -714,7 +714,7 @@
     const app = initializeApp(firebaseConfig);
     const db  = getFirestore(app);
 
-    const TYPE_FILTER = "uav"; // 🔥 ЦЯ СТОРІНКА – тільки боєприпаси
+    const TYPE_FILTER = "uav"; // 🔥 ЦЯ СТОРІНКА – тільки БпЛА
 
     const container = document.getElementById("weapons-grid");
 
