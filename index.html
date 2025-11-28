@@ -544,18 +544,61 @@ mark {
     line-height: 1.5;
     color: #e5e5e5;
 }
+.weapon-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.82);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9990;
+    transition: 0.25s;
+}
+
+.weapon-modal.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.weapon-modal-content {
+    background: #0b0b0f;
+    border-radius: 16px;
+    border: 1px solid rgba(255,39,39,0.7);
+    box-shadow: 0 0 25px rgba(255,0,0,0.7);
+    width: 90%;
+    max-width: 500px;
+    height: 80vh;                 /* ← Висота фіксована */
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    position: relative;
+}
+
+.modal-img {
+    width: 100%;
+    max-height: 45%;
+    object-fit: contain;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+.modal-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 10px;
+}
 
 </style>
 </head>
 <!-- ===== МОДАЛЬНЕ ВІКНО ЗАСОБУ УРАЖЕННЯ ===== -->
 <div id="weaponModal" class="weapon-modal hidden">
     <div class="weapon-modal-content">
-
+        
         <button class="modal-close">✖</button>
 
         <img id="modalImg" class="modal-img" alt="">
 
-        <!-- СКРОЛЬОВАНИЙ БЛОК -->
         <div class="modal-scroll">
             <h2 id="modalName"></h2>
             <p id="modalRange" class="modal-range"></p>
@@ -564,6 +607,7 @@ mark {
 
     </div>
 </div>
+
 
 <body>
 
@@ -993,6 +1037,7 @@ function applySearchFilter() {
 </script>
 </body>
 </html>
+
 
 
 
