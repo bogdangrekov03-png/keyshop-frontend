@@ -288,11 +288,12 @@ section {
 }
 
 .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 16px;
-    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: flex-start;    /* або center якщо хочеш центр */
 }
+
 
 .weapon-card {
     width: 170px;                 /* фіксована ширина іконки */
@@ -977,6 +978,7 @@ function applySearchFilter() {
 </script>
 </body>
 </html>
+
 
 
 
