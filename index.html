@@ -305,12 +305,14 @@
         pointer-events: none;
     }
 
-    .weapon-image {
-        width: 100%;
-        height: 160px;
-        object-fit: cover;
-        filter: contrast(1.2) brightness(.85);
-    }
+   .weapon-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;  /* квадрат */
+    object-fit: cover;
+    filter: contrast(1.2) brightness(.85);
+    border-bottom: 1px solid rgba(255, 39, 39, 0.3);
+    display: block;
+}
 
     .weapon-body {
         padding: 14px 14px 12px;
@@ -974,6 +976,7 @@ function applySearchFilter() {
 
 </body>
 </html>
+
 
 
 
