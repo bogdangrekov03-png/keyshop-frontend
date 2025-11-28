@@ -477,7 +477,7 @@ footer a:hover {
 .search-icon {
     position: absolute;
     right: 14px;
-    top: 10px; /* ФІКСОВАНЕ ВИРІВНЮВАННЯ ПО ПОЛЮ */
+    top: 9px; /* ФІКСОВАНЕ ВИРІВНЮВАННЯ ПО ПОЛЮ */
     transform: none;
     font-size: 18px;
     color: var(--accent-soft);
@@ -880,7 +880,6 @@ const noResults = document.getElementById("noResults");
 
 searchInput.addEventListener("input", () => {
     const q = searchInput.value.toLowerCase().trim();
-    const cards = Array.from(document.querySelectorAll(".weapon-card"));
 
     dropdown.innerHTML = "";
     dropdown.style.display = "none";
@@ -888,19 +887,15 @@ searchInput.addEventListener("input", () => {
 
     if (q === "") return;
 
-    let results = [];
+    const cards = Array.from(document.querySelectorAll(".weapon-card"));
 
-    cards.forEach(card => {
-        const name = card.querySelector(".weapon-name").innerText.toLowerCase();
-        const desc = card.querySelector(".weapon-desc").innerText.toLowerCase();
-
-        if (name.includes(q) || desc.includes(q)) {
-            results.push({
-                name: card.querySelector(".weapon-name").innerText,
-                element: card
-            });
-        }
-    });
+    // *** Пошук тільки по назві ***
+    const results = cards
+        .map(card => ({
+            name: card.querySelector(".weapon-name").innerText,
+            element: card
+        }))
+        .filter(item => item.name.toLowerCase().includes(q));
 
     if (results.length === 0) {
         noResults.style.display = "block";
@@ -913,13 +908,13 @@ searchInput.addEventListener("input", () => {
         const div = document.createElement("div");
         div.className = "search-item";
 
-        // Підсвітка
-        const safeName = item.name.replace(
+        // Підсвітка тільки в назві
+        const highlighted = item.name.replace(
             new RegExp(q, "gi"),
             match => `<mark>${match}</mark>`
         );
 
-        div.innerHTML = safeName;
+        div.innerHTML = highlighted;
 
         div.addEventListener("click", () => {
             dropdown.style.display = "none";
@@ -938,15 +933,12 @@ searchInput.addEventListener("input", () => {
     });
 });
 
-// Закриття списку при кліку поза ним
+// Закриття списку
 document.addEventListener("click", e => {
     if (!searchInput.contains(e.target) && !dropdown.contains(e.target)) {
         dropdown.style.display = "none";
     }
 });
-
-
-
 function applySearchFilter() {
     const q = searchInput.value.toLowerCase().trim();
     let shown = 0;
@@ -955,15 +947,14 @@ function applySearchFilter() {
         const nameEl = card.querySelector(".weapon-name");
         const descEl = card.querySelector(".weapon-desc");
 
-        const haystack = card.innerText.toLowerCase();
+        const name = nameEl.innerText.toLowerCase();
 
-        if (haystack.includes(q)) {
+        if (name.includes(q)) {
             card.style.display = "";
             shown++;
 
             nameEl.innerHTML = highlight(nameEl.innerText, q);
-            descEl.innerHTML = highlight(descEl.innerText, q);
-
+            descEl.innerHTML = descEl.innerText; // не чіпаємо опис
         } else {
             card.style.display = "none";
             nameEl.innerHTML = nameEl.innerText;
@@ -974,11 +965,13 @@ function applySearchFilter() {
     noResults.style.display = (shown === 0 && q !== "") ? "block" : "none";
 }
 
+
 </script>
 
 
 </body>
 </html>
+
 
 
 
