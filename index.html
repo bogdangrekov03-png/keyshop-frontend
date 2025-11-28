@@ -655,7 +655,6 @@ footer a:hover {
             burger.classList.remove('active');
             menu.classList.remove('visible');
         });
-    });
 
     // ===== 3D ПАРАЛАКС HERO =====
     const heroParallax = document.getElementById('heroParallax');
@@ -703,70 +702,85 @@ footer a:hover {
         orderBy
     } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-    // ===== ТВОЯ КОНФІГУРАЦІЯ =====
-    const firebaseConfig = {
-      apiKey: "AIzaSyDRSzMxpXUox4_pW4ruMXZsXw1Kppi_P8Y",
-      authDomain: "rooot-71962.firebaseapp.com",
-      projectId: "rooot-71962",
-      storageBucket: "rooot-71962.firebasestorage.app",
-      messagingSenderId: "718921321052",
-      appId: "1:718921321052:web:614928382d93d2b50eb499"
+// ===== FIREBASE CONFIG =====
+const firebaseConfig = {
+  apiKey: "AIzaSyDRSzMxpXUox4_pW4ruMXZsXw1Kppi_P8Y",
+  authDomain: "rooot-71962.firebaseapp.com",
+  projectId: "rooot-71962",
+  storageBucket: "rooot-71962.firebasestorage.app",
+  messagingSenderId: "718921321052",
+  appId: "1:718921321052:web:614928382d93d2b50eb499"
+};
+
+// Ініціалізація Firebase
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+
+// ===== ГОЛОВНА ФУНКЦІЯ ЗАВАНТАЖЕННЯ =====
+async function loadData() {
+    try {
+        // --- ЗБРОЯ ---
+        const qWeapons = query(collection(db, "weapons"), orderBy("name"));
+        const snapW = await getDocs(qWeapons);
+
+        const weapons = [];
+        snapW.forEach(doc => weapons.push({ id: doc.id, ...doc.data() }));
+
+        renderWeapons(weapons);
+
+        // --- ЩОДЕННІ НОВИНИ ---
+        const qDaily = query(collection(db, "daily"), orderBy("date", "desc"));
+        const snapD = await getDocs(qDaily);
+
+        const daily = [];
+        snapD.forEach(doc => daily.push({ id: doc.id, ...doc.data() }));
+
+        renderDaily(daily);
+
+    } catch (err) {
+        console.error("❌ Помилка завантаження з Firestore:", err);
+    }
+}
+
+
+
+// ===== РЕНДЕР КАРТОК ЗБРОЇ =====
+function renderWeapons(list) {
+    const sectors = {
+        bp:  document.getElementById("weapons-bp"),
+        rk:  document.getElementById("weapons-rk"),
+        pvo: document.getElementById("weapons-pvo"),
+        uav: document.getElementById("weapons-uav")
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db  = getFirestore(app);
+    list.forEach(item => {
+        if (!sectors[item.type]) return; // якщо помилка type
 
-    async function loadData() {
-        try {
-            // weapons
-            const qWeapons = query(collection(db, "weapons"), orderBy("name"));
-            const snapW = await getDocs(qWeapons);
-            const weapons = [];
-            snapW.forEach(doc => weapons.push({ id: doc.id, ...doc.data() }));
-            renderWeapons(weapons);
-
-            // daily
-            const qDaily = query(collection(db, "daily"), orderBy("date", "desc"));
-            const snapD = await getDocs(qDaily);
-            const daily = [];
-            snapD.forEach(doc => daily.push({ id: doc.id, ...doc.data() }));
-            renderDaily(daily);
-
-        } catch (err) {
-            console.error("Помилка завантаження з Firestore:", err);
-        }
-    }
-
-    function renderWeapons(list) {
-        const sectors = {
-            bp:  document.getElementById("weapons-bp"),
-            rk:  document.getElementById("weapons-rk"),
-            pvo: document.getElementById("weapons-pvo"),
-            uav: document.getElementById("weapons-uav")
-        };
-
-        list.forEach(item => {
-            if (!sectors[item.type]) return;
-
-            const block = `
-            <article class="weapon-card">
-                <img class="weapon-image" src="${item.img || ""}" alt="">
-                <div class="weapon-body">
-                    <div class="weapon-header">
-                        <div class="weapon-name">${item.name || ""}</div>
-                        <div class="weapon-tag">${item.tag || ""}</div>
-                    </div>
-                    <div class="weapon-meta">
-                        <span>${item.range || ""}</span>
-                    </div>
-                    <div class="weapon-desc">${item.desc || ""}</div>
+        const block = `
+        <article class="weapon-card">
+            <img class="weapon-image" src="${item.img || ""}" alt="">
+            <div class="weapon-body">
+                <div class="weapon-header">
+                    <div class="weapon-name">${item.name || ""}</div>
+                    <div class="weapon-tag">${item.tag || ""}</div>
                 </div>
-            </article>`;
+                <div class="weapon-meta">
+                    <span>${item.range || ""}</span>
+                </div>
+                <div class="weapon-desc">${item.desc || ""}</div>
+            </div>
+        </article>`;
 
-            sectors[item.type].innerHTML += block;
-        });
-        applySearchFilter();
-    }
+        sectors[item.type].innerHTML += block;
+    });
+
+    // 🔥 після рендера — одразу фільтруємо (пошук)
+    applySearchFilter();
+}
+
+
+
+// ===== ПОШУК (ФІЛЬТР КАРТОК) =====
 function applySearchFilter() {
     const q = searchInput.value.toLowerCase().trim();
     const cards = document.querySelectorAll(".weapon-card");
@@ -777,45 +791,39 @@ function applySearchFilter() {
     });
 }
 
-    function renderDaily(list) {
-        const box = document.getElementById("daily-container");
-        box.innerHTML = "";
 
-        list.forEach(item => {
-            const entry = `
-            <article class="daily-entry">
-                <h4>${item.title || ""}</h4>
-                <time>${item.date || ""}</time>
-                <div class="daily-body">
-                    <img src="${item.img || ""}" alt="">
-                    <div class="daily-text">${item.text || ""}</div>
-                </div>
-            </article>`;
-            box.innerHTML += entry;
-        });
-    }
 
-    loadData();
-    // ===== ПОШУК КАРТОК =====
-const searchInput = document.getElementById("searchInput");
+// ===== РЕНДЕР ЩОДЕННИХ НОВИН =====
+function renderDaily(list) {
+    const box = document.getElementById("daily-container");
+    box.innerHTML = "";
 
-searchInput.addEventListener("input", applySearchFilter);
-    const q = searchInput.value.toLowerCase().trim();
+    list.forEach(item => {
+        const entry = `
+        <article class="daily-entry">
+            <h4>${item.title || ""}</h4>
+            <time>${item.date || ""}</time>
+            <div class="daily-body">
+                <img src="${item.img || ""}" alt="">
+                <div class="daily-text">${item.text || ""}</div>
+            </div>
+        </article>`;
 
-    // Всі картки
-    const cards = document.querySelectorAll(".weapon-card");
-
-    cards.forEach(card => {
-        const text = card.innerText.toLowerCase();
-        // Показуємо, якщо вміст картки містить текст пошуку
-        card.style.display = text.includes(q) ? "block" : "none";
+        box.innerHTML += entry;
     });
-});
+}
+// ===== СТАРТ =====
+loadData();
+
+// ===== АКТИВАЦІЯ ПОШУКУ =====
+const searchInput = document.getElementById("searchInput");
+searchInput.addEventListener("input", applySearchFilter);
 
 </script>
 
 </body>
 </html>
+
 
 
 
