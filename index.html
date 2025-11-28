@@ -295,23 +295,24 @@ section {
 }
 
 .weapon-card {
-    width: 100%;
-    background: #0d0d11;
+    width: 170px;                 /* фіксована ширина іконки */
+    background: var(--bg-card);
     border-radius: 12px;
-    border: 1px solid rgba(255,39,39,0.5);
+    border: 1px solid rgba(255, 39, 39, 0.5);
+    box-shadow: 0 0 12px rgba(255, 39, 39, 0.4);
     overflow: hidden;
-    cursor: pointer;
-    transition: 0.2s;
-    display: flex;
-    flex-direction: column;
+    text-align: center;
+    padding: 0;
 }
 
 .weapon-image {
     width: 100%;
-    height: 100px;
-    object-fit: cover;
+    height: 120px;               /* однакова висота для всіх */
+    object-fit: cover;           /* Обрізає, не розтягує */
     display: block;
+    border-bottom: 1px solid rgba(255,39,39,0.3);
 }
+
 
 /* Назва */
 .weapon-body {
@@ -976,6 +977,7 @@ function applySearchFilter() {
 </script>
 </body>
 </html>
+
 
 
 
