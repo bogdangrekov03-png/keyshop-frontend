@@ -443,11 +443,13 @@ footer a:hover {
 /* Контейнер пошуку */
 .search-box {
     margin-top: 22px;
+    margin-bottom: 22px;  /* ← ДОДАВ “ENTER” */
     width: 100%;
     max-width: 420px;
-    position: relative; /* головне! */
+    position: relative;
     z-index: 50;
 }
+
 
 /* Поле пошуку */
 .search-box input {
@@ -583,13 +585,13 @@ mark {
             Інформаційна сторінка про основні засоби ураження, їх завдання, 
             застосування.
         </p>
-        <div class="search-box">
+<div class="search-box">
     <input id="searchInput" type="text" placeholder="Пошук засобів ураження...">
     <div class="search-icon">🔍</div>
     <div id="searchDropdown" class="search-dropdown"></div>
     <div id="noResults" class="no-results">Нічого не знайдено</div>
 </div>
-         </p>
+
 <div class="hero-meta">
     <span>Артилерія</span>
     <span>Міномети</span>
@@ -601,6 +603,7 @@ mark {
     <span>БпЛА</span>
     <span>Авіаційні боєприпаси</span>
 </div>
+
 </section>
 <!-- ПРО СЛУЖБУ -->
 <section id="sec-about">
@@ -971,6 +974,7 @@ function applySearchFilter() {
 
 </body>
 </html>
+
 
 
 
