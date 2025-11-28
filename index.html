@@ -702,97 +702,89 @@ footer a:hover {
         orderBy
     } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-// ===== ТВОЯ КОНФІГУРАЦІЯ =====
-const firebaseConfig = {
-  apiKey: "AIzaSyDRSzMxpXUox4_pW4ruMXZsXw1Kppi_P8Y",
-  authDomain: "rooot-71962.firebaseapp.com",
-  projectId: "rooot-71962",
-  storageBucket: "rooot-71962.firebasestorage.app",
-  messagingSenderId: "718921321052",
-  appId: "1:718921321052:web:614928382d93d2b50eb499"
-};
-
-const app = initializeApp(firebaseConfig);
-const db  = getFirestore(app);
-
-async function loadData() {
-    try {
-        // weapons
-        const qWeapons = query(collection(db, "weapons"), orderBy("name"));
-        const snapW = await getDocs(qWeapons);
-
-        const weapons = [];
-        snapW.forEach(doc => weapons.push({ id: doc.id, ...doc.data() }));
-
-        renderWeapons(weapons);
-
-        // daily
-        const qDaily = query(collection(db, "daily"), orderBy("date", "desc"));
-        const snapD = await getDocs(qDaily);
-
-        const daily = [];
-        snapD.forEach(doc => daily.push({ id: doc.id, ...doc.data() }));
-
-        renderDaily(daily);
-
-    } catch (err) {
-        console.error("Помилка завантаження з Firestore:", err);
-    }
-}
-
-function renderWeapons(list) {
-    const sectors = {
-        bp:  document.getElementById("weapons-bp"),
-        rk:  document.getElementById("weapons-rk"),
-        pvo: document.getElementById("weapons-pvo"),
-        uav: document.getElementById("weapons-uav")
+    // ===== ТВОЯ КОНФІГУРАЦІЯ =====
+    const firebaseConfig = {
+      apiKey: "AIzaSyDRSzMxpXUox4_pW4ruMXZsXw1Kppi_P8Y",
+      authDomain: "rooot-71962.firebaseapp.com",
+      projectId: "rooot-71962",
+      storageBucket: "rooot-71962.firebasestorage.app",
+      messagingSenderId: "718921321052",
+      appId: "1:718921321052:web:614928382d93d2b50eb499"
     };
 
-    list.forEach(item => {
-        if (!sectors[item.type]) return;
+    const app = initializeApp(firebaseConfig);
+    const db  = getFirestore(app);
 
-        const block = `
-        <article class="weapon-card">
-            <img class="weapon-image" src="${item.img || ""}" alt="">
-            <div class="weapon-body">
-                <div class="weapon-header">
-                    <div class="weapon-name">${item.name || ""}</div>
-                    <div class="weapon-tag">${item.tag || ""}</div>
+    async function loadData() {
+        try {
+            // weapons
+            const qWeapons = query(collection(db, "weapons"), orderBy("name"));
+            const snapW = await getDocs(qWeapons);
+            const weapons = [];
+            snapW.forEach(doc => weapons.push({ id: doc.id, ...doc.data() }));
+            renderWeapons(weapons);
+
+            // daily
+            const qDaily = query(collection(db, "daily"), orderBy("date", "desc"));
+            const snapD = await getDocs(qDaily);
+            const daily = [];
+            snapD.forEach(doc => daily.push({ id: doc.id, ...doc.data() }));
+            renderDaily(daily);
+
+        } catch (err) {
+            console.error("Помилка завантаження з Firestore:", err);
+        }
+    }
+
+    function renderWeapons(list) {
+        const sectors = {
+            bp:  document.getElementById("weapons-bp"),
+            rk:  document.getElementById("weapons-rk"),
+            pvo: document.getElementById("weapons-pvo"),
+            uav: document.getElementById("weapons-uav")
+        };
+
+        list.forEach(item => {
+            if (!sectors[item.type]) return;
+
+            const block = `
+            <article class="weapon-card">
+                <img class="weapon-image" src="${item.img || ""}" alt="">
+                <div class="weapon-body">
+                    <div class="weapon-header">
+                        <div class="weapon-name">${item.name || ""}</div>
+                        <div class="weapon-tag">${item.tag || ""}</div>
+                    </div>
+                    <div class="weapon-meta">
+                        <span>${item.range || ""}</span>
+                    </div>
+                    <div class="weapon-desc">${item.desc || ""}</div>
                 </div>
-                <div class="weapon-meta">
-                    <span>${item.range || ""}</span>
+            </article>`;
+
+            sectors[item.type].innerHTML += block;
+        });
+    }
+
+    function renderDaily(list) {
+        const box = document.getElementById("daily-container");
+        box.innerHTML = "";
+
+        list.forEach(item => {
+            const entry = `
+            <article class="daily-entry">
+                <h4>${item.title || ""}</h4>
+                <time>${item.date || ""}</time>
+                <div class="daily-body">
+                    <img src="${item.img || ""}" alt="">
+                    <div class="daily-text">${item.text || ""}</div>
                 </div>
-                <div class="weapon-desc">${item.desc || ""}</div>
-            </div>
-        </article>`;
+            </article>`;
+            box.innerHTML += entry;
+        });
+    }
 
-        sectors[item.type].innerHTML += block;
-    });
-
-    // Після рендера — запустити фільтр
-    applySearchFilter();
-}
-
-function renderDaily(list) {
-    const box = document.getElementById("daily-container");
-    box.innerHTML = "";
-
-    list.forEach(item => {
-        const entry = `
-        <article class="daily-entry">
-            <h4>${item.title || ""}</h4>
-            <time>${item.date || ""}</time>
-            <div class="daily-body">
-                <img src="${item.img || ""}" alt="">
-                <div class="daily-text">${item.text || ""}</div>
-            </div>
-        </article>`;
-        box.innerHTML += entry;
-    });
-}
-
-// Запуск
-loadData();
+    loadData();
 // ===== ПОШУК =====
 const searchInput = document.getElementById("searchInput");
 
@@ -811,6 +803,7 @@ searchInput.addEventListener("input", applySearchFilter);
 
 </body>
 </html>
+
 
 
 
