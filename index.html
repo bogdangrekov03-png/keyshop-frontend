@@ -436,35 +436,49 @@ footer a:hover {
     color: var(--accent);
     text-shadow: 0 0 8px rgba(255, 39, 39, 0.7);
 }
-/* ===== ПОШУК ===== */
+/* ===== ІКОНКА ПОШУКУ ===== */
 .search-box {
+    position: relative;
     margin-top: 22px;
-    width: 100%;
     max-width: 420px;
 }
 
 .search-box input {
-    width: 100%;
-    padding: 10px 14px;
-    border-radius: 999px;
-    background: rgba(10,10,12,0.85);
-    border: 1px solid rgba(255,39,39,0.6);
-    color: var(--text-main);
+    padding-left: 38px;
+}
+
+.search-box::before {
+    content: "🔍";
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+    font-size: 16px;
+    opacity: 0.6;
+}
+
+/* ===== НІЧОГО НЕ ЗНАЙДЕНО ===== */
+.no-results {
+    margin-top: 12px;
     font-size: 14px;
-    outline: none;
-    box-shadow: 0 0 12px rgba(255,39,39,0.5);
-    transition: 0.2s;
+    color: var(--accent-soft);
+    text-shadow: 0 0 12px rgba(255,39,39,0.9);
+    animation: fadeIn 0.25s;
 }
 
-.search-box input::placeholder {
-    color: var(--text-muted);
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
-.search-box input:focus {
-    background: rgba(18,0,0,0.9);
-    border-color: var(--accent);
-    box-shadow: 0 0 18px rgba(255,39,39,0.9);
+/* ===== ПІДСВІТКА ПОШУКУ ===== */
+mark {
+    background: rgba(255, 39, 39, 0.45);
+    color: #fff;
+    padding: 1px 3px;
+    border-radius: 4px;
 }
+
 
 </style>
 </head>
@@ -520,6 +534,9 @@ footer a:hover {
 <div class="search-box">
     <input id="searchInput" type="text" placeholder="Пошук засобів ураження...">
 </div>
+    <div id="noResults" class="no-results" style="display:none;">
+    ⛔ Нічого не знайдено
+</div>    
     </div>
 </section>
 <!-- ПРО СЛУЖБУ -->
@@ -633,180 +650,222 @@ footer a:hover {
 
 <!-- ===== JS + FIREBASE (MODULE) ===== -->
 <script type="module">
-    // ===== HUD BURGER + МЕНЮ =====
-    const burger = document.getElementById('hudBurger');
-    const menu = document.getElementById('hudMenu');
 
-    burger.addEventListener('click', () => {
-        burger.classList.toggle('active');
-        menu.classList.toggle('visible');
+/* ============================================================================
+    HUD BURGER MENU
+============================================================================ */
+const burger = document.getElementById('hudBurger');
+const menu   = document.getElementById('hudMenu');
+
+burger.addEventListener('click', () => {
+    burger.classList.toggle('active');
+    menu.classList.toggle('visible');
+});
+
+menu.querySelectorAll('button[data-target]').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-target');
+        const el = document.getElementById(id);
+        if (el) {
+            window.scrollTo({
+                top: el.offsetTop - 60,
+                behavior: 'smooth'
+            });
+        }
+        burger.classList.remove('active');
+        menu.classList.remove('visible');
     });
+});
 
-    menu.querySelectorAll('button[data-target]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const id = btn.getAttribute('data-target');
-            const el = document.getElementById(id);
-            if (el) {
-                window.scrollTo({
-                    top: el.offsetTop - 60,
-                    behavior: 'smooth'
-                });
-            }
-            burger.classList.remove('active');
-            menu.classList.remove('visible');
-        });
-    });
 
-    // ===== 3D ПАРАЛАКС HERO =====
-    const heroParallax = document.getElementById('heroParallax');
+/* ============================================================================
+    3D PARALLAX HERO
+============================================================================ */
+const heroParallax = document.getElementById('heroParallax');
 
-    function applyParallax(xNorm, yNorm) {
-        const rotateX = yNorm * 6;
-        const rotateY = -xNorm * 6;
-        const moveX = xNorm * 18;
-        const moveY = yNorm * 18;
+function applyParallax(xNorm, yNorm) {
+    heroParallax.style.transform =
+        `translate3d(${xNorm * 18}px, ${yNorm * 18}px, 0)
+         rotateX(${yNorm * 6}deg)
+         rotateY(${-xNorm * 6}deg)`;
+}
 
-        heroParallax.style.transform =
-            `translate3d(${moveX}px, ${moveY}px, 0) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-    }
-
-    if (window.DeviceOrientationEvent) {
-        window.addEventListener('deviceorientation', (event) => {
-            const beta = event.beta || 0;
-            const gamma = event.gamma || 0;
-
-            let xNorm = gamma / 45;
-            let yNorm = beta / 45;
-
-            xNorm = Math.max(-1, Math.min(1, xNorm));
-            yNorm = Math.max(-1, Math.min(1, yNorm));
-
-            applyParallax(xNorm, yNorm);
-        });
-    }
-
-    window.addEventListener('mousemove', (e) => {
-        const x = e.clientX / window.innerWidth;
-        const y = e.clientY / window.innerHeight;
-        const xNorm = (x - 0.5) * 2;
-        const yNorm = (y - 0.5) * 2;
+if (window.DeviceOrientationEvent) {
+    window.addEventListener('deviceorientation', (event) => {
+        let xNorm = (event.gamma || 0) / 45;
+        let yNorm = (event.beta  || 0) / 45;
+        xNorm = Math.max(-1, Math.min(1, xNorm));
+        yNorm = Math.max(-1, Math.min(1, yNorm));
         applyParallax(xNorm, yNorm);
     });
+}
 
-    // ===== FIREBASE IMPORTS =====
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import {
-        getFirestore,
-        collection,
-        getDocs,
-        query,
-        orderBy
-    } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+window.addEventListener('mousemove', e => {
+    const xNorm = (e.clientX / window.innerWidth  - 0.5) * 2;
+    const yNorm = (e.clientY / window.innerHeight - 0.5) * 2;
+    applyParallax(xNorm, yNorm);
+});
 
-    // ===== ТВОЯ КОНФІГУРАЦІЯ =====
-    const firebaseConfig = {
-      apiKey: "AIzaSyDRSzMxpXUox4_pW4ruMXZsXw1Kppi_P8Y",
-      authDomain: "rooot-71962.firebaseapp.com",
-      projectId: "rooot-71962",
-      storageBucket: "rooot-71962.firebasestorage.app",
-      messagingSenderId: "718921321052",
-      appId: "1:718921321052:web:614928382d93d2b50eb499"
+
+/* ============================================================================
+    FIREBASE + FIRESTORE
+============================================================================ */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import {
+    getFirestore,
+    collection,
+    getDocs,
+    query,
+    orderBy
+} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDRSzMxpXUox4_pW4ruMXZsXw1Kppi_P8Y",
+  authDomain: "rooot-71962.firebaseapp.com",
+  projectId: "rooot-71962",
+  storageBucket: "rooot-71962.firebasestorage.app",
+  messagingSenderId: "718921321052",
+  appId: "1:718921321052:web:614928382d93d2b50eb499"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+
+
+/* ============================================================================
+    РЕНДЕР ДАНИХ
+============================================================================ */
+function renderWeapons(list) {
+    const sectors = {
+        bp:  document.getElementById("weapons-bp"),
+        rk:  document.getElementById("weapons-rk"),
+        pvo: document.getElementById("weapons-pvo"),
+        uav: document.getElementById("weapons-uav")
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db  = getFirestore(app);
+    list.forEach(item => {
+        if (!sectors[item.type]) return;
 
-    async function loadData() {
-        try {
-            // weapons
-            const qWeapons = query(collection(db, "weapons"), orderBy("name"));
-            const snapW = await getDocs(qWeapons);
-            const weapons = [];
-            snapW.forEach(doc => weapons.push({ id: doc.id, ...doc.data() }));
-            renderWeapons(weapons);
-
-            // daily
-            const qDaily = query(collection(db, "daily"), orderBy("date", "desc"));
-            const snapD = await getDocs(qDaily);
-            const daily = [];
-            snapD.forEach(doc => daily.push({ id: doc.id, ...doc.data() }));
-            renderDaily(daily);
-
-        } catch (err) {
-            console.error("Помилка завантаження з Firestore:", err);
-        }
-    }
-
-    function renderWeapons(list) {
-        const sectors = {
-            bp:  document.getElementById("weapons-bp"),
-            rk:  document.getElementById("weapons-rk"),
-            pvo: document.getElementById("weapons-pvo"),
-            uav: document.getElementById("weapons-uav")
-        };
-
-        list.forEach(item => {
-            if (!sectors[item.type]) return;
-
-            const block = `
-            <article class="weapon-card">
-                <img class="weapon-image" src="${item.img || ""}" alt="">
-                <div class="weapon-body">
-                    <div class="weapon-header">
-                        <div class="weapon-name">${item.name || ""}</div>
-                        <div class="weapon-tag">${item.tag || ""}</div>
-                    </div>
-                    <div class="weapon-meta">
-                        <span>${item.range || ""}</span>
-                    </div>
-                    <div class="weapon-desc">${item.desc || ""}</div>
+        const html = `
+        <article class="weapon-card">
+            <img class="weapon-image" src="${item.img || ""}">
+            <div class="weapon-body">
+                <div class="weapon-header">
+                    <div class="weapon-name">${item.name}</div>
+                    <div class="weapon-tag">${item.tag || ""}</div>
                 </div>
-            </article>`;
-
-            sectors[item.type].innerHTML += block;
-        });
-    }
-
-    function renderDaily(list) {
-        const box = document.getElementById("daily-container");
-        box.innerHTML = "";
-
-        list.forEach(item => {
-            const entry = `
-            <article class="daily-entry">
-                <h4>${item.title || ""}</h4>
-                <time>${item.date || ""}</time>
-                <div class="daily-body">
-                    <img src="${item.img || ""}" alt="">
-                    <div class="daily-text">${item.text || ""}</div>
+                <div class="weapon-meta">
+                    <span>${item.range || ""}</span>
                 </div>
-            </article>`;
-            box.innerHTML += entry;
-        });
-    }
+                <div class="weapon-desc">${item.desc || ""}</div>
+            </div>
+        </article>`;
 
-    loadData();
+        sectors[item.type].insertAdjacentHTML("beforeend", html);
+    });
+
+    updateCardCache();
+    applySearchFilter();
+}
+
+function renderDaily(list) {
+    const box = document.getElementById("daily-container");
+    box.innerHTML = "";
+
+    list.forEach(item => {
+        box.innerHTML += `
+        <article class="daily-entry">
+            <h4>${item.title}</h4>
+            <time>${item.date}</time>
+            <div class="daily-body">
+                <img src="${item.img}">
+                <div class="daily-text">${item.text}</div>
+            </div>
+        </article>`;
+    });
+}
+
+
+/* ============================================================================
+    ЗАВАНТАЖЕННЯ З FIRESTORE
+============================================================================ */
+async function loadData() {
+    try {
+        const qW = query(collection(db, "weapons"), orderBy("name"));
+        const snapW = await getDocs(qW);
+        const weapons = snapW.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderWeapons(weapons);
+
+        const qD = query(collection(db, "daily"), orderBy("date", "desc"));
+        const snapD = await getDocs(qD);
+        const daily = snapD.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderDaily(daily);
+
+    } catch (e) {
+        console.error("Помилка Firestore:", e);
+    }
+}
+
 loadData();
 
-// ========= ПОШУК =========
+
+/* ============================================================================
+    ПОШУК З ІКОНКОЮ, ПІДСВІТКОЮ ТА "НІЧОГО НЕ ЗНАЙДЕНО"
+============================================================================ */
 const searchInput = document.getElementById("searchInput");
+const noResults   = document.getElementById("noResults");
 
-if (searchInput) {
-    searchInput.addEventListener("input", () => {
-        const q = searchInput.value.toLowerCase().trim();
-        const cards = document.querySelectorAll(".weapon-card");
+let cachedCards = [];
 
-        cards.forEach(card => {
-            const text = card.innerText.toLowerCase();
-            card.style.display = text.includes(q) ? "" : "none";
-        });
+function updateCardCache() {
+    cachedCards = Array.from(document.querySelectorAll(".weapon-card"));
+}
+
+function highlight(text, query) {
+    if (!query) return text;
+    const reg = new RegExp(`(${query})`, "gi");
+    return text.replace(reg, "<mark>$1</mark>");
+}
+
+let timer;
+searchInput.addEventListener("input", () => {
+    clearTimeout(timer);
+    timer = setTimeout(applySearchFilter, 120);
+});
+
+function applySearchFilter() {
+    const q = searchInput.value.toLowerCase().trim();
+    let shown = 0;
+
+    cachedCards.forEach(card => {
+        const nameEl = card.querySelector(".weapon-name");
+        const descEl = card.querySelector(".weapon-desc");
+
+        const haystack = card.innerText.toLowerCase();
+
+        if (haystack.includes(q)) {
+            card.style.display = "";
+            shown++;
+
+            nameEl.innerHTML = highlight(nameEl.innerText, q);
+            descEl.innerHTML = highlight(descEl.innerText, q);
+
+        } else {
+            card.style.display = "none";
+            nameEl.innerHTML = nameEl.innerText;
+            descEl.innerHTML = descEl.innerText;
+        }
     });
+
+    noResults.style.display = (shown === 0 && q !== "") ? "block" : "none";
 }
 
 </script>
 
+
 </body>
 </html>
+
 
 
 
