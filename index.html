@@ -184,76 +184,79 @@
     }
 
     /* ===== HERO ===== */
-.hero {
-    margin-top: 32px; /* було 52px → тепер блок вище */
-    position: relative;
-    padding: 55px 18px 52px; /* було 80px — підняв */
-    overflow: hidden;
-    animation: fadeIn 0.9s ease-out;
-}
+    .hero {
+        margin-top: 52px;
+        position: relative;
+        padding: 80px 18px 72px;
+        overflow: hidden;
+    }
 
-.hero-title {
-    font-size: 30px;
-    line-height: 1.2;
-    text-transform: uppercase;
-    text-shadow: 0 0 18px rgba(255,39,39,0.9);
-    margin-bottom: 10px;
-    animation: neonPulse 3s infinite ease-in-out;
-}
+    .hero-parallax {
+        position: absolute;
+        inset: -40px;
+        background:
+            radial-gradient(circle at 20% 0%, rgba(255, 39, 39, 0.22), transparent 55%),
+            radial-gradient(circle at 90% 100%, rgba(255, 120, 80, 0.16), transparent 60%),
+            radial-gradient(circle at 50% 50%, rgba(255, 0, 0, 0.08), transparent 70%);
+        mix-blend-mode: screen;
+        pointer-events: none;
+        transform-style: preserve-3d;
+        transition: transform 0.08s linear;
+    }
 
-.hero-sub {
-    font-size: 15px;
-    color: var(--text-muted);
-    margin-bottom: 18px;
-    animation: fadeSlideUp 1.2s ease-out;
-}
+    .hero-inner {
+        position: relative;
+        z-index: 2;
+        text-align: left;
+        max-width: 760px;
+        margin: 0 auto;
+    }
 
-/* ===== НОВІ АНІМАЦІЇ ===== */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--accent-soft);
+        padding: 4px 9px;
+        border-radius: 999px;
+        border: 1px solid rgba(255,39,39,0.7);
+        background: rgba(0,0,0,0.8);
+        box-shadow: var(--border-glow);
+        margin-bottom: 14px;
+    }
 
-@keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(18px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+    .hero-title {
+        font-size: 26px;
+        line-height: 1.2;
+        text-transform: uppercase;
+        text-shadow: 0 0 18px rgba(255,39,39,0.9);
+        margin-bottom: 10px;
+    }
 
-@keyframes neonPulse {
-  0%, 100% { text-shadow: 0 0 14px rgba(255,39,39,0.5); }
-  50%      { text-shadow: 0 0 28px rgba(255,39,39,1); }
-}
+    .hero-sub {
+        font-size: 14px;
+        color: var(--text-muted);
+        margin-bottom: 22px;
+    }
 
-.cat-card {
-    animation: fadeIn 0.8s ease-out;
-}
-<!-- КАТЕГОРІЇ – ТЕПЕР ОДРАЗУ ПІСЛЯ HERO -->
-<section id="sec-cats">
-    <h2 class="section-title">Розділи порталу</h2>
-    <p class="section-text">
-        Обери розділ, щоб перейти до переліку боєприпасів, комплексів, ППО та безпілотних систем.
-    </p>
+    .hero-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        font-size: 11px;
+        text-transform: uppercase;
+        color: var(--text-muted);
+    }
 
-    <div class="categories-grid">
-        <div class="cat-card" data-link="ammo.html">
-            <h3>Боєприпаси</h3>
-            <p>Снаряди, міни, патрони, інженерні заряди.</p>
-        </div>
-        <div class="cat-card" data-link="rockets.html">
-            <h3>Ракетні комплекси</h3>
-            <p>ОТКР, ПТРК, ЗРК та інші системи.</p>
-        </div>
-        <div class="cat-card" data-link="pvo.html">
-            <h3>ППО</h3>
-            <p>Засоби боротьби з повітряними цілями.</p>
-        </div>
-        <div class="cat-card" data-link="uav.html">
-            <h3>БпЛА</h3>
-            <p>Розвідувальні та ударні дрони.</p>
-        </div>
-    </div>
-</section>
-
+    .hero-meta span {
+        padding: 4px 9px;
+        border-radius: 999px;
+        border: 1px solid rgba(255,39,39,0.6);
+        background: rgba(3,3,5,0.9);
+    }
 
     /* ===== СЕКЦІЇ ===== */
     section {
@@ -359,10 +362,10 @@
     <div class="hud-menu" id="hudMenu">
         <h4>Розділи</h4>
         <ul>
-            <li><button data-link="ammo.html">Боєприпаси </span></button></li>
-            <li><button data-link="rockets.html">Ракетні комплекси </span></button></li>
-            <li><button data-link="pvo.html">Протиповітряна оборона </span></button></li>
-            <li><button data-link="uav.html">БпЛА </span></button></li>
+            <li><button data-link="ammo.html">Боєприпаси </button></li>
+            <li><button data-link="rockets.html">Ракетні комплекси </button></li>
+            <li><button data-link="pvo.html">Протиповітряна оборона </button></li>
+            <li><button data-link="uav.html">БпЛА </button></li>
         </ul>
     </div>
 </div>
@@ -501,6 +504,8 @@
 
 </body>
 </html>
+
+
 
 
 
