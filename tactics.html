@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тактичне застосування – Засоби ураження</title>
+
+<style>
+/* ===== ОСНОВНІ ЗМІННІ ===== */
+:root {
+    --bg-main: #020204;
+    --bg-card: #0b0b0f;
+    --accent: #ff2727;
+    --accent-soft: #ff5757;
+    --border-glow: 0 0 18px rgba(255, 39, 39, 0.7);
+    --text-main: #f5f5f5;
+    --text-muted: #b8b8b8;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+    background: radial-gradient(circle at top, #220000 0%, #020204 45%, #000000 100%);
+    font-family:"Segoe UI", system-ui, sans-serif;
+    color:var(--text-main);
+    overflow-x:hidden;
+}
+
+/* ===== HUD ===== */
+.hud-nav {
+    position:fixed;
+    top:0; left:0; width:100%;
+    backdrop-filter:blur(10px);
+    background:linear-gradient(90deg, rgba(0,0,0,0.94), rgba(40,0,0,0.9));
+    border-bottom:1px solid rgba(255,39,39,0.5);
+    padding:8px 14px;
+    display:flex; justify-content:space-between; align-items:center;
+    z-index:50;
+}
+.hud-logo { display:flex; flex-direction:column; }
+.hud-logo-main { font-size:15px; text-transform:uppercase; color:var(--accent-soft); }
+.hud-logo-sub { font-size:11px; color:var(--text-muted); }
+
+/* Бургер */
+.hud-burger {
+    width:32px; height:32px; border-radius:50%;
+    border:1px solid rgba(255,39,39,0.6);
+    display:flex; justify-content:center; align-items:center;
+    cursor:pointer; position:relative;
+    box-shadow:0 0 15px rgba(255,39,39,0.7);
+}
+.hud-burger span,
+.hud-burger::before,
+.hud-burger::after {
+    content:"";
+    position:absolute;
+    width:18px; height:2px;
+    background:var(--accent);
+    border-radius:999px;
+    transition:0.25s;
+}
+.hud-burger span { position:relative; }
+.hud-burger::before { transform:translateY(-6px); }
+.hud-burger::after  { transform:translateY(6px); }
+.hud-burger.active span { opacity:0; }
+.hud-burger.active::before { transform:rotate(45deg); }
+.hud-burger.active::after  { transform:rotate(-45deg); }
+
+/* HUD MENU */
+.hud-menu {
+    position:fixed;
+    top:50px; right:10px; width:240px;
+    background:radial-gradient(circle at top, #3b0000 0%, #050507 50%, #000 100%);
+    border:1px solid rgba(255,39,39,0.7);
+    border-radius:14px;
+    padding:12px;
+    opacity:0;
+    transform:translateY(-10px) scale(0.95);
+    pointer-events:none;
+    transition:0.25s;
+    z-index:40;
+}
+.hud-menu.visible {
+    opacity:1;
+    transform:translateY(0) scale(1);
+    pointer-events:auto;
+}
+
+.hud-menu-groups { display:flex; flex-direction:column; gap:10px; }
+.menu-group-title {
+    font-size:10px; text-transform:uppercase; letter-spacing:1px;
+    color:var(--text-muted); margin-bottom:4px;
+}
+.hud-menu ul { list-style:none; display:flex; flex-direction:column; gap:6px; }
+.hud-menu li button {
+    background:linear-gradient(90deg,#150000,#2a0000);
+    border:1px solid rgba(255,39,39,0.7);
+    padding:8px 12px;
+    border-radius:9px;
+    color:#fff;
+    text-align:left;
+    cursor:pointer;
+}
+.hud-menu li button:hover {
+    background:linear-gradient(90deg,#360000,#550000);
+    box-shadow:0 0 18px rgba(255,39,39,0.8);
+}
+
+/* ===== HERO ===== */
+.hero {
+    margin-top:52px;
+    padding:70px 18px 30px;
+}
+.hero-inner { max-width:900px; margin:0 auto; }
+.hero-badge {
+    display:inline-block; padding:4px 10px;
+    background:#000a; border:1px solid #ff3939;
+    border-radius:999px; color:#ff7a7a;
+    font-size:11px;
+}
+.hero-title {
+    font-size:26px; margin-top:14px;
+    text-transform:uppercase;
+    text-shadow:0 0 18px rgba(255,39,39,0.9);
+}
+.hero-sub { margin-top:8px; color:var(--text-muted); line-height:1.6; }
+
+/* ===== СЕКЦІЇ ===== */
+section.page {
+    max-width:980px; margin:0 auto; padding:0 18px 40px;
+}
+.section-title {
+    font-size:20px; margin-bottom:10px;
+    color:var(--accent-soft);
+    text-transform:uppercase;
+    text-shadow:0 0 12px rgba(255,39,39,0.9);
+}
+.section-text {
+    color:var(--text-muted); margin-bottom:14px; line-height:1.6;
+}
+
+/* INFO BLOCK */
+.info-block {
+    background:rgba(10,0,0,0.55);
+    border:1px solid rgba(255,40,40,0.35);
+    border-radius:12px;
+    padding:16px 18px;
+    margin-bottom:18px;
+    box-shadow:inset 0 0 18px rgba(255,0,0,0.15);
+}
+.info-block h3 {
+    font-size:14px; color:#ff5757;
+    text-transform:uppercase;
+    margin-bottom:10px;
+}
+.info-block p, .info-block li {
+    color:#e5e5e5; font-size:14px; line-height:1.6;
+}
+.info-block ul { margin-left:18px; }
+
+/* FOOTER */
+footer {
+    text-align:center; padding:20px 0 30px; font-size:13px;
+    color:var(--text-muted);
+}
+footer a { color:var(--accent-soft); }
+footer a:hover { color:var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- ===== HUD ===== -->
+<div class="hud-nav">
+    <div class="hud-logo">
+        <div class="hud-logo-main">Засоби ураження</div>
+        <div class="hud-logo-sub">тактика</div>
+    </div>
+    <div id="hudBurger" class="hud-burger"><span></span></div>
+
+    <div id="hudMenu" class="hud-menu">
+        <div class="hud-menu-groups">
+
+            <div class="menu-group">
+                <div class="menu-group-title">Основне</div>
+                <ul><li><button data-link="index.html">Головна</button></li></ul>
+            </div>
+
+            <div class="menu-group">
+                <div class="menu-group-title">Категорії озброєння</div>
+                <ul>
+                    <li><button data-link="ammo.html">Боєприпаси</button></li>
+                    <li><button data-link="rockets.html">Ракетні комплекси</button></li>
+                    <li><button data-link="pvo.html">ППО</button></li>
+                    <li><button data-link="uav.html">БпЛА</button></li>
+                </ul>
+            </div>
+
+            <div class="menu-group">
+                <div class="menu-group-title">Довідник</div>
+                <ul>
+                    <li><button data-link="classification.html">Класифікація</button></li>
+                    <li><button data-link="calibers.html">Калібри</button></li>
+                </ul>
+            </div>
+
+            <div class="menu-group">
+                <div class="menu-group-title">Тактика</div>
+                <ul>
+                    <li><button data-link="tactics.html">Тактичне застосування</button></li>
+                </ul>
+            </div>
+
+            <div class="menu-group">
+                <div class="menu-group-title">Українські розробки</div>
+                <ul><li><button data-link="ukraine-dev.html">Огляд</button></li></ul>
+            </div>
+
+            <div class="menu-group">
+                <div class="menu-group-title">Безпека</div>
+                <ul><li><button data-link="safety.html">Правила безпеки</button></li></ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+    <div class="hero-inner">
+        <div class="hero-badge">тактичний довідник</div>
+        <h1 class="hero-title">Тактичне застосування засобів ураження</h1>
+        <p class="hero-sub">
+            Правильне поєднання артилерії, дронів, ракетних комплексів та інженерних засобів дозволяє
+            формувати багатошаровий вогневий вплив, забезпечувати наступальні та оборонні дії, а також
+            мінімізувати втрати.
+        </p>
+    </div>
+</section>
+
+<!-- ===== СЕКЦІЇ ===== -->
+
+<section class="page">
+    <h2 class="section-title">1. Артилерія у сучасному бою</h2>
+
+    <div class="info-block">
+        <h3>Придушення оборони</h3>
+        <p>
+            Систематичний артилерійський вогонь зменшує здатність противника вести точний вогонь,
+            руйнує позиції, бліндажі, інфраструктуру. Застосовується перед штурмом або під час маневру.
+        </p>
+    </div>
+
+    <div class="info-block">
+        <h3>Контрбатарейна боротьба</h3>
+        <p>
+            Виявлення, локалізація та знищення артилерії противника за допомогою радарів, БпЛА та
+            РСЗВ. Дозволяє отримати вогневу перевагу на ділянці фронту.
+        </p>
+    </div>
+
+    <div class="info-block">
+        <h3>Високоточні удари</h3>
+        <p>
+            Використання снарядів із GPS/лазерним наведенням дозволяє знищувати точкові цілі — склади,
+            командні пункти, техніку, ППО — з мінімальними витратами боєкомплекту.
+        </p>
+    </div>
+</section>
+
+<section class="page">
+    <h2 class="section-title">2. Роль БпЛА</h2>
+
+    <div class="info-block">
+        <h3>Розвідка та коригування</h3>
+        <p>
+            Дрони забезпечують оперативну інформацію про пересування противника, дозволяють точно
+            скоригувати вогонь артилерії та відстежити результати ураження.
+        </p>
+    </div>
+
+    <div class="info-block">
+        <h3>Ударні та FPV</h3>
+        <p>
+            FPV-дрони — ключовий інструмент проти техніки, бліндажів, окремих груп піхоти. Здатні
+            виконувати точкові удари на великих дистанціях.
+        </p>
+    </div>
+
+    <div class="info-block">
+        <h3>Робота по логістиці</h3>
+        <p>
+            Далекобійні дрони застосовуються для ураження складів, штабів, мостів та транспортних
+            вузлів у глибині оборони противника.
+        </p>
+    </div>
+</section>
+
+<section class="page">
+    <h2 class="section-title">3. Ракетні комплекси</h2>
+
+    <div class="info-block">
+        <h3>Оперативно-тактичні удари</h3>
+        <p>
+            Дальність 100+ км дозволяє знищувати критичні об’єкти противника — штаби, аеродроми,
+            склади, вузли зв’язку. Працюють по розвіданих або стаціонарних цілях.
+        </p>
+    </div>
+
+    <div class="info-block">
+        <h3>ПТРК у обороні</h3>
+        <p>
+            Протитанкові комплекси (Стугна-П, Корсар, Javelin) зупиняють бронетехніку, працюють
+            з укриття, обороняють фланги та важливі об’єкти.
+        </p>
+    </div>
+
+    <div class="info-block">
+        <h3>РСЗВ</h3>
+        <p>
+            Реактивні системи залпового вогню забезпечують масоване ураження площинних цілей,
+            знищуючи групи техніки, батареї та оборонні вузли.
+        </p>
+    </div>
+</section>
+
+<section class="page">
+    <h2 class="section-title">4. Інженерні засоби</h2>
+
+    <div class="info-block">
+        <h3>Мінування</h3>
+        <p>
+            Міни встановлюються дистанційно, вручну або за допомогою спеціальних машин. Перекривають
+            маршрути техніки, стримують наступ.
+        </p>
+    </div>
+
+    <div class="info-block">
+        <h3>Розмінування</h3>
+        <p>
+            Інженерні підрозділи забезпечують проходи для техніки, штурмових груп, проводять
+            підривні роботи та розчищення об’єктів.
+        </p>
+    </div>
+
+    <div class="info-block">
+        <h3>Підривні роботи</h3>
+        <p>
+            Застосовуються для руйнування мостів, фортифікацій, споруд, створення загороджень
+            та стримування противника.
+        </p>
+    </div>
+</section>
+
+<footer>
+    © 2025 Засоби ураження • тактичне застосування
+</footer>
+
+<script>
+const burger = document.getElementById("hudBurger");
+const menu   = document.getElementById("hudMenu");
+burger.addEventListener("click", () => {
+    burger.classList.toggle("active");
+    menu.classList.toggle("visible");
+});
+menu.querySelectorAll("button[data-link]").forEach(btn=>{
+    btn.addEventListener("click",()=>window.location.href=btn.dataset.link);
+});
+</script>
+
+</body>
+</html>
