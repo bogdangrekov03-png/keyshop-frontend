@@ -6,421 +6,964 @@
 <title>Ракетні комплекси – Засоби ураження</title>
 
 <style>
-/* ===== ГЛОБАЛЬНІ ЗМІННІ ===== */
-:root {
-    --bg-main: #020204;
-    --bg-card: #0b0b0f;
-    --accent: #ff2727;
-    --accent-soft: #ff5757;
-    --border-glow: 0 0 12px rgba(255, 39, 39, 0.4);  
-    --text-main: #f5f5f5;
-    --text-muted: #b8b8b8;
-}
+    :root {
+        --bg-main: #020204;
+        --bg-card: #0b0b0f;
+        --accent: #ff2727;
+        --accent-soft: #ff5757;
+        --border-glow: 0 0 12px rgba(255, 39, 39, 0.4);
+        --text-main: #f5f5f5;
+        --text-muted: #b8b8b8;
+    }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
 
-body {
-    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-    background: radial-gradient(circle at top, #220000 0%, #020204 45%, #000000 100%);
-    color: var(--text-main);
-    overflow-x: hidden;
-}
+    body {
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        background: radial-gradient(circle at top, #220000 0%, #020204 45%, #000000 100%);
+        color: var(--text-main);
+        overflow-x: hidden;
+    }
 
-a { color: inherit; text-decoration: none; }
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
 
-/* ===== HUD ===== */
+   /* ===== ГЛОБАЛЬНИЙ HUD ===== */
 .hud-nav {
-    position: fixed; top: 0; left: 0;
-    width: 100%; z-index: 50;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 50;
     backdrop-filter: blur(10px);
     background: rgba(0,0,0,0.88);
-    border-bottom: 1px solid rgba(255,39,39,0.4);
-    display: flex; align-items: center;
+    border-bottom: 1px solid rgba(255, 39, 39, 0.4);
+    box-shadow: 0 0 10px rgba(0,0,0,0.9);
+    display: flex;
+    align-items: center;
     justify-content: space-between;
     padding: 8px 14px;
 }
 
-.hud-logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+/* Лого з гербом */
+.hud-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
 
-.hud-emblem { width: 24px; height: 30px; }
-.hud-emblem svg { width: 100%; height: 100%; fill: #ffffff; }
+.hud-emblem {
+    width: 24px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-.hud-logo-text { display: flex; flex-direction: column; }
-.hud-logo-main { color: #ffffff; text-transform: uppercase; letter-spacing: 1.4px; }
-.hud-logo-sub { color: #b8b8b8; font-size: 11px; }
+.hud-emblem svg {
+    width: 100%;
+    height: 100%;
+    fill: #f5f5f5;
+    opacity: 0.9;
+}
 
-/* Back button */
+.hud-logo-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.hud-logo-main {
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #ffffff;
+}
+.hud-logo-sub {
+    font-size: 11px;
+    color: #b8b8b8;
+}
+
+/* Бек-кнопка */
 .hud-back {
     font-size: 18px;
-    color: #fff;
+    color: #ffffff;
+    cursor: pointer;
     padding: 3px 8px;
     border-radius: 6px;
     border: 1px solid rgba(255,39,39,0.5);
-    margin-right: 8px;
-    cursor: pointer;
+    background: rgba(20,0,0,0.6);
+    box-shadow: 0 0 6px rgba(0,0,0,0.8);
+    transition: 0.2s;
 }
 
-/* ===== BURGER ===== */
+.hud-back:hover {
+    background: rgba(40,0,0,0.9);
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(255,39,39,0.7);
+}
+
+/* Бургер */
 .hud-burger {
-    width: 34px; height: 34px;
+    width: 34px;
+    height: 34px;
     border-radius: 8px;
     border: 1px solid rgba(255,39,39,0.4);
     background: rgba(20,0,0,0.6);
-    display: flex; align-items: center;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    position: relative;
     cursor: pointer;
+    box-shadow: none;
+    transition: 0.2s ease;
+    position: relative;
 }
+
 .hud-burger span,
 .hud-burger::before,
 .hud-burger::after {
     content: "";
-    width: 18px; height: 2px;
-    position: absolute;
+    width: 18px;
+    height: 2px;
     background: #ffffff;
-    transition: .25s;
+    border-radius: 999px;
+    position: absolute;
+    transition: 0.25s;
 }
-.hud-burger::before { transform: translateY(-6px); }
-.hud-burger::after  { transform: translateY(6px); }
 
-/* ===== MENU ===== */
-.hud-menu {
-    position: fixed; right: 10px; top: 50px;
-    width: 220px;
-    padding: 12px;
-    background: rgba(5,5,7,0.97);
-    border: 1px solid rgba(255,39,39,0.6);
-    border-radius: 14px;
-    opacity: 0;
-    transform: translateY(-10px) scale(.97);
-    pointer-events: none;
-    transition: .22s;
+.hud-burger::before {
+    transform: translateY(-6px);
 }
+.hud-burger::after {
+    transform: translateY(6px);
+}
+
+.hud-burger.active span {
+    opacity: 0;
+}
+.hud-burger.active::before {
+    transform: rotate(45deg);
+}
+.hud-burger.active::after {
+    transform: rotate(-45deg);
+}
+
+.hud-burger:hover {
+    background: rgba(40,0,0,0.85);
+    border-color: #ff2727;
+    box-shadow: 0 0 12px rgba(255,40,40,0.6);
+}
+
+.hud-burger:active {
+    transform: scale(0.9);
+    box-shadow: 0 0 16px rgba(255,0,0,0.9);
+}
+
+
+/* MENU */
+.hud-menu {
+    position: fixed;
+    top: 50px;
+    right: 10px;
+    z-index: 40;
+    width: 220px;
+    max-width: calc(100% - 20px);
+    background: rgba(5,5,7,0.97);
+    border-radius: 14px;
+    border: 1px solid rgba(255,39,39,0.6);
+    box-shadow: 0 0 18px rgba(0,0,0,0.9);
+    padding: 12px;
+    opacity: 0;
+    transform: translateY(-10px) scale(0.97);
+    pointer-events: none;
+    transition: 0.22s ease;
+}
+
 .hud-menu.visible {
-    opacity: 1; transform: translateY(0) scale(1);
+    opacity: 1;
+    transform: translateY(0) scale(1);
     pointer-events: auto;
 }
 
-/* ===== HERO ===== */
-.hero {
-    margin-top: 52px;
-    padding: 70px 18px 30px;
-    text-align: left;
+.hud-menu-groups { display: flex; flex-direction: column; gap: 10px; }
+
+.menu-group { border-top: 1px solid rgba(255,39,39,0.25); padding-top: 6px; }
+
+.menu-group-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #b8b8b8;
+    margin: 4px 2px;
 }
 
-.hero-title { font-size: 26px; text-transform: uppercase; color: #ffffff; margin-bottom: 10px; }
-.hero-sub   { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; }
-
-/* ===== SEARCH ===== */
-.search-box {
-    margin-top: 10px;
-    margin-bottom: 22px;
-    width: 100%;
-    max-width: 420px;
-    position: relative;
-}
-
-.search-box input {
-    width: 100%; padding: 10px 42px 10px 16px;
-    border-radius: 999px;
-    border: 1px solid rgba(255,39,39,0.6);
-    background: rgba(10,10,12,0.85);
-    color: #fff;
-}
-
-.search-dropdown {
-    position: absolute;
-    width: 100%;
-    background: rgba(10,10,12,0.95);
-    border: 1px solid rgba(255,39,39,0.6);
-    border-radius: 12px;
-    padding: 6px 0;
-    display: none;
-}
-
-/* ===== CARDS ===== */
-.cards-grid {
-    display: flex; flex-wrap: wrap;
-    gap: 10px; justify-content: center;
-    padding-bottom: 40px;
-}
-
-.weapon-card {
-    width: 120px;
-    background: var(--bg-card);
-    border: 1px solid rgba(255,39,39,0.4);
-    border-radius: 10px;
-    overflow: hidden;
-    cursor: pointer;
-}
-.weapon-image { width: 100%; height: 100px; object-fit: cover; }
-.weapon-name { padding: 4px 2px; font-size: 12px; text-align: center; }
-
-/* ===== MODAL ===== */
-.weapon-modal {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.85);
-    backdrop-filter: blur(8px);
+.hud-menu ul {
+    list-style: none;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
+    flex-direction: column;
+    gap: 6px;
 }
-.weapon-modal.hidden { opacity: 0; pointer-events: none; }
 
-.weapon-modal-content {
-    width: 92%; max-width: 500px;
-    height: 80vh;
-    background: #0a0a0c;
+.hud-menu li button {
+    width: 100%;
+    background: rgba(15,15,17,0.95);
+    color: #ffffff;
+    border-radius: 9px;
+    padding: 7px 10px;
     border: 1px solid rgba(255,39,39,0.6);
-    border-radius: 15px;
-    padding: 14px;
-    display: flex; flex-direction: column;
+    font-size: 13px;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.18s;
 }
 
-.modal-img-wrapper {
-    width: 100%; height: 38vh;
-    border: 1px solid rgba(255,39,39,0.4);
-    border-radius: 12px;
-    overflow: hidden;
-    background: #000;
+.hud-menu li button:hover {
+    background: rgba(40,0,0,0.9);
+    box-shadow: 0 0 14px rgba(255,39,39,0.7);
 }
 
-.modal-img { width: 100%; height: 100%; object-fit: contain; }
-.modal-scroll { flex: 1; overflow-y: auto; margin-top: 12px; }
+    /* HERO */
+    .hero {
+        margin-top: 52px;
+        position: relative;
+        padding: 70px 18px 30px;
+        overflow: hidden;
+    }
 
-.modal-close {
-    position: absolute; top: 10px; right: 12px;
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,39,39,0.4);
-    color: #fff; background: rgba(20,0,0,0.7);
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-}
+    .hero-inner {
+        position: relative;
+        z-index: 2;
+        max-width: 900px;
+        margin: 0 auto;
+    }
 
-.info-block {
-    margin-bottom: 18px;
-    padding: 14px;
-    background: rgba(20,0,0,0.4);
-    border: 1px solid rgba(255,39,39,0.4);
-    border-radius: 12px;
-}
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #ffffff;
+        padding: 4px 9px;
+        border-radius: 999px;
+        border: 1px solid rgba(255,39,39,0.5);
+        background: rgba(0,0,0,0.8);
+        box-shadow: var(--border-glow);
+        margin-bottom: 14px;
+    }
 
-.info-block h3 {
-    font-size: 14px; margin-bottom: 10px;
-    color: #fff; text-transform: uppercase;
-}
+    .hero-title {
+        font-size: 24px;
+        text-transform: uppercase;
+        text-shadow: none;
+        color: #ffffff;
+        margin-bottom: 8px;
+    }
 
-footer {
-    text-align: center; padding: 25px 0;
-    color: var(--text-muted); font-size: 13px;
-}
+    .hero-sub {
+        font-size: 14px;
+        color: var(--text-muted);
+        margin-bottom: 20px;
+    }
+
+    /* ПОШУК */
+    .search-box {
+        margin-top: 10px;
+        margin-bottom: 22px;
+        width: 100%;
+        max-width: 420px;
+        position: relative;
+        z-index: 50;
+    }
+
+    .search-box input {
+        width: 100%;
+        padding: 10px 42px 10px 16px;
+        border-radius: 999px;
+        background: rgba(10,10,12,0.85);
+        border: 1px solid rgba(255,39,39,0.6);
+        color: var(--text-main);
+        font-size: 14px;
+        outline: none;
+        box-shadow: 0 0 10px rgba(0,0,0,0.9);
+        transition: 0.2s;
+    }
+
+    .search-box input::placeholder {
+        color: var(--text-muted);
+    }
+
+    .search-box input:focus {
+        background: rgba(18,0,0,0.9);
+        border-color: var(--accent);
+        box-shadow: 0 0 14px rgba(255,39,39,0.7);
+    }
+
+    .search-icon {
+        position: absolute;
+        right: 14px;
+        top: 9px;
+        font-size: 18px;
+        color: var(--accent-soft);
+        pointer-events: none;
+        text-shadow: 0 0 6px rgba(255,39,39,0.6);
+    }
+
+    .search-dropdown {
+        position: absolute;
+        top: calc(100% + 6px);
+        left: 0;
+        width: 100%;
+        max-width: 420px;
+        background: rgba(10,10,12,0.95);
+        border: 1px solid rgba(255,39,39,0.6);
+        border-radius: 12px;
+        padding: 6px 0;
+        box-shadow: 0 0 16px rgba(0,0,0,0.9);
+        backdrop-filter: blur(10px);
+        display: none;
+        z-index: 5000;
+    }
+
+    .search-item {
+        padding: 10px 14px;
+        cursor: pointer;
+        color: var(--text-main);
+        font-size: 14px;
+        border-bottom: 1px solid rgba(255,39,39,0.2);
+        transition: 0.2s;
+    }
+
+    .search-item:hover {
+        background: rgba(255,39,39,0.18);
+        padding-left: 20px;
+    }
+
+    .no-results {
+        margin-top: 12px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        background: rgba(40,0,0,0.55);
+        border: 1px solid rgba(255,39,39,0.5);
+        color: var(--accent-soft);
+        font-size: 14px;
+        display: none;
+        box-shadow: 0 0 16px rgba(0,0,0,0.9);
+        text-align: center;
+    }
+
+    mark {
+        background: rgba(255,39,39,0.35);
+        color: #fff;
+        padding: 0 2px;
+        border-radius: 4px;
+    }
+
+    /* КАРТКИ */
+    section.page {
+        max-width: 1100px;
+        margin: 0 auto 40px;
+        padding: 0 16px 30px;
+    }
+
+    .cards-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .weapon-card {
+        width: 110px;
+        background: var(--bg-card);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 39, 39, 0.4);
+        box-shadow: 0 0 10px rgba(0,0,0,0.8);
+        overflow: hidden;
+        text-align: center;
+        cursor: pointer;
+        transition: 0.22s ease;
+    }
+
+    .weapon-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 16px rgba(255,39,39,0.8);
+    }
+
+    .weapon-image {
+        width: 100%;
+        height: 100px;
+        object-fit: cover;
+        border-bottom: 1px solid rgba(255,39,39,0.3);
+    }
+
+    .weapon-body {
+        padding: 4px 2px;
+    }
+
+    .weapon-name {
+        font-size: 11px;
+        font-weight: 600;
+        color: #ffffff;
+        line-height: 1.2;
+    }
+
+    @media (max-width: 480px) {
+        .weapon-card {
+            width: calc(33.33% - 12px);
+        }
+        .weapon-image {
+            height: 90px;
+        }
+        .weapon-name {
+            font-size: 10px;
+        }
+    }
+
+    footer {
+        text-align: center;
+        padding: 10px 0 30px;
+        font-size: 13px;
+        color: var(--text-muted);
+    }
+
+    footer a {
+        color: var(--accent-soft);
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+    footer a:hover {
+        color: var(--accent);
+        text-shadow: 0 0 6px rgba(255, 39, 39, 0.6);
+    }
+
+    /* МОДАЛКА */
+    .weapon-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(8px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: 0.3s ease;
+    }
+
+    .weapon-modal.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .weapon-modal-content {
+        width: 92%;
+        max-width: 520px;
+        height: 82vh;
+        background: #0b0b0f;
+        border: 1px solid rgba(255, 39, 39, 0.6);
+        border-radius: 18px;
+        padding: 14px;
+        box-shadow: 0 0 24px rgba(0,0,0,0.95);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        animation: modalAppear 0.25s ease-out;
+    }
+
+    @keyframes modalAppear {
+        from { transform: scale(0.8); opacity: 0; }
+        to   { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-close {
+        position: absolute;
+        top: 10px;
+        right: 12px;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 1px solid rgba(255,39,39,0.6);
+        background: rgba(10, 0, 0, 0.85);
+        color: #ffffff;
+        font-size: 18px;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(0,0,0,0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s ease;
+    }
+
+    .modal-close:hover {
+        background: rgba(40, 0, 0, 1);
+        color: #ffffff;
+        box-shadow: 0 0 15px rgba(255,0,0,0.9);
+        transform: scale(1.05);
+    }
+
+    .modal-img-wrapper {
+        width: 100%;
+        height: 38vh;
+        background: #000;
+        border-radius: 12px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid rgba(255, 39, 39, 0.5);
+    }
+
+    .modal-img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background: #000;
+    }
+
+    .modal-scroll {
+        margin-top: 14px;
+        flex: 1;
+        overflow-y: auto;
+        padding-right: 8px;
+    }
+
+    .modal-scroll::-webkit-scrollbar {
+        width: 7px;
+    }
+
+    .modal-scroll::-webkit-scrollbar-thumb {
+        background: rgba(255,39,39,0.6);
+        border-radius: 5px;
+    }
+
+    .modal-scroll::-webkit-scrollbar-track {
+        background: rgba(60,0,0,0.4);
+    }
+
+    .weapon-modal h2 {
+        font-size: 20px;
+        color: #ffffff;
+        margin-bottom: 6px;
+    }
+
+    .modal-range {
+        font-size: 14px;
+        color: #bbbbbb;
+        margin-bottom: 12px;
+    }
+
+    .modal-desc {
+        font-size: 15px;
+        line-height: 1.5;
+        color: #e5e5e5;
+    }
+
+    .info-block {
+        position: relative;
+        margin-bottom: 18px;
+        padding: 16px 18px;
+        background: rgba(10, 0, 0, 0.55);
+        border: 1px solid rgba(255, 40, 40, 0.35);
+        border-radius: 12px;
+        box-shadow:
+            0 0 10px rgba(0,0,0,0.9),
+            inset 0 0 12px rgba(255,0,0,0.1);
+        backdrop-filter: blur(6px);
+        overflow: hidden;
+    }
+
+    .info-block::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 14px;
+        width: 60%;
+        height: 2px;
+        background: linear-gradient(90deg, rgba(255,60,60,0.7), transparent);
+    }
+
+    .info-block h3 {
+        position: relative;
+        display: inline-block;
+        padding: 4px 10px;
+        background: rgba(40,0,0,0.8);
+        border-left: 3px solid #ff2727;
+        border-radius: 4px 8px 8px 4px;
+        text-transform: uppercase;
+        font-size: 14px;
+        letter-spacing: 0.8px;
+        color: #ffffff;
+        margin-bottom: 10px;
+        text-shadow: none;
+    }
+
+    .info-block h3::before {
+        content: "◆";
+        font-size: 10px;
+        margin-right: 6px;
+        color: #ff2727;
+    }
+
+    .info-block p,
+    .info-block li {
+        font-size: 14px;
+        line-height: 1.6;
+        color: #e5e5e5;
+    }
+
+    .info-block ul {
+        margin-top: 8px;
+        margin-left: 14px;
+    }
+
+    .info-block ul li {
+        margin-bottom: 5px;
+        padding-left: 6px;
+        position: relative;
+    }
+
+    .info-block ul li::before {
+        content: "▸";
+        position: absolute;
+        left: -10px;
+        color: #ff2727;
+        font-size: 12px;
+    }
 </style>
 </head>
-
 <body>
 
-<!-- ========== МОДАЛКА ========== -->
+<!-- МОДАЛКА -->
 <div id="weaponModal" class="weapon-modal hidden">
     <div class="weapon-modal-content">
-        <button class="modal-close">✖</button>
+
+        <button class="modal-close">
+            ✖
+        </button>
+
         <div class="modal-img-wrapper">
-            <img id="modalImg" class="modal-img">
+            <img id="modalImg" class="modal-img" alt="">
         </div>
+
         <div class="modal-scroll">
-            <h2 id="modalName"></h2>
-            <div class="info-block"><h3>Опис</h3><p id="modalDesc"></p></div>
-            <div class="info-block"><h3>Характеристики</h3><ul id="modalSpecs"></ul></div>
+          <h2 id="modalName"></h2>
+
+          <div class="info-block">
+              <h3>ОПИС</h3>
+              <p id="modalDesc"></p>
+          </div>
+
+          <div class="info-block">
+              <h3>ХАРАКТЕРИСТИКИ</h3>
+              <ul id="modalSpecs"></ul>
+          </div>
         </div>
     </div>
 </div>
 
-<!-- ========== HUD ========== -->
+<!-- HUD НАВІГАЦІЯ -->
 <div class="hud-nav">
-    <div class="hud-logo" onclick="window.location='index.html'">
-        <span class="hud-back" id="backBtn">←</span>
-        <div class="hud-emblem">
-            <svg viewBox="0 0 32 44"><path d="M16 2C11 5 9 10 9 16v14l-4-4v6l7 6h2V17h4v21h2l7-6v-6l-4 4V16c0-6-2-11-7-14z"/></svg>
-        </div>
-        <div class="hud-logo-text">
-            <div class="hud-logo-main">Ракетні комплекси</div>
-            <div class="hud-logo-sub">Категорія порталу</div>
-        </div>
+  <div class="hud-logo" id="homeLink">
+      <span class="hud-back" id="backBtn">←</span>
+      <div class="hud-emblem">
+          <svg viewBox="0 0 32 44" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M16 2C11 5 9 10 9 16v14l-4-4v6l7 6h2V17h4v21h2l7-6v-6l-4 4V16c0-6-2-11-7-14z"/>
+          </svg>
+      </div>
+      <div class="hud-logo-text">
+          <div class="hud-logo-main">Ракетні комплекси</div>
+          <div class="hud-logo-sub">Категорія порталу</div>
+      </div>
+  </div>
+
+    <div class="hud-burger" id="hudBurger">
+        <span></span>
     </div>
-
-    <div class="hud-burger" id="hudBurger"><span></span></div>
 </div>
-
-<!-- MENU -->
+   
 <div class="hud-menu" id="hudMenu">
     <div class="hud-menu-groups">
 
         <div class="menu-group">
             <div class="menu-group-title">Основне</div>
-            <ul><li><button data-link="index.html">Головна</button></li></ul>
+            <ul>
+                <li><button data-link="index.html">Головна</button></li>
+            </ul>
         </div>
 
         <div class="menu-group">
-            <div class="menu-group-title">Категорії</div>
+            <div class="menu-group-title">Категорії озброєння</div>
             <ul>
                 <li><button data-link="ammo.html">Боєприпаси</button></li>
                 <li><button data-link="rockets.html">Ракетні комплекси</button></li>
-                <li><button data-link="pvo.html">Ппротиповітряна оборона</button></li>
+                <li><button data-link="pvo.html">Протиповітряна оборона</button></li>
                 <li><button data-link="uav.html">БпЛА</button></li>
+            </ul>
+        </div>
+
+        <div class="menu-group">
+            <div class="menu-group-title">Довідник</div>
+            <ul>
+                <li><button data-link="classification.html">Класифікація</button></li>
+                <li><button data-link="calibers.html">Калібри</button></li>
+            </ul>
+        </div>
+
+        <div class="menu-group">
+            <div class="menu-group-title">Тактика</div>
+            <ul>
+                <li><button data-link="tactics.html">Тактичне застосування</button></li>
+            </ul>
+        </div>
+
+        <div class="menu-group">
+            <div class="menu-group-title">Українські розробки</div>
+            <ul>
+                <li><button data-link="ukraine-dev.html">Огляд</button></li>
+            </ul>
+        </div>
+
+        <div class="menu-group">
+            <div class="menu-group-title">Безпека</div>
+            <ul>
+                <li><button data-link="safety.html">Правила безпеки</button></li>
             </ul>
         </div>
 
     </div>
 </div>
 
-<!-- HERO -->
 <section class="hero">
     <div class="hero-inner">
+        <div class="hero-badge">• категорія • ракетні комплекси •</div>
         <h1 class="hero-title">Ракетні комплекси</h1>
         <p class="hero-sub">
-            Ракетні системи призначені для ураження важливих об’єктів, бронетехніки,
-            укріплень, складів, пунктів управління та живої сили на великих дистанціях.
+            Ракетні системи призначені для ураження важливих об’єктів, бронетехніки, укріплень, складів,
+            пунктів управління та живої сили на великих дистанціях.
         </p>
 
         <div class="search-box">
-            <input id="searchInput" placeholder="Пошук ракетних комплексів...">
+            <input id="searchInput" type="text" placeholder="Пошук ракетних комплексів..." />
+            <div class="search-icon">🔍</div>
             <div id="searchDropdown" class="search-dropdown"></div>
+            <div id="noResults" class="no-results">Нічого не знайдено</div>
         </div>
     </div>
 </section>
 
-<!-- LIST -->
 <section class="page">
     <div id="weapons-grid" class="cards-grid"></div>
 </section>
 
-<footer>© 2025 Засоби ураження • Ракетні комплекси</footer>
+<footer>
+    © 2025 Засоби ураження • Ракетні комплекси
+</footer>
 
 <script type="module">
-/* FIREBASE */
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+    /* ========= HUD НАВІГАЦІЯ ========= */
+    const burger = document.getElementById('hudBurger');
+    const menu   = document.getElementById('hudMenu');
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDRSzMxpXUox4_pW4ruMXZsXw1Kppi_P8Y",
-  authDomain: "rooot-71962.firebaseapp.com",
-  projectId: "rooot-71962",
-  storageBucket: "rooot-71962.firebasestorage.app",
-  messagingSenderId: "718921321052",
-  appId: "1:718921321052:web:614928382d93d2b50eb499"
-};
-
-const app = initializeApp(firebaseConfig);
-const db  = getFirestore(app);
-
-const TYPE = "rocket";
-
-const container = document.getElementById("weapons-grid");
-
-function createCard(item){
-    const card = document.createElement("div");
-    card.className = "weapon-card";
-    card.innerHTML = `
-        <img class="weapon-image" src="${item.img}">
-        <div class="weapon-name">${item.name}</div>
-    `;
-    card.addEventListener("click", ()=>openModal(item));
-    return card;
-}
-
-async function loadData(){
-    const snap = await getDocs(collection(db,"weapons"));
-    const items = snap.docs.map(d=>({id:d.id, ...d.data()}))
-        .filter(i=>(i.type||"")===TYPE);
-
-    items.forEach(i=>container.appendChild(createCard(i)));
-}
-loadData();
-
-/* MODAL */
-const modal = document.getElementById("weaponModal");
-const modalImg = document.getElementById("modalImg");
-const modalName = document.getElementById("modalName");
-const modalDesc = document.getElementById("modalDesc");
-const modalSpecs = document.getElementById("modalSpecs");
-
-function openModal(i){
-    modalImg.src = i.img;
-    modalName.textContent = i.name;
-    modalDesc.textContent = i.desc;
-    modalSpecs.innerHTML = "";
-    (i.specs||[]).forEach(s=>{
-        const li=document.createElement("li");
-        li.textContent=s;
-        modalSpecs.appendChild(li);
+    burger.addEventListener('click', () => {
+        burger.classList.toggle('active');
+        menu.classList.toggle('visible');
     });
 
-    modal.classList.remove("hidden");
-}
+    menu.querySelectorAll('button[data-link]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const link = btn.getAttribute('data-link');
+            if (link) window.location.href = link;
+        });
+    });
 
-document.querySelector(".modal-close").onclick=()=>modal.classList.add("hidden");
-modal.onclick=e=>{ if(e.target===modal) modal.classList.add("hidden"); };
+    // Кнопка назад
+    const backBtn = document.getElementById("backBtn");
+    backBtn.addEventListener("click", () => {
+        if (document.referrer && document.referrer !== location.href) {
+            history.back();
+        } else {
+            window.location.href = "index.html";
+        }
+    });
 
-/* HUD */
-const burger = document.getElementById("hudBurger");
-const menu = document.getElementById("hudMenu");
+    /* ========= FIREBASE ========= */
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import {
+        getFirestore,
+        collection,
+        getDocs,
+        query,
+        orderBy
+    } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-burger.onclick = ()=>{ burger.classList.toggle("active"); menu.classList.toggle("visible"); };
+    const firebaseConfig = {
+      apiKey: "AIzaSyDRSzMxpXUox4_pW4ruMXZsXw1Kppi_P8Y",
+      authDomain: "rooot-71962.firebaseapp.com",
+      projectId: "rooot-71962",
+      storageBucket: "rooot-71962.firebasestorage.app",
+      messagingSenderId: "718921321052",
+      appId: "1:718921321052:web:614928382d93d2b50eb499"
+    };
 
-menu.querySelectorAll("button[data-link]").forEach(b=>{
-    b.onclick=()=>location.href=b.dataset.link;
-});
+    const app = initializeApp(firebaseConfig);
+    const db  = getFirestore(app);
 
-/* back button */
-document.getElementById("backBtn").onclick=()=>{
-    if(document.referrer) history.back();
-    else location.href="index.html";
-};
+    const TYPE_FILTER = "rk"; // ЦЯ СТОРІНКА – тільки ракетні комплекси
 
-/* SEARCH */
-const searchInput=document.getElementById("searchInput");
-const drop=document.getElementById("searchDropdown");
+    const container = document.getElementById("weapons-grid");
 
-let cached=[];
+    function createCard(item) {
+        const card = document.createElement("div");
+        card.className = "weapon-card";
 
-setTimeout(()=>{
-    cached=[...document.querySelectorAll(".weapon-card")].map(el=>({
-        el,
-        name: el.querySelector(".weapon-name").textContent
-    }));
-},1500);
+        card.innerHTML = `
+            <img class="weapon-image" src="${item.img || ""}" alt="">
+            <div class="weapon-body">
+                <div class="weapon-name">${item.name || ""}</div>
+            </div>
+        `;
 
-searchInput.oninput=()=>{
-    const q = searchInput.value.toLowerCase();
-    drop.innerHTML="";
-    drop.style.display="none";
-
-    if(!q) return;
-
-    const results=cached.filter(c=>c.name.toLowerCase().includes(q));
-
-    if(!results.length) {
-        drop.innerHTML=`<div style="padding:10px;color:#aaa;">Нічого не знайдено</div>`;
-        drop.style.display="block";
-        return;
+        card.addEventListener("click", () => openModal(item));
+        return card;
     }
 
-    results.slice(0,12).forEach(r=>{
-        const div=document.createElement("div");
-        div.className="search-item";
-        div.textContent=r.name;
-        div.onclick=()=>{
-            r.el.scrollIntoView({behavior:"smooth", block:"center"});
-        };
-        drop.appendChild(div);
+    async function loadWeapons() {
+        try {
+            const qW = query(collection(db, "weapons"), orderBy("name"));
+            const snap = await getDocs(qW);
+            const weapons = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+            const filtered = weapons.filter(w =>
+                (w.type || "").toLowerCase() === TYPE_FILTER
+            );
+
+            container.innerHTML = "";
+            filtered.forEach(item => {
+                container.appendChild(createCard(item));
+            });
+
+            cacheCardsForSearch();
+
+        } catch (e) {
+            console.error("Помилка Firestore:", e);
+        }
+    }
+
+    /* ========= МОДАЛКА ========= */
+    const modal      = document.getElementById("weaponModal");
+    const modalImg   = document.getElementById("modalImg");
+    const modalName  = document.getElementById("modalName");
+    const modalDesc  = document.getElementById("modalDesc");
+    const modalSpecs = document.getElementById("modalSpecs");
+
+    function openModal(item) {
+        modalImg.src = item.img || "";
+        modalName.textContent = item.name || "";
+        modalDesc.textContent = item.desc || "";
+
+        modalSpecs.innerHTML = "";
+        if (Array.isArray(item.specs)) {
+            item.specs.forEach(s => {
+                const li = document.createElement("li");
+                li.textContent = s;
+                modalSpecs.appendChild(li);
+            });
+        }
+
+        modal.classList.remove("hidden");
+    }
+
+    document.querySelector(".modal-close").addEventListener("click", () => {
+        modal.classList.add("hidden");
     });
 
-    drop.style.display="block";
-};
+    modal.addEventListener("click", e => {
+        if (e.target === modal) modal.classList.add("hidden");
+    });
+
+    /* ========= ПОШУК З ВИПАДАЮЧИМ СПИСКОМ ========= */
+    const searchInput = document.getElementById("searchInput");
+    const dropdown    = document.getElementById("searchDropdown");
+    const noResults   = document.getElementById("noResults");
+
+    let cachedCards = [];
+
+    function cacheCardsForSearch() {
+        cachedCards = Array.from(document.querySelectorAll(".weapon-card")).map(card => ({
+            element: card,
+            name: card.querySelector(".weapon-name").innerText
+        }));
+    }
+
+    searchInput.addEventListener("input", () => {
+        const q = searchInput.value.toLowerCase().trim();
+
+        dropdown.innerHTML = "";
+        dropdown.style.display = "none";
+        noResults.style.display = "none";
+
+        if (q === "") return;
+
+        const results = cachedCards.filter(item =>
+            item.name.toLowerCase().includes(q)
+        );
+
+        if (results.length === 0) {
+            noResults.style.display = "block";
+            return;
+        }
+
+        dropdown.style.display = "block";
+
+        results.slice(0, 12).forEach(item => {
+            const div = document.createElement("div");
+            div.className = "search-item";
+
+            const highlighted = item.name.replace(
+                new RegExp(q, "gi"),
+                match => `<mark>${match}</mark>`
+            );
+
+            div.innerHTML = highlighted;
+
+            div.addEventListener("click", () => {
+                dropdown.style.display = "none";
+                searchInput.value = item.name;
+
+                item.element.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+                item.element.style.boxShadow = "0 0 25px rgba(255,39,39,1)";
+                setTimeout(() => item.element.style.boxShadow = "", 900);
+            });
+
+            dropdown.appendChild(div);
+        });
+    });
+
+    document.addEventListener("click", e => {
+        if (!searchInput.contains(e.target) && !dropdown.contains(e.target)) {
+            dropdown.style.display = "none";
+        }
+    });
+
+    // Старт
+    loadWeapons();
 </script>
 
 </body>
