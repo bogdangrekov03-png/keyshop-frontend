@@ -34,154 +34,141 @@
         text-decoration: none;
     }
 
-    /* ===== HUD НАВІГАЦІЯ (як на головній) ===== */
-    .hud-nav {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        z-index: 50;
-        backdrop-filter: blur(10px);
-        background: linear-gradient(90deg, rgba(0,0,0,0.94), rgba(40,0,0,0.9));
-        border-bottom: 1px solid rgba(255, 39, 39, 0.5);
-        box-shadow: 0 0 20px rgba(255, 39, 39, 0.4);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 8px 14px;
-    }
+    /* ===== ГЛОБАЛЬНИЙ HUD (універсальний для всіх сторінок) ===== */
+.hud-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 50;
+    backdrop-filter: blur(10px);
+    background: linear-gradient(90deg, rgba(0,0,0,0.94), rgba(40,0,0,0.9));
+    border-bottom: 1px solid rgba(255, 39, 39, 0.5);
+    box-shadow: 0 0 20px rgba(255,39,39,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+}
 
-    .hud-logo {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-    }
+.hud-logo {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.hud-logo-main {
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #ff5757;
+}
+.hud-logo-sub {
+    font-size: 11px;
+    color: #b8b8b8;
+}
 
-    .hud-logo-main {
-        font-size: 15px;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        color: var(--accent-soft);
-    }
+.hud-burger {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,39,39,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(255,39,39,0.7);
+}
+.hud-burger span {
+    position: relative;
+    width: 18px;
+    height: 2px;
+    background: #ff2727;
+    border-radius: 999px;
+    transition: 0.25s;
+}
+.hud-burger::before,
+.hud-burger::after {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 2px;
+    background: #ff2727;
+    border-radius: 999px;
+    transition: 0.25s;
+}
+.hud-burger::before { transform: translateY(-6px); }
+.hud-burger::after { transform: translateY(6px); }
+.hud-burger.active span { opacity: 0; }
+.hud-burger.active::before { transform: rotate(45deg); }
+.hud-burger.active::after { transform: rotate(-45deg); }
 
-    .hud-logo-sub {
-        font-size: 11px;
-        color: var(--text-muted);
-    }
+/* MENU */
+.hud-menu {
+    position: fixed;
+    top: 50px;
+    right: 10px;
+    z-index: 40;
+    width: 220px;
+    max-width: calc(100% - 20px);
+    background: radial-gradient(circle at top, #3b0000 0%, #050507 45%, #000 100%);
+    border-radius: 14px;
+    border: 1px solid rgba(255,39,39,0.7);
+    box-shadow: 0 0 28px rgba(255,39,39,0.7);
+    padding: 12px;
+    opacity: 0;
+    transform: translateY(-10px) scale(0.97);
+    pointer-events: none;
+    transition: 0.22s ease;
+}
 
-    .hud-burger {
-        width: 32px;
-        height: 32px;
-        border-radius: 999px;
-        border: 1px solid rgba(255, 39, 39, 0.6);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 0 15px rgba(255,39,39,0.7);
-    }
+.hud-menu.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
 
-    .hud-burger span {
-        position: relative;
-        width: 18px;
-        height: 2px;
-        background: var(--accent);
-        border-radius: 999px;
-        transition: 0.25s;
-    }
-    .hud-burger::before,
-    .hud-burger::after {
-        content: "";
-        position: absolute;
-        width: 18px;
-        height: 2px;
-        background: var(--accent);
-        border-radius: 999px;
-        transition: 0.25s;
-    }
-    .hud-burger::before {
-        transform: translateY(-6px);
-    }
-    .hud-burger::after {
-        transform: translateY(6px);
-    }
+.hud-menu-groups { display: flex; flex-direction: column; gap: 10px; }
 
-    .hud-burger.active span {
-        opacity: 0;
-    }
-    .hud-burger.active::before {
-        transform: rotate(45deg);
-    }
-    .hud-burger.active::after {
-        transform: rotate(-45deg);
-    }
+.menu-group { border-top: 1px solid rgba(255,39,39,0.25); padding-top: 6px; }
 
-    .hud-menu {
-        position: fixed;
-        top: 50px;
-        right: 10px;
-        z-index: 40;
-        width: 220px;
-        max-width: calc(100% - 20px);
-        background: radial-gradient(circle at top, #3b0000 0%, #050507 45%, #000000 100%);
-        border-radius: 14px;
-        border: 1px solid rgba(255, 39, 39, 0.7);
-        box-shadow: 0 0 28px rgba(255,39,39,0.7);
-        padding: 12px;
-        opacity: 0;
-        transform: translateY(-10px) scale(0.97);
-        pointer-events: none;
-        transition: 0.22s;
-    }
+.menu-group-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #b8b8b8;
+    margin: 4px 2px;
+}
 
-    .hud-menu.visible {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-        pointer-events: auto;
-    }
+.hud-menu ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
 
-    .hud-menu h4 {
-        font-size: 11px;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        color: var(--text-muted);
-        margin-bottom: 6px;
-    }
+.hud-menu li button {
+    width: 100%;
+    background: linear-gradient(90deg, #150000, #2a0000);
+    color: #fff;
+    border-radius: 9px;
+    padding: 7px 10px;
+    border: 1px solid rgba(255,39,39,0.7);
+    font-size: 13px;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.18s;
+}
 
-    .hud-menu ul {
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-    }
+.hud-menu li button:hover {
+    background: linear-gradient(90deg, #360000, #550000);
+    box-shadow: 0 0 18px rgba(255,39,39,0.8);
+}
 
-    .hud-menu li button {
-        width: 100%;
-        background: linear-gradient(90deg, #150000, #2a0000);
-        color: var(--text-main);
-        border-radius: 9px;
-        padding: 7px 10px;
-        border: 1px solid rgba(255,39,39,0.7);
-        font-size: 13px;
-        text-align: left;
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        transition: 0.18s;
-    }
-
-    .hud-menu li button span {
-        font-size: 10px;
-        color: var(--text-muted);
-    }
-
-    .hud-menu li button:hover {
-        background: linear-gradient(90deg, #360000, #550000);
-        box-shadow: 0 0 18px rgba(255,39,39,0.8);
-    }
 
     /* HERO */
     .hero {
@@ -625,33 +612,74 @@
     </div>
 </div>
 
-<!-- HUD -->
+<!-- HUD НАВІГАЦІЯ -->
 <div class="hud-nav">
     <div class="hud-logo">
         <div class="hud-logo-main">Засоби ураження</div>
-        <div class="hud-logo-sub">ППО</div>
+        <div class="hud-logo-sub">Протиповітряна оборона</div>
     </div>
+
     <div class="hud-burger" id="hudBurger">
         <span></span>
     </div>
+</div>
+   
+<div class="hud-menu" id="hudMenu">
+    <div class="hud-menu-groups">
 
-    <div class="hud-menu" id="hudMenu">
-        <h4>Розділи</h4>
-        <ul>
-            <li><button data-link="index.html">Головна </span></button></li>
-            <li><button data-link="ammo.html">Боєприпаси </span></button></li>
-            <li><button data-link="rockets.html">Ракетні комплекси </span></button></li>
-            <li><button data-link="pvo.html">ППО </span></button></li>
-            <li><button data-link="uav.html">БпЛА </span></button></li>
-           
-        </ul>
+        <div class="menu-group">
+            <div class="menu-group-title">Основне</div>
+            <ul>
+                <li><button data-link="index.html">Головна</button></li>
+            </ul>
+        </div>
+
+        <div class="menu-group">
+            <div class="menu-group-title">Категорії озброєння</div>
+            <ul>
+                <li><button data-link="ammo.html">Боєприпаси</button></li>
+                <li><button data-link="rockets.html">Ракетні комплекси</button></li>
+                <li><button data-link="pvo.html">Протиповітряна оборона</button></li>
+                <li><button data-link="uav.html">БпЛА</button></li>
+            </ul>
+        </div>
+
+        <div class="menu-group">
+            <div class="menu-group-title">Довідник</div>
+            <ul>
+                <li><button data-link="classification.html">Класифікація</button></li>
+                <li><button data-link="calibers.html">Калібри</button></li>
+            </ul>
+        </div>
+
+        <div class="menu-group">
+            <div class="menu-group-title">Тактика</div>
+            <ul>
+                <li><button data-link="tactics.html">Тактичне застосування</button></li>
+            </ul>
+        </div>
+
+        <div class="menu-group">
+            <div class="menu-group-title">Українські розробки</div>
+            <ul>
+                <li><button data-link="ukraine-dev.html">Огляд</button></li>
+            </ul>
+        </div>
+
+        <div class="menu-group">
+            <div class="menu-group-title">Безпека</div>
+            <ul>
+                <li><button data-link="safety.html">Правила безпеки</button></li>
+            </ul>
+        </div>
+
     </div>
 </div>
 
 <section class="hero">
     <div class="hero-inner">
         <div class="hero-badge">категорія • ППО</div>
-        <h1 class="hero-title">ППО</h1>
+        <h1 class="hero-title">Протиповітряна оборона</h1>
         <p class="hero-sub">
             Засоби протиповітряної оборони, призначені для виявлення, супроводу та знищення
             повітряних цілей: БпЛА, літаків, гелікоптерів, керованих та балістичних ракет противника,
@@ -672,7 +700,7 @@
 </section>
 
 <footer>
-    © 2025 Засоби ураження • ППО
+    © 2025 Засоби ураження • Протиповітряна оборона
 </footer>
 
 <script type="module">
