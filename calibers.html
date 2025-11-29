@@ -240,7 +240,11 @@ footer a:hover { color:var(--accent); }
 
 <!-- ===== HUD ===== -->
 <div class="hud-nav">
-    <div class="hud-logo">
+    <div class="hud-logo" id="homeLink">
+    <div class="hud-logo-main">Засоби ураження</div>
+    <div class="hud-logo-sub">Боєприпаси</div>
+</div>
+
         <div class="hud-logo-main">Засоби ураження</div>
         <div class="hud-logo-sub">Калібри боєприпасів</div>
     </div>
@@ -393,6 +397,13 @@ burger.addEventListener("click",()=>{
 menu.querySelectorAll("button[data-link]").forEach(btn=>{
     btn.addEventListener("click",()=>window.location.href=btn.dataset.link);
 });
+/* ========= ПОВЕРНЕННЯ НА ГОЛОВНУ ========= */
+const home = document.getElementById("homeLink");
+
+home.addEventListener("click", () => {
+    window.location.href = "index.html";
+});
+    
 </script>
 
 </body>
