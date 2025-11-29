@@ -183,7 +183,7 @@
         box-shadow: 0 0 18px rgba(255,39,39,0.8);
     }
 
-    /* ===== HERO ===== */
+   /* ===== HERO ===== */
 .hero {
     margin-top: 28px; /* або твій варіант */
     position: relative;
@@ -193,14 +193,41 @@
     opacity: 0;
 }
 
+.hero-parallax {
+    position: absolute;
+    inset: -40px;
+    background:
+        radial-gradient(circle at 20% 0%, rgba(255, 39, 39, 0.22), transparent 55%),
+        radial-gradient(circle at 90% 100%, rgba(255, 120, 80, 0.16), transparent 60%),
+        radial-gradient(circle at 50% 50%, rgba(255, 0, 0, 0.08), transparent 70%);
+    mix-blend-mode: screen;
+    pointer-events: none;
+    transform-style: preserve-3d;
+    transition: transform 0.08s linear;
+}
+
 .hero-inner {
     position: relative;
     z-index: 2;
     text-align: left;
     max-width: 760px;
     margin: 0 auto;
-    animation: contentSlide 1.4s ease-out forwards;
-    opacity: 0;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent-soft);
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,39,39,0.7);
+    background: rgba(0,0,0,0.8);
+    box-shadow: var(--border-glow);
+    margin-bottom: 14px;
 }
 
 .hero-title {
@@ -209,12 +236,21 @@
     text-transform: uppercase;
     text-shadow: 0 0 18px rgba(255,39,39,0.9);
     margin-bottom: 10px;
-    animation: neonPulse 3s ease-in-out infinite;
 }
 
-.hero-badge {
-    animation: fadeIn 1.2s ease-out forwards;
-    opacity: 0;
+.hero-sub {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 22px;
+}
+
+.hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--text-muted);
 }
 
 .hero-meta span {
@@ -222,46 +258,8 @@
     border-radius: 999px;
     border: 1px solid rgba(255,39,39,0.6);
     background: rgba(3,3,5,0.9);
-    opacity: 0;
-    animation: tagFade 1s ease-out forwards;
 }
 
-.hero-meta span:nth-child(1) { animation-delay: .3s; }
-.hero-meta span:nth-child(2) { animation-delay: .38s; }
-.hero-meta span:nth-child(3) { animation-delay: .46s; }
-.hero-meta span:nth-child(4) { animation-delay: .54s; }
-.hero-meta span:nth-child(5) { animation-delay: .62s; }
-.hero-meta span:nth-child(6) { animation-delay: .70s; }
-.hero-meta span:nth-child(7) { animation-delay: .78s; }
-.hero-meta span:nth-child(8) { animation-delay: .86s; }
-.hero-meta span:nth-child(9) { animation-delay: .94s; }
-
-/* ===== KEYFRAMES ===== */
-
-@keyframes heroFade {
-    0% { opacity: 0; transform: translateY(25px); }
-    100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes contentSlide {
-    0% { opacity: 0; transform: translateY(18px); }
-    100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeIn {
-    0% { opacity: 0; transform: translateY(10px); }
-    100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes tagFade {
-    0% { opacity: 0; transform: translateY(12px); }
-    100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes neonPulse {
-    0%, 100% { text-shadow: 0 0 14px rgba(255,39,39,0.3); }
-    50% { text-shadow: 0 0 26px rgba(255,39,39,1); }
-}
 
     /* ===== СЕКЦІЇ ===== */
     section {
@@ -509,6 +507,7 @@
 
 </body>
 </html>
+
 
 
 
