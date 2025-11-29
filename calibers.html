@@ -25,84 +25,139 @@ body {
     overflow-x:hidden;
 }
 
-/* ===== HUD ===== */
+/* ===== ГЛОБАЛЬНИЙ HUD (універсальний для всіх сторінок) ===== */
 .hud-nav {
-    position:fixed;
-    top:0; left:0; width:100%;
-    backdrop-filter:blur(10px);
-    background:linear-gradient(90deg, rgba(0,0,0,0.94), rgba(40,0,0,0.9));
-    border-bottom:1px solid rgba(255,39,39,0.5);
-    padding:8px 14px;
-    display:flex; justify-content:space-between; align-items:center;
-    z-index:50;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 50;
+    backdrop-filter: blur(10px);
+    background: linear-gradient(90deg, rgba(0,0,0,0.94), rgba(40,0,0,0.9));
+    border-bottom: 1px solid rgba(255, 39, 39, 0.5);
+    box-shadow: 0 0 20px rgba(255,39,39,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
 }
-.hud-logo { display:flex; flex-direction:column; }
-.hud-logo-main { font-size:15px; text-transform:uppercase; color:var(--accent-soft); }
-.hud-logo-sub { font-size:11px; color:var(--text-muted); }
 
-/* бургер */
-.hud-burger {
-    width:32px; height:32px; border-radius:50%;
-    border:1px solid rgba(255,39,39,0.6);
-    display:flex; justify-content:center; align-items:center;
-    cursor:pointer; position:relative;
-    box-shadow:0 0 15px rgba(255,39,39,0.7);
+.hud-logo {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
-.hud-burger span,
+.hud-logo-main {
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #ff5757;
+}
+.hud-logo-sub {
+    font-size: 11px;
+    color: #b8b8b8;
+}
+
+.hud-burger {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,39,39,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(255,39,39,0.7);
+}
+.hud-burger span {
+    position: relative;
+    width: 18px;
+    height: 2px;
+    background: #ff2727;
+    border-radius: 999px;
+    transition: 0.25s;
+}
 .hud-burger::before,
 .hud-burger::after {
-    content:"";
-    position:absolute;
-    width:18px; height:2px;
-    background:var(--accent);
-    border-radius:999px;
-    transition:0.25s;
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 2px;
+    background: #ff2727;
+    border-radius: 999px;
+    transition: 0.25s;
 }
-.hud-burger span { position:relative; }
-.hud-burger::before { transform:translateY(-6px); }
-.hud-burger::after  { transform:translateY(6px); }
-.hud-burger.active span { opacity:0; }
-.hud-burger.active::before { transform:rotate(45deg); }
-.hud-burger.active::after  { transform:rotate(-45deg); }
+.hud-burger::before { transform: translateY(-6px); }
+.hud-burger::after { transform: translateY(6px); }
+.hud-burger.active span { opacity: 0; }
+.hud-burger.active::before { transform: rotate(45deg); }
+.hud-burger.active::after { transform: rotate(-45deg); }
 
-/* HUD MENU */
+/* MENU */
 .hud-menu {
-    position:fixed;
-    top:50px; right:10px; width:240px;
-    background:radial-gradient(circle at top, #3b0000 0%, #050507 50%, #000 100%);
-    border:1px solid rgba(255,39,39,0.7);
-    border-radius:14px;
-    padding:12px;
-    opacity:0;
-    transform:translateY(-10px) scale(0.95);
-    pointer-events:none;
-    transition:0.25s;
-    z-index:40;
-}
-.hud-menu.visible {
-    opacity:1;
-    transform:translateY(0) scale(1);
-    pointer-events:auto;
+    position: fixed;
+    top: 50px;
+    right: 10px;
+    z-index: 40;
+    width: 220px;
+    max-width: calc(100% - 20px);
+    background: radial-gradient(circle at top, #3b0000 0%, #050507 45%, #000 100%);
+    border-radius: 14px;
+    border: 1px solid rgba(255,39,39,0.7);
+    box-shadow: 0 0 28px rgba(255,39,39,0.7);
+    padding: 12px;
+    opacity: 0;
+    transform: translateY(-10px) scale(0.97);
+    pointer-events: none;
+    transition: 0.22s ease;
 }
 
-.hud-menu-groups { display:flex; flex-direction:column; gap:10px; }
+.hud-menu.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.hud-menu-groups { display: flex; flex-direction: column; gap: 10px; }
+
+.menu-group { border-top: 1px solid rgba(255,39,39,0.25); padding-top: 6px; }
+
 .menu-group-title {
-    font-size:10px; text-transform:uppercase; letter-spacing:1px;
-    color:var(--text-muted); margin-bottom:4px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #b8b8b8;
+    margin: 4px 2px;
 }
-.hud-menu ul { list-style:none; display:flex; flex-direction:column; gap:6px; }
+
+.hud-menu ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
 .hud-menu li button {
-    background:linear-gradient(90deg,#150000,#2a0000);
-    border:1px solid rgba(255,39,39,0.7);
-    padding:8px 12px;
-    border-radius:9px;
-    color:#fff;
-    text-align:left;
-    cursor:pointer;
+    width: 100%;
+    background: linear-gradient(90deg, #150000, #2a0000);
+    color: #fff;
+    border-radius: 9px;
+    padding: 7px 10px;
+    border: 1px solid rgba(255,39,39,0.7);
+    font-size: 13px;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.18s;
 }
+
 .hud-menu li button:hover {
-    background:linear-gradient(90deg,#360000,#550000);
-    box-shadow:0 0 18px rgba(255,39,39,0.8);
+    background: linear-gradient(90deg, #360000, #550000);
+    box-shadow: 0 0 18px rgba(255,39,39,0.8);
 }
 
 /* ===== HERO ===== */
@@ -178,7 +233,7 @@ footer a:hover { color:var(--accent); }
 <div class="hud-nav">
     <div class="hud-logo">
         <div class="hud-logo-main">Засоби ураження</div>
-        <div class="hud-logo-sub">калібри</div>
+        <div class="hud-logo-sub">Калібри боєприпасів</div>
     </div>
     <div id="hudBurger" class="hud-burger"><span></span></div>
 
@@ -195,7 +250,7 @@ footer a:hover { color:var(--accent); }
                 <ul>
                     <li><button data-link="ammo.html">Боєприпаси</button></li>
                     <li><button data-link="rockets.html">Ракетні комплекси</button></li>
-                    <li><button data-link="pvo.html">ППО</button></li>
+                    <li><button data-link="pvo.html">Протиповітряна оборона</button></li>
                     <li><button data-link="uav.html">БпЛА</button></li>
                 </ul>
             </div>
@@ -314,7 +369,7 @@ footer a:hover { color:var(--accent); }
 </section>
 
 <footer>
-    © 2025 Засоби ураження • калібри
+    © 2025 Засоби ураження • Калібри боєприпасів
 </footer>
 
 <script>
