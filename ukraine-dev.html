@@ -166,15 +166,21 @@ body{
 .hero-inner{
     max-width:860px; margin:0 auto;
 }
-.hero-badge{
-    padding:4px 10px;
-    border-radius:999px;
-    background:#000a;
-    border:1px solid #ff3939;
-    color:#ff7777;
-    font-size:11px;
-    text-transform:uppercase;
-}
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--accent-soft);
+        padding: 4px 9px;
+        border-radius: 999px;
+        border: 1px solid rgba(255,39,39,0.7);
+        background: rgba(0,0,0,0.8);
+        box-shadow: var(--border-glow);
+        margin-bottom: 14px;
+    }
 .hero-title{
     margin-top:14px;
     font-size:27px;
