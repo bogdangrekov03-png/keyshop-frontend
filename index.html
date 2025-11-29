@@ -135,7 +135,24 @@
         pointer-events: none;
         transition: 0.22s;
     }
+.menu-group {
+    border-top: 1px solid rgba(255,39,39,0.25);
+    padding-top: 6px;
+}
+.hud-menu-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 
+.menu-group-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin: 4px 2px;
+    opacity: 0.85;
+}    
     .hud-menu.visible {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -422,25 +439,58 @@
 <body>
 
 <!-- HUD НАВІГАЦІЯ -->
-<div class="hud-nav">
-    <div class="hud-logo">
-        <div class="hud-logo-main">Засоби ураження</div>
-        <div class="hud-logo-sub">інформаційний тактичний портал</div>
-    </div>
-    <div class="hud-burger" id="hudBurger">
-        <span></span>
-    </div>
+<div class="hud-menu" id="hudMenu">
+    <div class="hud-menu-groups">
 
-    <div class="hud-menu" id="hudMenu">
-        <h4>Розділи</h4>
-        <ul>
-            <li><button data-link="ammo.html">Боєприпаси </button></li>
-            <li><button data-link="rockets.html">Ракетні комплекси </button></li>
-            <li><button data-link="pvo.html">Протиповітряна оборона </button></li>
-            <li><button data-link="uav.html">БпЛА </button></li>
-        </ul>
+        <div class="menu-group">
+            <div class="menu-group-title">Основне</div>
+            <ul>
+                <li><button data-link="index.html">Головна</button></li>
+            </ul>
+        </div>
+
+        <div class="menu-group">
+            <div class="menu-group-title">Категорії озброєння</div>
+            <ul>
+                <li><button data-link="ammo.html">Боєприпаси</button></li>
+                <li><button data-link="rockets.html">Ракетні комплекси</button></li>
+                <li><button data-link="pvo.html">ППО</button></li>
+                <li><button data-link="uav.html">БпЛА</button></li>
+            </ul>
+        </div>
+
+        <div class="menu-group">
+            <div class="menu-group-title">Довідник</div>
+            <ul>
+                <li><button data-link="classification.html">Класифікація</button></li>
+                <li><button data-link="calibers.html">Калібри</button></li>
+            </ul>
+        </div>
+
+        <div class="menu-group">
+            <div class="menu-group-title">Тактика</div>
+            <ul>
+                <li><button data-link="tactics.html">Тактичне застосування</button></li>
+            </ul>
+        </div>
+
+        <div class="menu-group">
+            <div class="menu-group-title">Українські розробки</div>
+            <ul>
+                <li><button data-link="ukraine-dev.html">Огляд</button></li>
+            </ul>
+        </div>
+
+        <div class="menu-group">
+            <div class="menu-group-title">Безпека</div>
+            <ul>
+                <li><button data-link="safety.html">Правила безпеки</button></li>
+            </ul>
+        </div>
+
     </div>
 </div>
+
 
 <!-- HERO -->
 <section class="hero">
@@ -498,6 +548,214 @@
         </div>
     </div>
 </section>
+    <section id="sec-structure">
+    <h2 class="section-title">Структура засобів ураження</h2>
+    <p class="section-text">
+        Умовно всі засоби ураження можна поділити на кілька основних напрямків, кожен з яких
+        має власні завдання, номенклатуру та особливості застосування.
+    </p>
+
+    <div class="categories-grid">
+        <div class="cat-card">
+            <h3>Артилерійські боєприпаси</h3>
+            <p>Снаряди для гармат, гаубиць, САУ. Забезпечують ураження цілей на великих відстанях.</p>
+        </div>
+        <div class="cat-card">
+            <h3>Мінометні міни</h3>
+            <p>Калібри 60–120 мм. Працюють по укриттях, складках місцевості, живій силі.</p>
+        </div>
+        <div class="cat-card">
+            <h3>Стрілецькі боєприпаси</h3>
+            <p>Патрони до автоматів, кулеметів, снайперських гвинтівок. Основний засіб ближнього бою.</p>
+        </div>
+        <div class="cat-card">
+            <h3>Інженерні боєприпаси</h3>
+            <p>Міни, заряди, підривні засоби. Використовуються для мінування, руйнування, загороджень.</p>
+        </div>
+        <div class="cat-card">
+            <h3>Ракетні комплекси</h3>
+            <p>Протитанкові, зенітні, оперативно-тактичні ракети для ураження важливих цілей.</p>
+        </div>
+        <div class="cat-card">
+            <h3>ППО</h3>
+            <p>Засоби протиповітряної оборони для боротьби з літаками, ракетами, БпЛА.</p>
+        </div>
+        <div class="cat-card">
+            <h3>БпЛА</h3>
+            <p>Розвідувальні, ударні, коригувальні та спеціальні дрони різних класів.</p>
+        </div>
+        <div class="cat-card">
+            <h3>Авіаційні боєприпаси</h3>
+            <p>Бомби, ракети, керовані засоби ураження, що застосовуються з повітря.</p>
+        </div>
+    </div>
+</section>
+<section id="sec-roles">
+    <h2 class="section-title">Тактичні ролі засобів ураження</h2>
+    <p class="section-text">
+        Кожен тип засобів ураження має свою нішу в бою. Грамотне комбінування артилерії, БпЛА,
+        ракетних комплексів та інженерних засобів створює комплексний вогневий вплив.
+    </p>
+
+    <div class="categories-grid">
+        <div class="cat-card">
+            <h3>Придушення оборони</h3>
+            <p>Артилерія, РСЗВ і міномети знешкоджують вогневі точки та укріплення перед штурмом.</p>
+        </div>
+        <div class="cat-card">
+            <h3>Контрбатарейна боротьба</h3>
+            <p>Розвідка та дрони виявляють артилерію противника, а РСЗВ і САУ її знищують.</p>
+        </div>
+        <div class="cat-card">
+            <h3>Полювання на техніку</h3>
+            <p>ПТРК, FPV-дрони та високоточні боєприпаси уражають бронетехніку та колони.</p>
+        </div>
+        <div class="cat-card">
+            <h3>Знищення логістики</h3>
+            <p>Ракети та далекобійна артилерія б’ють по складах, мостах, штабах, вузлах зв’язку.</p>
+        </div>
+        <div class="cat-card">
+            <h3>Управління повітряним простором</h3>
+            <p>ППО та винищувачі стримують авіацію противника та захищають важливі об’єкти.</p>
+        </div>
+        <div class="cat-card">
+            <h3>Точкові удари</h3>
+            <p>Керовані боєприпаси та БпЛА дозволяють знищувати окремі цілі з мінімальними втратами.</p>
+        </div>
+    </div>
+</section>
+<section id="sec-trends">
+    <h2 class="section-title">Сучасні тенденції ураження противника</h2>
+    <p class="section-text">
+        Повномасштабна війна показала різке зростання ролі високоточної зброї, БпЛА та гнучких
+        систем управління вогнем. Класична артилерія лишається “богом війни”, але працює в
+        тісній зв’язці з дронами, розвідкою та цифровими системами.
+    </p>
+
+    <div class="categories-grid">
+        <div class="cat-card">
+            <h3>Масове застосування БпЛА</h3>
+            <p>Розвідувальні, ударні та FPV-дрони стали стандартом кожного підрозділу.</p>
+        </div>
+        <div class="cat-card">
+            <h3>Високоточні боєприпаси</h3>
+            <p>Керовані снаряди, ракети з GPS/INS та лазерним наведенням мінімізують витрати боєкомплекту.</p>
+        </div>
+        <div class="cat-card">
+            <h3>Термобаричні та комбіновані БЧ</h3>
+            <p>Забезпечують максимальний ефект по укриттях, спорудах і живій силі в обмежених просторах.</p>
+        </div>
+        <div class="cat-card">
+            <h3>Мережецентричність</h3>
+            <p>Єдині інформаційні системи поєднують розвідку, артилерію, ППО та піхоту в реальному часі.</p>
+        </div>
+    </div>
+</section>
+<section id="sec-ua">
+    <h2 class="section-title">Українські засоби ураження</h2>
+    <p class="section-text">
+        Україна активно розвиває власні ракетні комплекси, протитанкові системи, бойові дрони
+        та бойові частини. Вони створені з урахуванням досвіду сучасної війни та потреб ЗСУ.
+    </p>
+
+    <div class="categories-grid">
+        <div class="cat-card" data-link="ukraine-dev.html">
+            <h3>ПТРК “Стугна-П”, “Корсар”</h3>
+            <p>Сучасні протитанкові комплекси з дистанційним пультом та телевізійним наведенням.</p>
+        </div>
+        <div class="cat-card" data-link="ukraine-dev.html">
+            <h3>ОТРК “Грім-2”</h3>
+            <p>Оперативно-тактичний ракетний комплекс для ураження цілей на великих відстанях.</p>
+        </div>
+        <div class="cat-card" data-link="ukraine-dev.html">
+            <h3>Ударні БпЛА та FPV</h3>
+            <p>Сімейство дронів для точкових ударів по техніці, фортифікаціях та логістиці.</p>
+        </div>
+        <div class="cat-card" data-link="ukraine-dev.html">
+            <h3>Бойові частини</h3>
+            <p>Лінійка вітчизняних БЧ для різних носіїв – від FPV до ракетних систем.</p>
+        </div>
+    </div>
+</section>
+<section id="sec-calibers">
+    <h2 class="section-title">Калібри та номенклатура</h2>
+    <p class="section-text">
+        Калібр визначає можливості боєприпасу: дальність, руйнівну дію, тип носія та тактичну роль.
+        Нижче — узагальнена схема основних калібрів, що найчастіше зустрічаються у сучасній війні.
+    </p>
+
+    <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <thead>
+                <tr>
+                    <th style="border-bottom:1px solid rgba(255,39,39,0.6); padding:6px; text-align:left;">Калібр</th>
+                    <th style="border-bottom:1px solid rgba(255,39,39,0.6); padding:6px; text-align:left;">Носій</th>
+                    <th style="border-bottom:1px solid rgba(255,39,39,0.6); padding:6px; text-align:left;">Тип дії</th>
+                    <th style="border-bottom:1px solid rgba(255,39,39,0.6); padding:6px; text-align:left;">Примітка</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding:6px;">5,45 / 5,56 мм</td>
+                    <td style="padding:6px;">Автомати, кулемети</td>
+                    <td style="padding:6px;">Кульова дія</td>
+                    <td style="padding:6px;">Основний стрілецький калібр малих підрозділів.</td>
+                </tr>
+                <tr>
+                    <td style="padding:6px;">7,62 мм</td>
+                    <td style="padding:6px;">Кулемети, снайперські гвинтівки</td>
+                    <td style="padding:6px;">Кульова / бронебійна</td>
+                    <td style="padding:6px;">Підвищена пробивна дія, збільшена дальність.</td>
+                </tr>
+                <tr>
+                    <td style="padding:6px;">82 / 120 мм</td>
+                    <td style="padding:6px;">Міномети</td>
+                    <td style="padding:6px;">Осколково-фугасна</td>
+                    <td style="padding:6px;">Робота по укриттях та складках місцевості.</td>
+                </tr>
+                <tr>
+                    <td style="padding:6px;">122 / 152 мм</td>
+                    <td style="padding:6px;">Буксирні та САУ</td>
+                    <td style="padding:6px;">ОФ, КО, КУМ, ТР</td>
+                    <td style="padding:6px;">Основна артилерія далекобійного вогню.</td>
+                </tr>
+                <tr>
+                    <td style="padding:6px;">220 / 300 мм</td>
+                    <td style="padding:6px;">РСЗВ</td>
+                    <td style="padding:6px;">Реактивні боєприпаси</td>
+                    <td style="padding:6px;">Масоване ураження площинних цілей.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+<section id="sec-faq">
+    <h2 class="section-title">Часті питання</h2>
+    <p class="section-text">
+        Короткі пояснення базових понять, що часто виникають під час роботи з озброєнням
+        та боєприпасами.
+    </p>
+
+    <div class="categories-grid">
+        <div class="cat-card">
+            <h3>Чим ОФ відрізняється від кумулятивного боєприпасу?</h3>
+            <p>ОФ (осколково-фугасний) уражає осколками та вибухом по площі. Кумулятивний — пробиває броню спрямованим струменем.</p>
+        </div>
+        <div class="cat-card">
+            <h3>Навіщо потрібні термобаричні боєприпаси?</h3>
+            <p>Створюють зону високого тиску й температури, ефективні в укриттях, будівлях, укріпленнях.</p>
+        </div>
+        <div class="cat-card">
+            <h3>Чому БпЛА так важливі для артилерії?</h3>
+            <p>Дрони забезпечують розвідку, коригування та оцінку результатів, що підвищує точність і економію боєкомплекту.</p>
+        </div>
+        <div class="cat-card">
+            <h3>Що таке контрбатарейна боротьба?</h3>
+            <p>Виявлення та знищення артилерії противника, щоб позбавити його змоги вести вогонь.</p>
+        </div>
+    </div>
+</section>
+
 <!-- ПРО СЛУЖБУ -->
 <section id="sec-about">
     <h2 class="section-title">Основне призначення засобів ураження</h2>
@@ -577,6 +835,7 @@
 
 </body>
 </html>
+
 
 
 
