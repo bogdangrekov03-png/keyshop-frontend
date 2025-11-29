@@ -168,7 +168,26 @@
     background: linear-gradient(90deg, #360000, #550000);
     box-shadow: 0 0 18px rgba(255,39,39,0.8);
 }
+.hud-back {
+    font-size: 20px;
+    color: var(--accent-soft);
+    cursor: pointer;
+    margin-right: 10px;
+    user-select: none;
+    transition: 0.2s;
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,39,39,0.5);
+    background: rgba(20,0,0,0.6);
+    box-shadow: 0 0 10px rgba(255,39,39,0.4);
+}
 
+.hud-back:hover {
+    background: rgba(40,0,0,0.9);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(255,39,39,1);
+    transform: translateX(-2px);
+}
     /* HERO */
     .hero {
         margin-top: 52px;
@@ -613,6 +632,7 @@
 
 <!-- HUD НАВІГАЦІЯ -->
 <div class="hud-nav">
+    <div class="hud-back" id="backBtn">←</div>
     <div class="hud-logo" id="homeLink">
         <div class="hud-logo-main">Засоби ураження</div>
         <div class="hud-logo-sub">Боєприпаси</div>
