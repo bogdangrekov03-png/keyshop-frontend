@@ -6,441 +6,367 @@
 <title>Класифікація – Засоби ураження</title>
 
 <style>
-    :root {
-        --bg-main: #020204;
-        --bg-card: #0b0b0f;
-        --accent: #ff2727;
-        --accent-soft: #ff5757;
-        --border-glow: 0 0 18px rgba(255, 39, 39, 0.7);
-        --text-main: #f5f5f5;
-        --text-muted: #b8b8b8;
-    }
-    * { box-sizing:border-box; margin:0; padding:0; }
-    body {
-        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-        background: radial-gradient(circle at top, #220000 0%, #020204 45%, #000000 100%);
-        color: var(--text-main);
-        overflow-x: hidden;
-    }
-    a { color: inherit; text-decoration: none; }
+/* ===== ГЛОБАЛЬНІ ЗМІННІ ===== */
+:root {
+    --bg-main: #020204;
+    --bg-card: #0b0b0f;
+    --accent: #ff2727;
+    --accent-soft: #ff5757;
+    --border-glow: 0 0 12px rgba(255, 39, 39, 0.4);
+    --text-main: #ffffff;
+    --text-muted: #b8b8b8;
+}
 
-    /* HUD NAV (той самий, що на головній) */
-    .hud-nav {
-        position: fixed;
-        top: 0; left: 0; width: 100%;
-        z-index: 50;
-        backdrop-filter: blur(10px);
-        background: linear-gradient(90deg, rgba(0,0,0,0.94), rgba(40,0,0,0.9));
-        border-bottom: 1px solid rgba(255, 39, 39, 0.5);
-        box-shadow: 0 0 20px rgba(255, 39, 39, 0.4);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 8px 14px;
-    }
-    .hud-logo { display:flex; flex-direction:column; gap:2px; }
-    .hud-logo-main {
-        font-size: 15px;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        color: var(--accent-soft);
-    }
-    .hud-logo-sub {
-        font-size: 11px;
-        color: var(--text-muted);
-    }
-    .hud-burger {
-        width: 32px; height: 32px;
-        border-radius: 999px;
-        border: 1px solid rgba(255, 39, 39, 0.6);
-        display:flex; align-items:center; justify-content:center;
-        cursor:pointer; position:relative; overflow:hidden;
-        box-shadow: 0 0 15px rgba(255,39,39,0.7);
-    }
-    .hud-burger span {
-        position:relative; width:18px; height:2px;
-        background: var(--accent);
-        border-radius:999px;
-        transition:0.25s;
-    }
-    .hud-burger::before,
-    .hud-burger::after {
-        content:"";
-        position:absolute;
-        width:18px; height:2px;
-        background: var(--accent);
-        border-radius:999px;
-        transition:0.25s;
-    }
-    .hud-burger::before { transform:translateY(-6px); }
-    .hud-burger::after { transform:translateY(6px); }
-    .hud-burger.active span { opacity:0; }
-    .hud-burger.active::before { transform:rotate(45deg); }
-    .hud-burger.active::after { transform:rotate(-45deg); }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-    .hud-menu {
-        position: fixed;
-        top: 50px; right: 10px;
-        z-index: 40;
-        width: 240px;
-        max-width: calc(100% - 20px);
-        background: radial-gradient(circle at top, #3b0000 0%, #050507 45%, #000000 100%);
-        border-radius: 14px;
-        border: 1px solid rgba(255, 39, 39, 0.7);
-        box-shadow: 0 0 28px rgba(255,39,39,0.7);
-        padding: 12px;
-        opacity: 0;
-        transform: translateY(-10px) scale(0.97);
-        pointer-events: none;
-        transition: 0.22s;
-    }
-    .hud-menu.visible {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-        pointer-events: auto;
-    }
+body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: radial-gradient(circle at top, #220000 0%, #020204 45%, #000000 100%);
+    color: var(--text-main);
+    overflow-x: hidden;
+}
 
-    .hud-menu-groups {
-        display:flex;
-        flex-direction:column;
-        gap:10px;
-    }
-    .menu-group-title {
-        font-size:10px;
-        text-transform:uppercase;
-        letter-spacing:1px;
-        color:var(--text-muted);
-        margin:4px 2px;
-        opacity:0.85;
-    }
-    .menu-group {
-        border-top:1px solid rgba(255,39,39,0.25);
-        padding-top:6px;
-    }
-    .hud-menu ul {
-        list-style:none;
-        display:flex;
-        flex-direction:column;
-        gap:6px;
-        margin:0;
-        padding:0;
-    }
-    .hud-menu li button {
-        width:100%;
-        background:linear-gradient(90deg,#150000,#2a0000);
-        color:var(--text-main);
-        border-radius:9px;
-        padding:7px 10px;
-        border:1px solid rgba(255,39,39,0.7);
-        font-size:13px;
-        text-align:left;
-        cursor:pointer;
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        transition:0.18s;
-    }
-    .hud-menu li button:hover {
-        background:linear-gradient(90deg,#360000,#550000);
-        box-shadow:0 0 18px rgba(255,39,39,0.8);
-    }
+a { color: inherit; text-decoration: none; }
 
-    /* HERO */
-    .hero {
-        margin-top: 52px;
-        padding: 70px 18px 30px;
-    }
-    .hero-inner {
-        max-width: 900px;
-        margin: 0 auto;
-    }
-    .hero-badge {
-        display:inline-flex;
-        align-items:center;
-        gap:6px;
-        font-size:11px;
-        text-transform:uppercase;
-        letter-spacing:1px;
-        color:var(--accent-soft);
-        padding:4px 9px;
-        border-radius:999px;
-        border:1px solid rgba(255,39,39,0.7);
-        background:rgba(0,0,0,0.8);
-        box-shadow:var(--border-glow);
-        margin-bottom:14px;
-    }
-    .hero-title {
-        font-size:24px;
-        text-transform:uppercase;
-        text-shadow:0 0 18px rgba(255,39,39,0.9);
-        margin-bottom:8px;
-    }
-    .hero-sub {
-        font-size:14px;
-        color:var(--text-muted);
-        margin-bottom:18px;
-        line-height:1.6;
-    }
+/* ===== HUD ===== */
+.hud-nav {
+    position: fixed; top: 0; left: 0;
+    width: 100%; z-index: 50;
+    backdrop-filter: blur(10px);
+    background: rgba(0,0,0,0.88);
+    border-bottom: 1px solid rgba(255,39,39,0.4);
+    display: flex; align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+}
+.hud-logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
 
-    /* СЕКЦІЇ */
-    section.page {
-        max-width: 960px;
-        margin: 0 auto 40px;
-        padding: 0 18px;
-    }
-    .section-title {
-        font-size: 20px;
-        text-transform: uppercase;
-        margin-bottom: 10px;
-        color: var(--accent-soft);
-        text-shadow: 0 0 12px rgba(255,39,39,0.9);
-    }
-    .section-text {
-        font-size: 14px;
-        color: var(--text-muted);
-        line-height: 1.6;
-        margin-bottom: 16px;
-    }
-    .grid-two {
-        display:grid;
-        grid-template-columns: minmax(0,1.2fr) minmax(0,1fr);
-        gap:16px;
-    }
-    @media (max-width: 720px) {
-        .grid-two { grid-template-columns:1fr; }
-    }
+.hud-back {
+    font-size: 18px;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(255,39,39,0.5);
+    margin-right: 8px;
+    cursor: pointer;
+}
+.hud-emblem { width: 24px; height: 30px; }
+.hud-emblem svg { width: 100%; height: 100%; fill: #ffffff; }
 
-    .info-block {
-        position: relative;
-        margin-bottom: 18px;
-        padding: 16px 18px;
-        background: rgba(10, 0, 0, 0.55);
-        border: 1px solid rgba(255, 40, 40, 0.35);
-        border-radius: 12px;
-        box-shadow:
-            0 0 12px rgba(255,0,0,0.25),
-            inset 0 0 18px rgba(255,0,0,0.15);
-        backdrop-filter: blur(6px);
-        overflow: hidden;
-    }
-    .info-block::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 14px;
-        width: 60%;
-        height: 2px;
-        background: linear-gradient(90deg, rgba(255,60,60,0.8), transparent);
-    }
-    .info-block h3 {
-        position: relative;
-        display: inline-block;
-        padding: 4px 10px;
-        background: rgba(40,0,0,0.8);
-        border-left: 3px solid #ff2727;
-        border-radius: 4px 8px 8px 4px;
-        text-transform: uppercase;
-        font-size: 14px;
-        letter-spacing: 0.8px;
-        color: #ff5757;
-        margin-bottom: 10px;
-        text-shadow: 0 0 8px rgba(255,50,50,0.9);
-    }
-    .info-block p,
-    .info-block li {
-        font-size: 14px;
-        line-height: 1.6;
-        color: #e5e5e5;
-    }
-    .info-block ul {
-        margin-top: 8px;
-        margin-left: 18px;
-    }
-    .info-block ul li {
-        margin-bottom: 5px;
-    }
+.hud-logo-text { display: flex; flex-direction: column; }
+.hud-logo-main { color: #ffffff; text-transform: uppercase; letter-spacing: 1.4px; }
+.hud-logo-sub { color: var(--text-muted); font-size: 11px; }
 
-    footer {
-        text-align: center;
-        padding: 20px 0 30px;
-        font-size: 13px;
-        color: var(--text-muted);
-    }
-    footer a {
-        color: var(--accent-soft);
-        text-decoration: none;
-        font-weight: 600;
-        transition: 0.2s;
-    }
-    footer a:hover {
-        color: var(--accent);
-        text-shadow: 0 0 8px rgba(255, 39, 39, 0.7);
-    }
+/* ===== BURGER ===== */
+.hud-burger {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,39,39,0.4);
+    background: rgba(20,0,0,0.6);
+    display: flex; align-items: center;
+    justify-content: center;
+    position: relative; cursor: pointer;
+}
+.hud-burger span,
+.hud-burger::before,
+.hud-burger::after {
+    content: "";
+    width: 18px; height: 2px;
+    position: absolute;
+    background: #ffffff;
+    transition: .25s;
+}
+.hud-burger::before { transform: translateY(-6px); }
+.hud-burger::after  { transform: translateY(6px); }
+
+/* ===== MENU ===== */
+.hud-menu {
+    position: fixed; right: 10px; top: 50px;
+    width: 230px;
+    padding: 12px;
+    background: rgba(5,5,7,0.97);
+    border: 1px solid rgba(255,39,39,0.6);
+    border-radius: 14px;
+    opacity: 0;
+    transform: translateY(-10px) scale(.97);
+    pointer-events: none;
+    transition: .22s;
+}
+.hud-menu.visible {
+    opacity: 1; transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.menu-group { border-top: 1px solid rgba(255,39,39,0.25); padding-top: 6px; }
+.menu-group-title {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 4px 0;
+}
+.hud-menu ul { list-style: none; padding: 0; margin: 0; }
+.hud-menu li button {
+    width: 100%;
+    background: rgba(20,0,0,0.5);
+    color: #fff;
+    border-radius: 9px;
+    padding: 8px;
+    border: 1px solid rgba(255,39,39,0.6);
+    font-size: 13px;
+    text-align: left;
+    cursor: pointer;
+    transition: .18s;
+}
+.hud-menu li button:hover {
+    background: rgba(60,0,0,0.7);
+}
+
+/* ===== HERO ===== */
+.hero {
+    margin-top: 60px;
+    padding: 70px 18px 30px;
+}
+.hero-badge {
+    display: inline-flex; gap: 5px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,39,39,0.4);
+    text-transform: uppercase;
+    font-size: 11px;
+    color: var(--text-muted);
+}
+.hero-title {
+    font-size: 26px; text-transform: uppercase;
+    margin-top: 10px;
+}
+.hero-sub {
+    margin-top: 12px;
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* ===== CONTENT ===== */
+section.page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 10px 18px 40px;
+}
+.section-title {
+    font-size: 20px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+.section-text {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    line-height: 1.6;
+}
+
+/* INFO BLOCK */
+.info-block {
+    margin-bottom: 20px;
+    padding: 16px;
+    background: rgba(20,0,0,0.45);
+    border: 1px solid rgba(255,39,39,0.5);
+    border-radius: 12px;
+    box-shadow: 0 0 14px rgba(255,39,39,0.25);
+}
+.info-block h3 {
+    font-size: 15px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    color: #ff5757;
+}
+.info-block ul { margin-left: 18px; }
+.info-block li {
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: var(--text-main);
+    line-height: 1.5;
+}
+
+footer {
+    text-align: center;
+    padding: 25px 0;
+    color: var(--text-muted);
+    font-size: 13px;
+}
 </style>
 </head>
+
 <body>
 
+<!-- ========== HUD ========== -->
 <div class="hud-nav">
-    <div class="hud-logo" id="homeLink">
-        <div class="hud-logo-main">Засоби ураження</div>
-        <div class="hud-logo-sub">Класифікація</div>
-    </div>
-    <div class="hud-burger" id="hudBurger">
-        <span></span>
+    <div class="hud-logo" onclick="window.location='index.html'">
+        <span class="hud-back">←</span>
+
+        <div class="hud-emblem">
+            <svg viewBox="0 0 32 44">
+                <path d="M16 2C11 5 9 10 9 16v14l-4-4v6l7 6h2V17h4v21h2l7-6v-6l-4 4V16c0-6-2-11-7-14z"/>
+            </svg>
+        </div>
+
+        <div class="hud-logo-text">
+            <div class="hud-logo-main">Класифікація</div>
+            <div class="hud-logo-sub">Довідник порталу</div>
+        </div>
     </div>
 
-    <div class="hud-menu" id="hudMenu">
-        <div class="hud-menu-groups">
-            <div class="menu-group">
-                <div class="menu-group-title">Основне</div>
-                <ul>
-                    <li><button data-link="index.html">Головна</button></li>
-                </ul>
-            </div>
-            <div class="menu-group">
-                <div class="menu-group-title">Категорії озброєння</div>
-                <ul>
-                    <li><button data-link="ammo.html">Боєприпаси</button></li>
-                    <li><button data-link="rockets.html">Ракетні комплекси</button></li>
-                    <li><button data-link="pvo.html">Протиповітряна оборона</button></li>
-                    <li><button data-link="uav.html">БпЛА</button></li>
-                </ul>
-            </div>
-            <div class="menu-group">
-                <div class="menu-group-title">Довідник</div>
-                <ul>
-                    <li><button data-link="classification.html">Класифікація</button></li>
-                    <li><button data-link="calibers.html">Калібри</button></li>
-                </ul>
-            </div>
-            <div class="menu-group">
-                <div class="menu-group-title">Тактика</div>
-                <ul>
-                    <li><button data-link="tactics.html">Тактичне застосування</button></li>
-                </ul>
-            </div>
-            <div class="menu-group">
-                <div class="menu-group-title">Українські розробки</div>
-                <ul>
-                    <li><button data-link="ukraine-dev.html">Огляд</button></li>
-                </ul>
-            </div>
-            <div class="menu-group">
-                <div class="menu-group-title">Безпека</div>
-                <ul>
-                    <li><button data-link="safety.html">Правила безпеки</button></li>
-                </ul>
-            </div>
-        </div>
+    <div class="hud-burger" id="hudBurger"><span></span></div>
+</div>
+
+<!-- MENU -->
+<div class="hud-menu" id="hudMenu">
+    <div class="menu-group">
+        <div class="menu-group-title">Основне</div>
+        <ul><li><button data-link="index.html">Головна</button></li></ul>
+    </div>
+    <div class="menu-group">
+        <div class="menu-group-title">Категорії</div>
+        <ul>
+            <li><button data-link="ammo.html">Боєприпаси</button></li>
+            <li><button data-link="rockets.html">Ракетні комплекси</button></li>
+            <li><button data-link="pvo.html">Протиповітряна оборона</button></li>
+            <li><button data-link="uav.html">БпЛА</button></li>
+        </ul>
+    </div>
+    <div class="menu-group">
+        <div class="menu-group-title">Довідники</div>
+        <ul>
+            <li><button data-link="classification.html">Класифікація</button></li>
+            <li><button data-link="calibers.html">Калібри</button></li>
+        </ul>
     </div>
 </div>
 
+<!-- ========== HERO ========== -->
 <section class="hero">
-    <div class="hero-inner">
-        <div class="hero-badge">• довідник • класифікація •</div>
-        <h1 class="hero-title">Класифікація засобів ураження</h1>
-        <p class="hero-sub">
-            Класифікація дозволяє систематизувати номенклатуру озброєння та боєприпасів, правильно
-            планувати їх застосування, зберігання й облік. Нижче наведено базові підходи до поділу
-            засобів ураження за призначенням, типом дії, носієм і конструктивними особливостями.
-        </p>
-    </div>
+    <div class="hero-badge">• довідник • класифікація •</div>
+    <h1 class="hero-title">Класифікація засобів ураження</h1>
+    <p class="hero-sub">
+        Класифікація дозволяє логістам, командирам та аналітикам швидко орієнтуватися у великих масивах
+        номенклатури, правильно застосовувати боєприпаси, планувати їх витрати та прогнозувати ефективність.
+        Нижче наведено розширений системний поділ засобів ураження за ключовими ознаками.
+    </p>
 </section>
 
+<!-- ========== РОЗДІЛИ ========= -->
+
 <section class="page">
-    <h2 class="section-title">За призначенням</h2>
-    <p class="section-text">
-        Найбільш поширений поділ — за тим, проти чого або для чого призначений боєприпас
-        чи засіб ураження.
-    </p>
+    <h2 class="section-title">1. За призначенням</h2>
+    <p class="section-text">Один із основних критеріїв поділу: проти кого чи чого застосовується засіб ураження.</p>
 
     <div class="info-block">
-        <h3>Основні групи</h3>
+        <h3>Основні категорії:</h3>
         <ul>
-            <li><b>Протилюдні (проти живої сили):</b> осколкові, осколково-фугасні, касетні, термобаричні.</li>
+            <li><b>Протилюдні:</b> осколкові, фугасні, касетні, термобаричні.</li>
             <li><b>Протитанкові:</b> кумулятивні, тандемні, боєприпаси з ударним ядром.</li>
-            <li><b>Протиповітряні:</b> зенітні ракети, зенітні снаряди, спеціальні боєприпаси для ППО.</li>
-            <li><b>Протикорабельні та протирадіолокаційні:</b> спеціалізовані ракети з системами наведення.</li>
-            <li><b>Інженерні та спеціальні:</b> мінно-вибухові загородження, підривні заряди, димові, освітлювальні.</li>
+            <li><b>Протиповітряні:</b> ракети ППО, зенітні снаряди.</li>
+            <li><b>Протирадіолокаційні:</b> ракети для знищення РЛС.</li>
+            <li><b>Протикорабельні:</b> ракети великої дальності.</li>
+            <li><b>Інженерні:</b> міни, заряди, підривні засоби.</li>
+            <li><b>Спеціальні:</b> димові, освітлювальні, агітаційні, РЕБ-боєприпаси.</li>
         </ul>
     </div>
 </section>
 
 <section class="page">
-    <h2 class="section-title">За типом дії бойової частини</h2>
-    <div class="grid-two">
-        <div>
-            <div class="info-block">
-                <h3>Осколково-фугасні</h3>
-                <p>
-                    Поєднують фугасну дію (ударна хвиля, руйнування) та осколкову (ураження уламками).
-                    Використовуються для ураження живої сили, споруд, техніки без потужної броні.
-                </p>
-            </div>
-            <div class="info-block">
-                <h3>Кумулятивні</h3>
-                <p>
-                    Створюють спрямований кумулятивний струмінь, який пробиває броню. Ефективні проти
-                    танків та ББМ, але мають обмежений осколковий ефект.
-                </p>
-            </div>
-            <div class="info-block">
-                <h3>Термобаричні</h3>
-                <p>
-                    Формують хмару паливно-повітряної суміші та підривають її, створюючи зону високого
-                    тиску й температури. Особливо небезпечні в укриттях, будівлях, тунелях.
-                </p>
-            </div>
-        </div>
-        <div>
-            <div class="info-block">
-                <h3>Касетні</h3>
-                <p>
-                    Мають контейнер з підбоєприпасами (осколковими, протитанковими тощо), що розсіюються
-                    над ціллю. Забезпечують ураження великої площі.
-                </p>
-            </div>
-            <div class="info-block">
-                <h3>Спеціальні</h3>
-                <p>
-                    Освітлювальні, димові, агітаційні, радіолокаційні, постановники перешкод. Їх мета — не
-                    стільки знищити ціль, скільки створити умови для бою.
-                </p>
-            </div>
-        </div>
+    <h2 class="section-title">2. За типом дії бойової частини</h2>
+
+    <div class="info-block">
+        <h3>Осколково-фугасні</h3>
+        <p>Поєднують сильну фугасну хвилю та ураження осколками. Ефективні проти живої сили, укріплень та техніки без броні.</p>
+    </div>
+
+    <div class="info-block">
+        <h3>Кумулятивні</h3>
+        <p>Формують струмінь, який пробиває броню. Використовуються в ПТРК, РПГ, протитанкових підбоєприпасах.</p>
+    </div>
+
+    <div class="info-block">
+        <h3>Термобаричні</h3>
+        <p>Створюють зону надвисокого тиску після підриву паливно-повітряної суміші. Особливо ефективні у приміщеннях.</p>
+    </div>
+
+    <div class="info-block">
+        <h3>Касетні</h3>
+        <p>Містять багато підбоєприпасів, що розсіюються над великою площею. Використовуються для ураження групових цілей.</p>
+    </div>
+
+    <div class="info-block">
+        <h3>Спеціальні</h3>
+        <p>Освітлення поля бою, створення димових завіс, РЕБ, позначення цілей, інженерні задачі.</p>
     </div>
 </section>
 
 <section class="page">
-    <h2 class="section-title">За типом носія</h2>
-    <p class="section-text">
-        Один і той самий тип бойової частини може застосовуватись з різних платформ: наземних, повітряних,
-        морських та безпілотних.
-    </p>
+    <h2 class="section-title">3. За типом носія</h2>
+    <p class="section-text">Одна й та сама бойова частина може застосовуватись з різних платформ.</p>
 
     <div class="info-block">
         <h3>Основні носії</h3>
         <ul>
-            <li><b>Стрілецька зброя:</b> патрони малих калібрів для особового складу.</li>
-            <li><b>Міномети та артилерія:</b> міни, снаряди середніх та великих калібрів.</li>
-            <li><b>РСЗВ та ракетні комплекси:</b> реактивні снаряди та ракети різної дальності.</li>
-            <li><b>Авіація:</b> авіабомби, ракети "повітря-земля", керовані боєприпаси.</li>
-            <li><b>БпЛА:</b> підвісні боєприпаси, підривні заряди, FPV з інтегрованою БЧ.</li>
-            <li><b>Інженерні системи:</b> мінні загороджувачі, підривні машини, спеціалізовані комплекси.</li>
+            <li><b>Стрілецька зброя:</b> патрони, підкаліберні боєприпаси.</li>
+            <li><b>Міномети:</b> міни калібрів 60–120 мм.</li>
+            <li><b>Артилерія:</b> снаряди 100–203 мм.</li>
+            <li><b>РСЗВ:</b> реактивні снаряди різних дальностей.</li>
+            <li><b>Авіація:</b> авіабомби, ракети, планеруючі боєприпаси.</li>
+            <li><b>БпЛА:</b> FPV, підвісні боєприпаси, ударні дрони.</li>
+            <li><b>Кораблі:</b> крилаті та протикорабельні ракети.</li>
+            <li><b>Спеціальні платформи:</b> інженерні машини, РЕБ, підривні заряди.</li>
         </ul>
     </div>
 </section>
 
 <section class="page">
-    <h2 class="section-title">За способом управління та наведення</h2>
+    <h2 class="section-title">4. За способом керування та наведення</h2>
+
     <div class="info-block">
-        <h3>Некеровані та керовані засоби ураження</h3>
+        <h3>Некеровані</h3>
+        <p>Класичні снаряди, міни, некеровані ракети. Точність залежить від розрахунку та балістики.</p>
+    </div>
+
+    <div class="info-block">
+        <h3>Керовані</h3>
         <ul>
-            <li><b>Некеровані:</b> класичні артилерійські снаряди, міни, більшість РСЗВ. Траєкторія визначається
-                балістикою, умовами стрільби та підготовкою розрахунку.</li>
-            <li><b>Керовані:</b> ракети й боєприпаси з системами наведення (лазерне, інерціальне, GPS, радіолокаційне).
-                Дозволяють вражати конкретні цілі з високою точністю.</li>
+            <li>лазерне наведення</li>
+            <li>інерціальна система</li>
+            <li>GPS-наведення</li>
+            <li>радіолокаційне наведення</li>
+            <li>оптичне наведення</li>
         </ul>
+    </div>
+</section>
+
+<section class="page">
+    <h2 class="section-title">5. За конструктивними особливостями</h2>
+
+    <div class="info-block">
+        <h3>Однотипні</h3>
+        <p>Класичні боєприпаси з простою БЧ: фугасні, осколкові, бронебійні.</p>
+    </div>
+
+    <div class="info-block">
+        <h3>Тандемні</h3>
+        <p>Мають дві заряди: перший прориває динамічний захист, другий – броню.</p>
+    </div>
+
+    <div class="info-block">
+        <h3>Підкаліберні</h3>
+        <p>Високошвидкісні стріли для пробивання броні.</p>
+    </div>
+
+    <div class="info-block">
+        <h3>Кумулятивно-осколкові</h3>
+        <p>Комбінують бронепробиття та ураження живої сили.</p>
     </div>
 </section>
 
@@ -449,27 +375,10 @@
 </footer>
 
 <script>
-    const burger = document.getElementById('hudBurger');
-    const menu   = document.getElementById('hudMenu');
-
-    burger.addEventListener('click', () => {
-        burger.classList.toggle('active');
-        menu.classList.toggle('visible');
-    });
-
-    menu.querySelectorAll('button[data-link]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const link = btn.getAttribute('data-link');
-            if (link) window.location.href = link;
-        });
-    });
-    /* ========= ПОВЕРНЕННЯ НА ГОЛОВНУ ========= */
-const home = document.getElementById("homeLink");
-
-home.addEventListener("click", () => {
-    window.location.href = "index.html";
-});
-
+const burger=document.getElementById("hudBurger");
+const menu=document.getElementById("hudMenu");
+burger.onclick=()=>{ burger.classList.toggle("active"); menu.classList.toggle("visible"); };
+menu.querySelectorAll("button[data-link]").forEach(b=>{ b.onclick=()=>location.href=b.dataset.link; });
 </script>
 
 </body>
