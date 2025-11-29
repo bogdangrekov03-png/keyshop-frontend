@@ -80,6 +80,9 @@
         font-size: 14px;
         color: #ff5757;
     }
+    .item-row small {
+        color: #b8b8b8;
+    }
     .item-actions {
         margin-top: 6px;
         display: flex;
@@ -118,6 +121,10 @@
         border-radius: 999px;
         border: 1px solid rgba(255,39,39,0.7);
         font-size: 12px;
+        cursor: pointer;
+    }
+    .sort-btn:hover {
+        background: #333;
     }
 
     #imgPreview {
@@ -133,6 +140,13 @@
         height: 8px;
         margin-top: 6px;
     }
+
+    .inline-help {
+        font-size: 11px;
+        color: #b8b8b8;
+        margin-top: 2px;
+    }
+
 </style>
 </head>
 <body>
@@ -161,35 +175,69 @@
 
     <!-- ФОРМА -->
     <div class="card">
-        <h2 id="formTitle">Додати засіб ураження</h2>
+        <h2 id="formTitle">Додати запис порталу</h2>
 
         <!-- тут зберігаємо id при редагуванні -->
         <input id="editId" class="hidden" />
 
-        <label>Назва</label>
+        <label>Назва / заголовок</label>
         <input id="w_name" />
 
-        <label>Категорія</label>
-        <select id="w_type">
-            <option value="bp">Боєприпаси</option>
-            <option value="rk">Ракетні комплекси</option>
+        <label>Розділ порталу</label>
+        <select id="w_section">
+            <option value="ammo">Боєприпаси</option>
+            <option value="rockets">Ракетні комплекси</option>
             <option value="pvo">ППО</option>
-            <option value="uav">Дрони</option>
+            <option value="uav">БпЛА</option>
+            <option value="classification">Класифікація</option>
+            <option value="calibers">Калібри</option>
+            <option value="tactics">Тактичне застосування</option>
+            <option value="ukraine-dev">Українські розробки</option>
+            <option value="safety">Правила безпеки</option>
         </select>
+        <div class="inline-help">
+            Обери, на яку сторінку порталу відноситься цей запис.
+        </div>
 
-        <label>Тег (артилерія, РСЗВ тощо)</label>
+        <label>Тип запису</label>
+        <select id="w_contentType">
+            <option value="card">Картка (елемент списку / каталогу)</option>
+            <option value="article">Стаття / текстовий блок</option>
+        </select>
+        <div class="inline-help">
+            Для боєприпасів, ракет, ППО, БпЛА – зазвичай "Картка". Для розділів тактики, безпеки, укр. розробок – "Стаття".
+        </div>
+
+        <label>Категорія (legacy: bp, rk, pvo, uav – для підтримки карток боєприпасів)</label>
+        <select id="w_type">
+            <option value="bp">Боєприпаси (bp)</option>
+            <option value="rk">Ракетні комплекси (rk)</option>
+            <option value="pvo">ППО (pvo)</option>
+            <option value="uav">Дрони (uav)</option>
+        </select>
+        <div class="inline-help">
+            Використовується існуючими сторінками типу ammo.html (TYPE_FILTER).
+        </div>
+
+        <label>Тег (артилерія, РСЗВ, ПТРК, FPV тощо)</label>
         <input id="w_tag" />
 
-        <label>Характеристики (кожна з нового рядка)</label>
+        <label>Короткий опис</label>
+        <textarea id="w_desc" placeholder="Короткий опис картки або вступ до статті"></textarea>
+
+        <label>Детальний текст (для статей)</label>
+        <textarea id="w_article" placeholder="Розгорнутий текст для розділів: тактика, безпека, укр. розробки тощо."></textarea>
+
+        <label>Характеристики (кожна з нового рядка — для карток)</label>
         <textarea id="w_specs" placeholder="Калібр: 5.45 мм
 Маса кулі: 3.4 г
 Початкова швидкість: 900 м/с"></textarea>
 
-        <label>Опис</label>
-        <textarea id="w_desc"></textarea>
-
-        <label>URL фото (можна залишити порожнім — заповниться після завантаження)</label>
-        <input id="w_img" />
+        <label>URL фото</label>
+        <input id="w_img" placeholder="https://..." />
+        <div class="inline-help">
+            Якщо не вказувати – підставиться лінк після завантаження файлу нижче.
+        </div>
 
         <img id="imgPreview" alt="Прев’ю">
 
@@ -197,15 +245,15 @@
         <input id="w_file" type="file" accept="image/*" />
         <progress id="uploadProgress" value="0" max="100" class="hidden"></progress>
 
-        <button id="btnSaveWeapon">Зберегти засіб</button>
+        <button id="btnSaveWeapon">Зберегти запис</button>
     </div>
 
     <!-- СПИСОК -->
     <div class="card">
-        <h2>Усі засоби ураження</h2>
+        <h2>Усі записи порталу</h2>
 
         <div class="toolbar">
-            <input id="searchInput" type="text" placeholder="Пошук по назві / тегу..." />
+            <input id="searchInput" type="text" placeholder="Пошук по назві / тегу / розділу..." />
             <button class="sort-btn" id="sortByName">Сортувати за назвою A→Я</button>
         </div>
 
@@ -269,14 +317,17 @@
     const formTitle = document.getElementById("formTitle");
     const editId    = document.getElementById("editId");
 
-    const w_name  = document.getElementById("w_name");
-    const w_type  = document.getElementById("w_type");
-    const w_tag   = document.getElementById("w_tag");
-    const w_specs = document.getElementById("w_specs");
-    const w_desc  = document.getElementById("w_desc");
-    const w_img   = document.getElementById("w_img");
-    const w_file  = document.getElementById("w_file");
-    const imgPreview      = document.getElementById("imgPreview");
+    const w_name       = document.getElementById("w_name");
+    const w_section    = document.getElementById("w_section");
+    const w_contentType= document.getElementById("w_contentType");
+    const w_type       = document.getElementById("w_type");
+    const w_tag        = document.getElementById("w_tag");
+    const w_specs      = document.getElementById("w_specs");
+    const w_desc       = document.getElementById("w_desc");
+    const w_article    = document.getElementById("w_article");
+    const w_img        = document.getElementById("w_img");
+    const w_file       = document.getElementById("w_file");
+    const imgPreview   = document.getElementById("imgPreview");
     const uploadProgress  = document.getElementById("uploadProgress");
 
     const btnSaveWeapon = document.getElementById("btnSaveWeapon");
@@ -285,6 +336,27 @@
     const sortByNameBtn = document.getElementById("sortByName");
 
     let weaponsCache = [];
+
+    // ===================== HELPERS =====================
+    function sectionLabel(code) {
+        switch (code) {
+            case "ammo":         return "Боєприпаси";
+            case "rockets":      return "Ракетні комплекси";
+            case "pvo":          return "ППО";
+            case "uav":          return "БпЛА";
+            case "classification": return "Класифікація";
+            case "calibers":     return "Калібри";
+            case "tactics":      return "Тактичне застосування";
+            case "ukraine-dev":  return "Українські розробки";
+            case "safety":       return "Правила безпеки";
+            default:             return code || "";
+        }
+    }
+
+    function contentTypeLabel(code) {
+        if (code === "article") return "Стаття";
+        return "Картка";
+    }
 
     // ===================== AUTH =====================
     onAuthStateChanged(auth, (user) => {
@@ -328,9 +400,19 @@
             const div = document.createElement("div");
             div.className = "item-row";
 
+            const sec = sectionLabel(w.section);
+            const ctype = contentTypeLabel(w.contentType);
+            const tag = w.tag || "";
+            const typeLegacy = w.type ? w.type.toUpperCase() : "";
+
             div.innerHTML = `
                 <h4>${w.name || ""}</h4>
-                <small>${(w.type || "").toUpperCase()} • ${w.tag || ""}</small>
+                <small>
+                    ${sec ? sec + " • " : ""}
+                    ${ctype}
+                    ${tag ? " • " + tag : ""}
+                    ${typeLegacy ? " • [" + typeLegacy + "]" : ""}
+                </small>
                 <div class="item-actions">
                     <button class="btn-small btn-edit">Редагувати</button>
                     <button class="btn-small btn-danger">Видалити</button>
@@ -390,19 +472,22 @@
     // ===================== ADD / UPDATE =====================
     btnSaveWeapon.addEventListener("click", async () => {
         const data = {
-            name:  w_name.value.trim(),
-            type:  w_type.value,
-            tag:   w_tag.value.trim(),
-            desc:  w_desc.value.trim(),
-            img:   w_img.value.trim(),
-            specs: w_specs.value
-                .split("\n")
-                .map(line => line.trim())
-                .filter(line => line.length > 0)
+            name:        w_name.value.trim(),
+            section:     w_section.value,
+            contentType: w_contentType.value,
+            type:        w_type.value,          // legacy для ammo.html та ін.
+            tag:         w_tag.value.trim(),
+            desc:        w_desc.value.trim(),
+            articleText: w_article.value.trim(),
+            img:         w_img.value.trim(),
+            specs:       w_specs.value
+                            .split("\n")
+                            .map(line => line.trim())
+                            .filter(line => line.length > 0)
         };
 
         if (!data.name) {
-            alert("Введи назву.");
+            alert("Введи назву / заголовок.");
             return;
         }
 
@@ -412,7 +497,7 @@
                 alert("Запис оновлено");
             } else {
                 await addDoc(collection(db, "weapons"), data);
-                alert("Засіб додано");
+                alert("Запис додано");
             }
 
             clearForm();
@@ -425,15 +510,18 @@
 
     function fillFormForEdit(w) {
         editId.value = w.id;
-        formTitle.textContent = "Редагувати засіб ураження";
-        btnSaveWeapon.textContent = "Оновити засіб";
+        formTitle.textContent = "Редагувати запис порталу";
+        btnSaveWeapon.textContent = "Оновити запис";
 
-        w_name.value  = w.name || "";
-        w_type.value  = w.type || "bp";
-        w_tag.value   = w.tag  || "";
-        w_desc.value  = w.desc || "";
-        w_specs.value = (w.specs || []).join("\n");
-        w_img.value   = w.img  || "";
+        w_name.value        = w.name || "";
+        w_section.value     = w.section || "ammo";
+        w_contentType.value = w.contentType || "card";
+        w_type.value        = w.type || "bp";
+        w_tag.value         = w.tag  || "";
+        w_desc.value        = w.desc || "";
+        w_article.value     = w.articleText || "";
+        w_specs.value       = Array.isArray(w.specs) ? w.specs.join("\n") : "";
+        w_img.value         = w.img  || "";
 
         if (w.img) {
             imgPreview.src = w.img;
@@ -447,17 +535,20 @@
 
     function clearForm() {
         editId.value = "";
-        formTitle.textContent = "Додати засіб ураження";
-        btnSaveWeapon.textContent = "Зберегти засіб";
+        formTitle.textContent = "Додати запис порталу";
+        btnSaveWeapon.textContent = "Зберегти запис";
 
-        w_name.value  = "";
-        w_type.value  = "bp";
-        w_tag.value   = "";
-        w_desc.value  = "";
-        w_specs.value = "";
-        w_img.value   = "";
+        w_name.value        = "";
+        w_section.value     = "ammo";
+        w_contentType.value = "card";
+        w_type.value        = "bp";
+        w_tag.value         = "";
+        w_desc.value        = "";
+        w_article.value     = "";
+        w_specs.value       = "";
+        w_img.value         = "";
         imgPreview.style.display = "none";
-        w_file.value = "";
+        w_file.value        = "";
         uploadProgress.value = 0;
         uploadProgress.classList.add("hidden");
     }
@@ -473,8 +564,9 @@
     searchInput.addEventListener("input", () => {
         const q = searchInput.value.toLowerCase().trim();
         const filtered = weaponsCache.filter(w =>
-            (w.name || "").toLowerCase().includes(q) ||
-            (w.tag  || "").toLowerCase().includes(q)
+            (w.name   || "").toLowerCase().includes(q) ||
+            (w.tag    || "").toLowerCase().includes(q) ||
+            (sectionLabel(w.section) || "").toLowerCase().includes(q)
         );
         renderWeaponsList(filtered);
     });
