@@ -11,7 +11,7 @@
         --bg-card: #0b0b0f;
         --accent: #ff2727;
         --accent-soft: #ff5757;
-        --border-glow: 0 0 18px rgba(255, 39, 39, 0.7);
+        --border-glow: 0 0 12px rgba(255, 39, 39, 0.4); /* зменшене світіння */
         --text-main: #f5f5f5;
         --text-muted: #b8b8b8;
     }
@@ -42,9 +42,9 @@
         width: 100%;
         z-index: 50;
         backdrop-filter: blur(10px);
-        background: linear-gradient(90deg, rgba(0,0,0,0.94), rgba(40,0,0,0.9));
-        border-bottom: 1px solid rgba(255, 39, 39, 0.5);
-        box-shadow: 0 0 20px rgba(255, 39, 39, 0.4);
+        background: rgba(0, 0, 0, 0.88);
+        border-bottom: 1px solid rgba(255, 39, 39, 0.4);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -52,6 +52,28 @@
     }
 
     .hud-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    /* Маленький герб України */
+    .hud-emblem {
+        width: 24px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hud-emblem svg {
+        width: 100%;
+        height: 100%;
+        fill: #f5f5f5;
+        opacity: 0.9;
+    }
+
+    .hud-logo-text {
         display: flex;
         flex-direction: column;
         gap: 2px;
@@ -61,7 +83,7 @@
         font-size: 15px;
         text-transform: uppercase;
         letter-spacing: 1.5px;
-        color: var(--accent-soft);
+        color: #ffffff; /* білий текст */
     }
 
     .hud-logo-sub {
@@ -69,66 +91,63 @@
         color: var(--text-muted);
     }
 
-/* НОВИЙ БУРГЕР — квадратний стиль як у кнопки НАЗАД */
-.hud-burger {
-    width: 34px;
-    height: 34px;
-    border-radius: 8px; /* квадрат з легким скругленням */
-    border: 1px solid rgba(255,39,39,0.5);
-    background: rgba(20,0,0,0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: none; /* прибрали постійне світіння */
-    transition: 0.2s ease;
-    position: relative;
-}
+    /* Бургер */
+    .hud-burger {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        border: 1px solid rgba(255,39,39,0.4);
+        background: rgba(20,0,0,0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: none;
+        transition: 0.2s ease;
+        position: relative;
+    }
 
-/* Лінії бургер-меню */
-.hud-burger span,
-.hud-burger::before,
-.hud-burger::after {
-    content: "";
-    width: 18px;
-    height: 2px;
-    background: var(--accent-soft);
-    border-radius: 999px;
-    position: absolute;
-    transition: 0.25s;
-}
+    .hud-burger span,
+    .hud-burger::before,
+    .hud-burger::after {
+        content: "";
+        width: 18px;
+        height: 2px;
+        background: #ffffff; /* білі лінії */
+        border-radius: 999px;
+        position: absolute;
+        transition: 0.25s;
+    }
 
-.hud-burger::before {
-    transform: translateY(-6px);
-}
-.hud-burger::after {
-    transform: translateY(6px);
-}
+    .hud-burger::before {
+        transform: translateY(-6px);
+    }
+    .hud-burger::after {
+        transform: translateY(6px);
+    }
 
-/* Анімація перетворення на Х */
-.hud-burger.active span {
-    opacity: 0;
-}
-.hud-burger.active::before {
-    transform: rotate(45deg);
-}
-.hud-burger.active::after {
-    transform: rotate(-45deg);
-}
+    .hud-burger.active span {
+        opacity: 0;
+    }
+    .hud-burger.active::before {
+        transform: rotate(45deg);
+    }
+    .hud-burger.active::after {
+        transform: rotate(-45deg);
+    }
 
-/* Ефект наведення */
-.hud-burger:hover {
-    background: rgba(40,0,0,0.85);
-    border-color: #ff2727;
-    box-shadow: 0 0 12px rgba(255,40,40,0.8);
-}
+    .hud-burger:hover {
+        background: rgba(40,0,0,0.9);
+        border-color: #ff2727;
+        box-shadow: 0 0 12px rgba(255,40,40,0.5);
+    }
 
-/* Ефект натискання */
-.hud-burger:active {
-    transform: scale(0.90);
-    box-shadow: 0 0 18px rgba(255,0,0,1);
-}
+    .hud-burger:active {
+        transform: scale(0.92);
+        box-shadow: 0 0 14px rgba(255,0,0,0.8);
+    }
 
+    /* ===== HUD МЕНЮ ===== */
     .hud-menu {
         position: fixed;
         top: 50px;
@@ -136,46 +155,41 @@
         z-index: 40;
         width: 220px;
         max-width: calc(100% - 20px);
-        background: radial-gradient(circle at top, #3b0000 0%, #050507 45%, #000000 100%);
+        background: rgba(5,5,7,0.97);
         border-radius: 14px;
-        border: 1px solid rgba(255, 39, 39, 0.7);
-        box-shadow: 0 0 28px rgba(255,39,39,0.7);
+        border: 1px solid rgba(255, 39, 39, 0.6);
+        box-shadow: 0 0 18px rgba(0,0,0,0.9);
         padding: 12px;
         opacity: 0;
         transform: translateY(-10px) scale(0.97);
         pointer-events: none;
         transition: 0.22s;
     }
-.menu-group {
-    border-top: 1px solid rgba(255,39,39,0.25);
-    padding-top: 6px;
-}
-.hud-menu-groups {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
 
-.menu-group-title {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-muted);
-    margin: 4px 2px;
-    opacity: 0.85;
-}    
     .hud-menu.visible {
         opacity: 1;
         transform: translateY(0) scale(1);
         pointer-events: auto;
     }
 
-    .hud-menu h4 {
-        font-size: 11px;
-        letter-spacing: 1px;
+    .hud-menu-groups {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .menu-group {
+        border-top: 1px solid rgba(255,39,39,0.25);
+        padding-top: 6px;
+    }
+
+    .menu-group-title {
+        font-size: 10px;
         text-transform: uppercase;
+        letter-spacing: 1px;
         color: var(--text-muted);
-        margin-bottom: 6px;
+        margin: 4px 2px;
+        opacity: 0.85;
     }
 
     .hud-menu ul {
@@ -187,11 +201,11 @@
 
     .hud-menu li button {
         width: 100%;
-        background: linear-gradient(90deg, #150000, #2a0000);
-        color: var(--text-main);
+        background: rgba(15,15,17,0.95);
+        color: #ffffff;
         border-radius: 9px;
         padding: 7px 10px;
-        border: 1px solid rgba(255,39,39,0.7);
+        border: 1px solid rgba(255,39,39,0.6);
         font-size: 13px;
         text-align: left;
         cursor: pointer;
@@ -207,26 +221,25 @@
     }
 
     .hud-menu li button:hover {
-        background: linear-gradient(90deg, #360000, #550000);
-        box-shadow: 0 0 18px rgba(255,39,39,0.8);
+        background: rgba(40,0,0,0.9);
+        box-shadow: 0 0 14px rgba(255,39,39,0.7);
     }
 
     /* ===== HERO ===== */
-.hero {
-    margin-top: 20px;
-    position: relative;
-    padding: 60px 18px 55px;
-    overflow: hidden;
-}
-
+    .hero {
+        margin-top: 20px;
+        position: relative;
+        padding: 60px 18px 55px;
+        overflow: hidden;
+    }
 
     .hero-parallax {
         position: absolute;
         inset: -40px;
         background:
-            radial-gradient(circle at 20% 0%, rgba(255, 39, 39, 0.22), transparent 55%),
-            radial-gradient(circle at 90% 100%, rgba(255, 120, 80, 0.16), transparent 60%),
-            radial-gradient(circle at 50% 50%, rgba(255, 0, 0, 0.08), transparent 70%);
+            radial-gradient(circle at 20% 0%, rgba(255, 39, 39, 0.18), transparent 55%),
+            radial-gradient(circle at 90% 100%, rgba(255, 120, 80, 0.12), transparent 60%),
+            radial-gradient(circle at 50% 50%, rgba(255, 0, 0, 0.06), transparent 70%);
         mix-blend-mode: screen;
         pointer-events: none;
         transform-style: preserve-3d;
@@ -248,11 +261,11 @@
         font-size: 11px;
         text-transform: uppercase;
         letter-spacing: 1px;
-        color: var(--accent-soft);
+        color: #ffffff;
         padding: 4px 9px;
         border-radius: 999px;
-        border: 1px solid rgba(255,39,39,0.7);
-        background: rgba(0,0,0,0.8);
+        border: 1px solid rgba(255,39,39,0.5);
+        background: rgba(0,0,0,0.7);
         box-shadow: var(--border-glow);
         margin-bottom: 14px;
     }
@@ -261,7 +274,8 @@
         font-size: 26px;
         line-height: 1.2;
         text-transform: uppercase;
-        text-shadow: 0 0 18px rgba(255,39,39,0.9);
+        color: #ffffff;
+        text-shadow: none; /* без неонового блиску */
         margin-bottom: 10px;
     }
 
@@ -283,9 +297,21 @@
     .hero-meta span {
         padding: 4px 9px;
         border-radius: 999px;
-        border: 1px solid rgba(255,39,39,0.6);
+        border: 1px solid rgba(255,39,39,0.4);
         background: rgba(3,3,5,0.9);
+        opacity: 0;
+        animation: tagFade 0.6s ease-out forwards;
     }
+
+    .hero-meta span:nth-child(1) { animation-delay: .25s; }
+    .hero-meta span:nth-child(2) { animation-delay: .30s; }
+    .hero-meta span:nth-child(3) { animation-delay: .35s; }
+    .hero-meta span:nth-child(4) { animation-delay: .40s; }
+    .hero-meta span:nth-child(5) { animation-delay: .45s; }
+    .hero-meta span:nth-child(6) { animation-delay: .50s; }
+    .hero-meta span:nth-child(7) { animation-delay: .55s; }
+    .hero-meta span:nth-child(8) { animation-delay: .60s; }
+    .hero-meta span:nth-child(9) { animation-delay: .65s; }
 
     /* ===== СЕКЦІЇ ===== */
     section {
@@ -298,8 +324,8 @@
         font-size: 20px;
         text-transform: uppercase;
         margin-bottom: 10px;
-        color: var(--accent-soft);
-        text-shadow: 0 0 12px rgba(255,39,39,0.9);
+        color: #ffffff;
+        text-shadow: none;
     }
 
     .section-text {
@@ -318,11 +344,11 @@
     .cat-card {
         background: var(--bg-card);
         border-radius: 12px;
-        border: 1px solid rgba(255,39,39,0.6);
-        box-shadow: 0 0 12px rgba(255,39,39,0.5);
+        border: 1px solid rgba(255,39,39,0.4);
+        box-shadow: 0 0 10px rgba(0,0,0,0.8);
         padding: 14px;
         cursor: pointer;
-        transition: 0.22s;
+        transition: 0.18s;
         position: relative;
         overflow: hidden;
     }
@@ -331,14 +357,14 @@
         content: "";
         position: absolute;
         inset: 0;
-        background: linear-gradient(135deg, rgba(255,0,0,0.12), transparent 50%);
+        background: linear-gradient(135deg, rgba(255,0,0,0.10), transparent 50%);
         opacity: 0;
-        transition: 0.22s;
+        transition: 0.18s;
     }
 
     .cat-card h3 {
         font-size: 16px;
-        color: #ff5757;
+        color: #ffffff;
         margin-bottom: 8px;
     }
 
@@ -349,7 +375,7 @@
 
     .cat-card:hover {
         transform: translateY(-2px);
-        box-shadow: 0 0 18px rgba(255,39,39,0.9);
+        box-shadow: 0 0 14px rgba(255,39,39,0.7);
     }
 
     .cat-card:hover::before {
@@ -372,96 +398,59 @@
 
     footer a:hover {
         color: var(--accent);
-        text-shadow: 0 0 8px rgba(255, 39, 39, 0.7);
+        text-shadow: 0 0 6px rgba(255, 39, 39, 0.6);
     }
+
     /* ===== АНІМАЦІЇ ДЛЯ HERO ===== */
 
-.hero {
-    animation: heroFade 1.2s ease-out forwards;
-    opacity: 0;
-}
-
-.hero-inner {
-    animation: heroSlideUp 1.4s ease-out forwards;
-    opacity: 0;
-}
-
-.hero-title {
-    animation: neonBlueRed 3s ease-in-out infinite;
-}
-
-/* Теги з появою по черзі */
-.hero-meta span {
-    opacity: 0;
-    animation: tagFade 1s ease-out forwards;
-}
-
-.hero-meta span:nth-child(1) { animation-delay: .4s; }
-.hero-meta span:nth-child(2) { animation-delay: .48s; }
-.hero-meta span:nth-child(3) { animation-delay: .56s; }
-.hero-meta span:nth-child(4) { animation-delay: .64s; }
-.hero-meta span:nth-child(5) { animation-delay: .72s; }
-.hero-meta span:nth-child(6) { animation-delay: .80s; }
-.hero-meta span:nth-child(7) { animation-delay: .88s; }
-.hero-meta span:nth-child(8) { animation-delay: .96s; }
-.hero-meta span:nth-child(9) { animation-delay: 1.04s; }
-
-/* ===== KEYFRAMES ===== */
-
-/* Плавна поява HERO */
-@keyframes heroFade {
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
-}
-
-/* Плавний підйом тексту */
-@keyframes heroSlideUp {
-    0% { opacity: 0; transform: translateY(12px); }
-    100% { opacity: 1; transform: translateY(0); }
-}
-
-/* Поява тегів */
-@keyframes tagFade {
-    0% { opacity: 0; transform: translateY(10px); }
-    100% { opacity: 1; transform: translateY(0); }
-}
-
-/* Неоновий синьо-червоний пульс */
-@keyframes neonBlueRed {
-    0% {
-        text-shadow:
-            0 0 6px rgba(255,39,39,0.6),
-            0 0 10px rgba(0,120,255,0.4);
+    .hero {
+        animation: heroFade 0.9s ease-out forwards;
+        opacity: 0;
     }
-    50% {
-        text-shadow:
-            0 0 22px rgba(255,39,39,1),
-            0 0 28px rgba(0,170,255,0.9);
-    }
-    100% {
-        text-shadow:
-            0 0 6px rgba(255,39,39,0.6),
-            0 0 10px rgba(0,120,255,0.4);
-    }
-}
 
+    .hero-inner {
+        animation: heroSlideUp 1s ease-out forwards;
+        opacity: 0;
+    }
+
+    @keyframes heroFade {
+        0% { opacity: 0; transform: translateY(18px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes heroSlideUp {
+        0% { opacity: 0; transform: translateY(10px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes tagFade {
+        0% { opacity: 0; transform: translateY(8px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
 </style>
 </head>
 <body>
 
 <!-- HUD НАВІГАЦІЯ -->
- <!-- HUD НАВІГАЦІЯ -->
 <div class="hud-nav">
     <div class="hud-logo">
-        <div class="hud-logo-main">Збройний портал</div>
-        <div class="hud-logo-sub">Інформаційний тактичний портал</div>
+        <div class="hud-emblem">
+            <!-- Спрощений герб України -->
+            <svg viewBox="0 0 32 44" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M16 2C11 5 9 10 9 16v14l-4-4v6l7 6h2V17h4v21h2l7-6v-6l-4 4V16c0-6-2-11-7-14z"/>
+            </svg>
+        </div>
+        <div class="hud-logo-text">
+            <div class="hud-logo-main">Збройний портал</div>
+            <div class="hud-logo-sub">Інформаційний тактичний портал</div>
+        </div>
     </div>
 
     <div class="hud-burger" id="hudBurger">
         <span></span>
     </div>
 </div>
-   
+
 <div class="hud-menu" id="hudMenu">
     <div class="hud-menu-groups">
 
@@ -571,7 +560,8 @@
         </div>
     </div>
 </section>
-    <section id="sec-structure">
+
+<section id="sec-structure">
     <h2 class="section-title">Структура засобів ураження</h2>
     <p class="section-text">
         Умовно всі засоби ураження можна поділити на кілька основних напрямків, кожен з яких
@@ -613,6 +603,7 @@
         </div>
     </div>
 </section>
+
 <section id="sec-roles">
     <h2 class="section-title">Тактичні ролі засобів ураження</h2>
     <p class="section-text">
@@ -647,6 +638,7 @@
         </div>
     </div>
 </section>
+
 <section id="sec-trends">
     <h2 class="section-title">Сучасні тенденції ураження противника</h2>
     <p class="section-text">
@@ -674,6 +666,7 @@
         </div>
     </div>
 </section>
+
 <section id="sec-ua">
     <h2 class="section-title">Українські засоби ураження</h2>
     <p class="section-text">
@@ -700,6 +693,7 @@
         </div>
     </div>
 </section>
+
 <section id="sec-faq">
     <h2 class="section-title">Часті питання</h2>
     <p class="section-text">
@@ -726,6 +720,7 @@
         </div>
     </div>
 </section>
+
 <footer>
     © 2025 Засоби ураження • Інформаційний тактичний портал
     <br><br>
@@ -790,22 +785,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
