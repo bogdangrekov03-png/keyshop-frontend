@@ -16,7 +16,11 @@
         --text-muted: #b8b8b8;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
 
     body {
         font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
@@ -25,12 +29,16 @@
         overflow-x: hidden;
     }
 
-    a { color: inherit; text-decoration: none; }
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
 
-   /* ===== ГЛОБАЛЬНИЙ HUD ===== */
+   /* ===== ГЛОБАЛЬНИЙ HUD (як у classification.html) ===== */
 .hud-nav {
     position: fixed;
-    top: 0; left: 0;
+    top: 0;
+    left: 0;
     width: 100%;
     z-index: 50;
     backdrop-filter: blur(10px);
@@ -43,15 +51,47 @@
     padding: 8px 14px;
 }
 
-.hud-logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-.hud-emblem { width: 24px; height: 30px; display: flex; align-items: center; justify-content: center; }
-.hud-emblem svg { width: 100%; height: 100%; fill: #f5f5f5; opacity: 0.9; }
+/* Лого з гербом */
+.hud-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
 
-.hud-logo-text { display: flex; flex-direction: column; gap: 2px; }
-.hud-logo-main { font-size: 15px; text-transform: uppercase; letter-spacing: 1.5px; color: #ffffff; }
-.hud-logo-sub { font-size: 11px; color: #b8b8b8; }
+.hud-emblem {
+    width: 24px;
+    height: 30px;
+    display: flex;
+   align-items: center;
+    justify-content: center;
+}
 
-/* BACK */
+.hud-emblem svg {
+    width: 100%;
+    height: 100%;
+    fill: #f5f5f5;
+    opacity: 0.9;
+}
+
+.hud-logo-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.hud-logo-main {
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #ffffff;
+}
+.hud-logo-sub {
+    font-size: 11px;
+    color: #b8b8b8;
+}
+
+/* Бек-кнопка */
 .hud-back {
     font-size: 18px;
     color: #ffffff;
@@ -60,14 +100,17 @@
     border-radius: 6px;
     border: 1px solid rgba(255,39,39,0.5);
     background: rgba(20,0,0,0.6);
+    box-shadow: 0 0 6px rgba(0,0,0,0.8);
     transition: 0.2s;
 }
+
 .hud-back:hover {
     background: rgba(40,0,0,0.9);
+    color: #ffffff;
     box-shadow: 0 0 12px rgba(255,39,39,0.7);
 }
 
-/* БУРГЕР (правильний) */
+/* Бургер — 3 смужки, як у класифікаторі */
 .hud-burger {
     width: 34px;
     height: 34px;
@@ -95,12 +138,22 @@
     transition: 0.25s;
 }
 
-.hud-burger::before { transform: translateY(-6px); }
-.hud-burger::after { transform: translateY(6px); }
+.hud-burger::before {
+    transform: translateY(-6px);
+}
+.hud-burger::after {
+    transform: translateY(6px);
+}
 
-.hud-burger.active span { opacity: 0; }
-.hud-burger.active::before { transform: rotate(45deg); }
-.hud-burger.active::after { transform: rotate(-45deg); }
+.hud-burger.active span {
+    opacity: 0;
+}
+.hud-burger.active::before {
+    transform: rotate(45deg);
+}
+.hud-burger.active::after {
+    transform: rotate(-45deg);
+}
 
 .hud-burger:hover {
     background: rgba(40,0,0,0.85);
@@ -108,31 +161,55 @@
     box-shadow: 0 0 12px rgba(255,40,40,0.6);
 }
 
+.hud-burger:active {
+    transform: scale(0.9);
+    box-shadow: 0 0 16px rgba(255,0,0,0.9);
+}
+
+
 /* MENU */
 .hud-menu {
     position: fixed;
-    top: 50px; right: 10px;
+    top: 50px;
+    right: 10px;
     z-index: 40;
     width: 220px;
+    max-width: calc(100% - 20px);
     background: rgba(5,5,7,0.97);
     border-radius: 14px;
     border: 1px solid rgba(255,39,39,0.6);
+    box-shadow: 0 0 18px rgba(0,0,0,0.9);
     padding: 12px;
     opacity: 0;
     transform: translateY(-10px) scale(0.97);
     pointer-events: none;
     transition: 0.22s ease;
 }
+
 .hud-menu.visible {
     opacity: 1;
     transform: translateY(0) scale(1);
     pointer-events: auto;
 }
 
-.menu-group { border-top: 1px solid rgba(255,39,39,0.25); padding-top: 6px; }
-.menu-group-title { font-size: 10px; text-transform: uppercase; color: #b8b8b8; margin: 4px 2px; }
+.hud-menu-groups { display: flex; flex-direction: column; gap: 10px; }
 
-.hud-menu ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.menu-group { border-top: 1px solid rgba(255,39,39,0.25); padding-top: 6px; }
+
+.menu-group-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #b8b8b8;
+    margin: 4px 2px;
+}
+
+.hud-menu ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
 
 .hud-menu li button {
     width: 100%;
@@ -142,9 +219,14 @@
     padding: 7px 10px;
     border: 1px solid rgba(255,39,39,0.6);
     font-size: 13px;
+    text-align: left;
     cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     transition: 0.18s;
 }
+
 .hud-menu li button:hover {
     background: rgba(40,0,0,0.9);
     box-shadow: 0 0 14px rgba(255,39,39,0.7);
@@ -153,84 +235,148 @@
 /* HERO */
 .hero {
     margin-top: 52px;
+    position: relative;
     padding: 70px 18px 30px;
+    overflow: hidden;
 }
-.hero-inner { max-width: 900px; margin: 0 auto; }
+
+.hero-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
 .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     font-size: 11px;
-    border: 1px solid rgba(255,39,39,0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #ffffff;
     padding: 4px 9px;
     border-radius: 999px;
+    border: 1px solid rgba(255,39,39,0.5);
     background: rgba(0,0,0,0.8);
-}
-.hero-title { font-size: 24px; text-transform: uppercase; margin-bottom: 8px; }
-.hero-sub { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
-
-/* СЕКЦІЇ */
-section.page { max-width: 1100px; margin: 0 auto 40px; padding: 0 18px; }
-
-/* ТИТУЛ СЕКЦІЇ — БІЛИЙ (як у класифікації) */
-.section-title {
-    font-size: 20px;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    color: #ffffff;
-    text-shadow: none;
-}
-
-.section-text {
-    font-size: 14px;
-    color: var(--text-muted);
-    line-height: 1.6;
+    box-shadow: var(--border-glow);
     margin-bottom: 14px;
 }
 
-/* INFO BLOCK */
+.hero-title {
+    font-size: 24px;
+    text-transform: uppercase;
+    text-shadow: none;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.hero-sub {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+/* СЕКЦІЇ */
+section.page {
+    max-width: 1100px;
+    margin: 0 auto 40px;
+    padding: 0 18px;
+}
+
+/* INFO-BLOCK — як у класифікації */
 .info-block {
-    padding: 16px 18px;
-    background: rgba(10,0,0,0.55);
-    border: 1px solid rgba(255,40,40,0.35);
-    border-radius: 12px;
-    backdrop-filter: blur(6px);
+    position: relative;
     margin-bottom: 18px;
+    padding: 16px 18px;
+    background: rgba(10, 0, 0, 0.55);
+    border: 1px solid rgba(255, 40, 40, 0.35);
+    border-radius: 12px;
+    box-shadow:
+        0 0 10px rgba(0,0,0,0.9),
+        inset 0 0 12px rgba(255,0,0,0.1);
+    backdrop-filter: blur(6px);
+    overflow: hidden;
+}
+
+.info-block::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 14px;
+    width: 60%;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255,60,60,0.7), transparent);
 }
 
 .info-block h3 {
+    position: relative;
     display: inline-block;
     padding: 4px 10px;
     background: rgba(40,0,0,0.8);
     border-left: 3px solid #ff2727;
     border-radius: 4px 8px 8px 4px;
-    color: #ffffff;
     text-transform: uppercase;
     font-size: 14px;
+    letter-spacing: 0.8px;
+    color: #ffffff;
+    margin-bottom: 10px;
+    text-shadow: none;
 }
-.info-block h3::before { content: "◆"; margin-right: 6px; color: #ff2727; }
 
-.info-block p, .info-block li { font-size: 14px; color: #e5e5e5; line-height: 1.6; }
-.info-block ul { margin-left: 14px; }
-.info-block ul li::before { content: "▸"; position: absolute; left: -10px; color: #ff2727; }
+.info-block h3::before {
+    content: "◆";
+    font-size: 10px;
+    margin-right: 6px;
+    color: #ff2727;
+}
 
-/* TABLE — як у класифікації: білі заголовки */
+.info-block p,
+.info-block li {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #e5e5e5;
+}
+
+.info-block ul {
+    margin-top: 8px;
+    margin-left: 14px;
+}
+
+.info-block ul li {
+    margin-bottom: 5px;
+    padding-left: 6px;
+    position: relative;
+}
+
+.info-block ul li::before {
+    content: "▸";
+    position: absolute;
+    left: -10px;
+    color: #ff2727;
+    font-size: 12px;
+}
+
+/* ТАБЛИЦІ — додано, але в кольорах як у класифікації (біле/сіре, без червоних заголовків) */
 .info-block table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 12px;
+    margin-top: 10px;
+}
+
+.info-block table th,
+.info-block table td {
+    border-bottom: 1px solid rgba(255,40,40,0.35);
+    padding: 7px 4px;
+    font-size: 13px;
 }
 
 .info-block table th {
-    text-align: left;
-    padding: 7px 4px;
     color: #ffffff;
-    font-size: 12px;
+    text-align: left;
     text-transform: uppercase;
-}
-
-.info-block table td {
-    padding: 7px 4px;
-    color: #e5e5e5;
-    font-size: 13px;
-    border-bottom: 1px solid rgba(255,40,40,0.35);
+    font-size: 12px;
 }
 
 /* FOOTER */
@@ -239,6 +385,18 @@ footer {
     padding: 20px 0 30px;
     font-size: 13px;
     color: var(--text-muted);
+}
+
+footer a {
+    color: var(--accent-soft);
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+footer a:hover {
+    color: var(--accent);
+    text-shadow: 0 0 6px rgba(255, 39, 39, 0.6);
 }
 </style>
 </head>
@@ -249,11 +407,9 @@ footer {
 <div class="hud-nav">
   <div class="hud-logo" id="homeLink">
       <span class="hud-back" id="backBtn">←</span>
-
       <div class="hud-emblem">
-          <svg viewBox="0 0 32 44"><path d="M16 2C11 5 9 10 9 16v14l-4-4v6l7 6h2V17h4v21h2l7-6v-6l-4 4V16c0-6-2-11-7-14z"/></svg>
+          <svg viewBox="0 0 32 44" xmlns="http://www.w3.org/2000/svg"><path d="M16 2C11 5 9 10 9 16v14l-4-4v6l7 6h2V17h4v21h2l7-6v-6l-4 4V16c0-6-2-11-7-14z"/></svg>
       </div>
-
       <div class="hud-logo-text">
           <div class="hud-logo-main">Калібри боєприпасів</div>
           <div class="hud-logo-sub">Довідник порталу</div>
@@ -263,44 +419,55 @@ footer {
   <div class="hud-burger" id="hudBurger"><span></span></div>
 </div>
 
-<!-- MENU -->
 <div class="hud-menu" id="hudMenu">
-    <div class="menu-group">
-        <div class="menu-group-title">Основне</div>
-        <ul><li><button data-link="index.html">Головна</button></li></ul>
-    </div>
+    <div class="hud-menu-groups">
 
-    <div class="menu-group">
-        <div class="menu-group-title">Категорії озброєння</div>
-        <ul>
-            <li><button data-link="ammo.html">Боєприпаси</button></li>
-            <li><button data-link="rockets.html">Ракетні комплекси</button></li>
-            <li><button data-link="pvo.html">Протиповітряна оборона</button></li>
-            <li><button data-link="uav.html">БпЛА</button></li>
-        </ul>
-    </div>
+        <div class="menu-group">
+            <div class="menu-group-title">Основне</div>
+            <ul>
+                <li><button data-link="index.html">Головна</button></li>
+            </ul>
+        </div>
 
-    <div class="menu-group">
-        <div class="menu-group-title">Довідник</div>
-        <ul>
-            <li><button data-link="classification.html">Класифікація</button></li>
-            <li><button data-link="calibers.html">Калібри</button></li>
-        </ul>
-    </div>
+        <div class="menu-group">
+            <div class="menu-group-title">Категорії озброєння</div>
+            <ul>
+                <li><button data-link="ammo.html">Боєприпаси</button></li>
+                <li><button data-link="rockets.html">Ракетні комплекси</button></li>
+                <li><button data-link="pvo.html">Протиповітряна оборона</button></li>
+                <li><button data-link="uav.html">БпЛА</button></li>
+            </ul>
+        </div>
 
-    <div class="menu-group">
-        <div class="menu-group-title">Тактика</div>
-        <ul><li><button data-link="tactics.html">Тактичне застосування</button></li></ul>
-    </div>
+        <div class="menu-group">
+            <div class="menu-group-title">Довідник</div>
+            <ul>
+                <li><button data-link="classification.html">Класифікація</button></li>
+                <li><button data-link="calibers.html">Калібри</button></li>
+            </ul>
+        </div>
 
-    <div class="menu-group">
-        <div class="menu-group-title">Українські розробки</div>
-        <ul><li><button data-link="ukraine-dev.html">Огляд</button></li></ul>
-    </div>
+        <div class="menu-group">
+            <div class="menu-group-title">Тактика</div>
+            <ul>
+                <li><button data-link="tactics.html">Тактичне застосування</button></li>
+            </ul>
+        </div>
 
-    <div class="menu-group">
-        <div class="menu-group-title">Безпека</div>
-        <ul><li><button data-link="safety.html">Правила безпеки</button></li></ul>
+        <div class="menu-group">
+            <div class="menu-group-title">Українські розробки</div>
+            <ul>
+                <li><button data-link="ukraine-dev.html">Огляд</button></li>
+            </ul>
+        </div>
+
+        <div class="menu-group">
+            <div class="menu-group-title">Безпека</div>
+            <ul>
+                <li><button data-link="safety.html">Правила безпеки</button></li>
+            </ul>
+        </div>
+
     </div>
 </div>
 
@@ -310,85 +477,450 @@ footer {
         <div class="hero-badge">• довідник • калібри •</div>
         <h1 class="hero-title">Калібри боєприпасів</h1>
         <p class="hero-sub">
-            Систематизований перелік основних калібрів артилерійських, мінометних, стрілецьких 
-            та ракетних боєприпасів, які застосовуються в сучасних Збройних Силах України.
+            Систематизований перелік основних калібрів артилерійських, мінометних, 
+            стрілецьких та ракетних боєприпасів, які застосовуються у сучасних Збройних Силах України 
+            та країнах-партнерах. Інформація корисна для СЗУ, складів, командирів і операторів 
+            вогневих засобів під час планування забезпечення, сумісності систем та оцінки боєздатності.
         </p>
     </div>
 </section>
 
-<!-- Далі всі твої таблиці (повний контент) -->
-<!-- !!! НІЧОГО НЕ Обрізаю, ВСЕ ЗБЕРЕЖЕНО !!! -->
-
 <!-- 1. АРТИЛЕРІЙСЬКІ КАЛІБРИ -->
 <section class="page">
-    <h2 class="section-title">1. Артилерійські калібри</h2>
-    <p class="section-text">
-        Артилерійські системи становлять основу вогневої потужності Сухопутних військ.
-    </p>
-
     <div class="info-block">
-        <h3>Артилерія та гарматні системи</h3>
+        <h3>1. Артилерійські калібри</h3>
+        <p>
+            Артилерійські системи становлять основу вогневої потужності Сухопутних військ. 
+            В українських підрозділах одночасно використовуються радянські (122, 152 мм) 
+            та натівські (105, 155 мм) калібри, що створює змішану номенклатуру боєприпасів 
+            і додаткове навантаження на логістику та служби засобів ураження.
+        </p>
+
         <table>
-            <tr><th>Калібр</th><th>Система / зразок</th><th>Примітки</th></tr>
-            <tr><td>76,2 мм</td><td>ЗіС-3</td><td>Старі зразки</td></tr>
-            <tr><td>85 мм</td><td>Д-44</td><td>ПТ-гармати</td></tr>
-            <tr><td>100 мм</td><td>Т-12 «Рапіра»</td><td>Протитанкова артилерія</td></tr>
-            <tr><td>105 мм</td><td>L118</td><td>НАТО стандарт</td></tr>
-            <tr><td>122 мм</td><td>Д-30</td><td>Масове застосування</td></tr>
-            <tr><td>130 мм</td><td>М-46</td><td>Дальнобійна артилерія</td></tr>
-            <tr><td>152 мм</td><td>2С3 «Акація»</td><td>Основний калібр важкої артилерії</td></tr>
-            <tr><td>155 мм</td><td>M777</td><td>Стандарт НАТО</td></tr>
+            <tr>
+                <th>Калібр</th>
+                <th>Система / зразок</th>
+                <th>Примітки</th>
+            </tr>
+
+            <tr>
+                <td>76,2 мм</td>
+                <td>ЗіС-3, Д-56, морські установки</td>
+                <td>Старі гармати, використовуються обмежено, переважно навчальні цілі та укріплення.</td>
+            </tr>
+            <tr>
+                <td>85 мм</td>
+                <td>Д-44 та інші ПТ-гармати</td>
+                <td>Застарілі, але можуть застосовуватись як протитанкові й по укріплених цілях.</td>
+            </tr>
+            <tr>
+                <td>100 мм</td>
+                <td>Т-12 / МТ-12 «Рапіра»</td>
+                <td>Класична протитанкова гармата, застосовується прямою наводкою.</td>
+            </tr>
+            <tr>
+                <td>105 мм</td>
+                <td>M101, L118/L119</td>
+                <td>Легка буксирувана артилерія стандарта НАТО, високої мобільності.</td>
+            </tr>
+            <tr>
+                <td>122 мм</td>
+                <td>Д-30, 2С1 «Гвоздика»</td>
+                <td>Один із наймасовіших калібрів у ЗСУ, велика номенклатура снарядів.</td>
+            </tr>
+            <tr>
+                <td>130 мм</td>
+                <td>М-46, корабельні гармати</td>
+                <td>Дальнобійна артилерія, може працювати по глибоких цілях.</td>
+            </tr>
+            <tr>
+                <td>152 мм</td>
+                <td>Д-20, 2С3 «Акація», 2С19 «Мста-С»</td>
+                <td>Базовий радянський калібр важкої артилерії, потужна фугасна дія.</td>
+            </tr>
+            <tr>
+                <td>155 мм</td>
+                <td>M777, PzH 2000, CAESAR, Krab, Archer</td>
+                <td>Стандарт НАТО, доступні далекобійні та високоточні боєприпаси.</td>
+            </tr>
+            <tr>
+                <td>203 мм</td>
+                <td>2С7 / 2С7М «Піон» / «Малка»</td>
+                <td>Надважка артилерія оперативно-тактичного рівня.</td>
+            </tr>
+            <tr>
+                <td>57 мм</td>
+                <td>С-60, зенітні та корабельні установки</td>
+                <td>Зенітно-артилерійські системи, можуть працювати по наземних цілях.</td>
+            </tr>
+            <tr>
+                <td>30 мм</td>
+                <td>2А42/2А72 (БМП-2, БТР-4)</td>
+                <td>Автоматичні гармати для ураження легкої бронетехніки та укріплень.</td>
+            </tr>
+            <tr>
+                <td>35 мм</td>
+                <td>Oerlikon, сучасні ЗАК</td>
+                <td>Зенітні системи з можливістю програмованого підриву снарядів.</td>
+            </tr>
+            <tr>
+                <td>40 мм</td>
+                <td>Bofors та інші ЗСУ/корабельні гармати</td>
+                <td>Використовуються для ППО малих висот і по легких наземних цілях.</td>
+            </tr>
+            <tr>
+                <td>120 мм</td>
+                <td>Гармати окремих САУ та танків НАТО</td>
+                <td>Танковий калібр, у контексті обліку може перетинатися з артсистемами.</td>
+            </tr>
+            <tr>
+                <td>125 мм</td>
+                <td>Т-64/72/80</td>
+                <td>Танкові постріли: БПС, кумулятивні, ОФС, керовані ракети.</td>
+            </tr>
+            <tr>
+                <td>152 мм (керовані)</td>
+                <td>«Краснополь» та аналоги</td>
+                <td>Лазерно-керовані снаряди для високоточного ураження.</td>
+            </tr>
+            <tr>
+                <td>155 мм (Excalibur)</td>
+                <td>M982 Excalibur</td>
+                <td>Снаряд з GPS-наведенням, дуже мала КВО, дорогий ресурс.</td>
+            </tr>
+            <tr>
+                <td>122 мм (реактивні)</td>
+                <td>РСЗВ типу «Град»</td>
+                <td>Формально ракети, але часто враховуються в артилерійських складах.</td>
+            </tr>
+            <tr>
+                <td>120/125 мм (керовані постріли)</td>
+                <td>ПТКР, що запускаються з танкових гармат</td>
+                <td>Поєднання функцій гармати і ракетного комплексу.</td>
+            </tr>
         </table>
     </div>
 </section>
 
-<!-- 2. МІНОМЕТИ -->
+<!-- 2. МІНОМЕТНІ КАЛІБРИ -->
 <section class="page">
-    <h2 class="section-title">2. Мінометні калібри</h2>
-
     <div class="info-block">
-        <h3>Мінометні системи</h3>
+        <h3>2. Мінометні калібри</h3>
+        <p>
+            Міномети забезпечують підрозділи доступним і простим у використанні вогневим засобом, 
+            здатним працювати з закритих позицій та по складному рельєфу. Основні калібри 
+            використовуються від рівня взводу до бригади.
+        </p>
+
         <table>
-            <tr><th>Калібр</th><th>Система</th><th>Призначення</th></tr>
-            <tr><td>50 мм</td><td>Піхотні міномети</td><td>Історичні</td></tr>
-            <tr><td>60 мм</td><td>Легкі міномети НАТО</td><td>Штурм</td></tr>
-            <tr><td>82 мм</td><td>Радянські міномети</td><td>Батальйонний рівень</td></tr>
-            <tr><td>120 мм</td><td>2Б11</td><td>Потужна вогнева підтримка</td></tr>
+            <tr>
+                <th>Калібр</th>
+                <th>Система / зразок</th>
+                <th>Призначення</th>
+            </tr>
+
+            <tr>
+                <td>50 мм</td>
+                <td>Ранні піхотні міномети</td>
+                <td>Історичні зразки, сьогодні практично не застосовуються.</td>
+            </tr>
+            <tr>
+                <td>60 мм</td>
+                <td>Сучасні легкі міномети НАТО</td>
+                <td>Штурмові групи, ССО, рейдові дії, висока мобільність.</td>
+            </tr>
+            <tr>
+                <td>60 мм (командос)</td>
+                <td>Ультралегкі портативні міномети</td>
+                <td>Швидкий розгорт, застосування у малих групах.</td>
+            </tr>
+            <tr>
+                <td>81 мм</td>
+                <td>Стандарт НАТО</td>
+                <td>Батальйонний рівень, широка номенклатура мін.</td>
+            </tr>
+            <tr>
+                <td>82 мм</td>
+                <td>Радянські/українські міномети</td>
+                <td>Класичний мінометний калібр у ЗСУ, масове застосування.</td>
+            </tr>
+            <tr>
+                <td>120 мм</td>
+                <td>2Б11, самохідні міномети, буксирувані системи</td>
+                <td>Високий вогневий вплив на опорні пункти і укріплення.</td>
+            </tr>
+            <tr>
+                <td>81/82 мм (осколкові)</td>
+                <td>Стандартні ОФ міни</td>
+                <td>Ураження живої сили та легкої техніки.</td>
+            </tr>
+            <tr>
+                <td>120 мм (осколково-фугасні)</td>
+                <td>Основні міни ЗСУ</td>
+                <td>Універсальне застосування по живій силі, будівлях і укріпленнях.</td>
+            </tr>
+            <tr>
+                <td>81/82 мм (димові)</td>
+                <td>Спеціальні димові міни</td>
+                <td>Створення димової завіси, маскування маневру.</td>
+            </tr>
+            <tr>
+                <td>81/82 мм (освітлювальні)</td>
+                <td>Освітлювальні міни</td>
+                <td>Підсвічування місцевості вночі, маркування напрямків.</td>
+            </tr>
+            <tr>
+                <td>120 мм (термобаричні)</td>
+                <td>Міни з термобаричною БЧ</td>
+                <td>Максимальний ефект по бліндажах, будівлях, укриттях.</td>
+            </tr>
+            <tr>
+                <td>81/82 мм (касетні)</td>
+                <td>Касетні мінометні боєприпаси</td>
+                <td>Ураження групових цілей і техніки на площі.</td>
+            </tr>
+            <tr>
+                <td>120 мм (довгобійні)</td>
+                <td>Міни підвищеної дальності</td>
+                <td>Розширюють зону дії мінометних батарей.</td>
+            </tr>
+            <tr>
+                <td>81/82 мм (спеціальні)</td>
+                <td>РЕБ, маркувальні, сигналізаційні</td>
+                <td>Постановка завад, позначення цілей, сигнальні завдання.</td>
+            </tr>
+            <tr>
+                <td>60/81/82 мм (тренувальні)</td>
+                <td>Інертні навчальні міни</td>
+                <td>Відпрацювання підготовки розрахунків без бойового підриву.</td>
+            </tr>
+            <tr>
+                <td>120 мм (керовані)</td>
+                <td>Керовані/кориговані міни</td>
+                <td>Точкове ураження важливих цілей при мінімальних побічних ушкодженнях.</td>
+            </tr>
         </table>
     </div>
 </section>
 
-<!-- 3. СТРІЛЕЦЬКІ -->
+<!-- 3. СТРІЛЕЦЬКІ КАЛІБРИ -->
 <section class="page">
-    <h2 class="section-title">3. Стрілецькі калібри</h2>
-
     <div class="info-block">
-        <h3>Пістолетні, автоматні, кулеметні</h3>
+        <h3>3. Стрілецькі калібри</h3>
+        <p>
+            Стрілецьке озброєння включає пістолетні, автоматні, кулеметні та снайперські патрони. 
+            В ЗСУ одночасно використовуються радянські та натівські калібри, що важливо враховувати 
+            при постачанні, формуванні БК на підрозділ та сумісності зброї.
+        </p>
+
         <table>
-            <tr><th>Калібр</th><th>Платформа</th><th>Призначення</th></tr>
-            <tr><td>9×18</td><td>ПМ</td><td>Службова зброя</td></tr>
-            <tr><td>5,45×39</td><td>АК-74</td><td>Основний радянський калібр</td></tr>
-            <tr><td>5,56×45</td><td>M4</td><td>Стандарт НАТО</td></tr>
-            <tr><td>7,62×39</td><td>АКМ</td><td>Класика</td></tr>
-            <tr><td>7,62×54R</td><td>ПКМ</td><td>Кулемети/снайперка</td></tr>
-            <tr><td>12,7×108</td><td>ДШК</td><td>Антиматеріальний калібр</td></tr>
+            <tr>
+                <th>Калібр</th>
+                <th>Зброя / платформа</th>
+                <th>Призначення</th>
+            </tr>
+
+            <tr>
+                <td>9×18 мм</td>
+                <td>ПМ, ПММ</td>
+                <td>Класичний радянський пістолетний патрон, досі широко присутній.</td>
+            </tr>
+            <tr>
+                <td>9×19 мм</td>
+                <td>Glock, CZ, SIG, українські пістолети</td>
+                <td>Стандарт НАТО для пістолетів і пістолетів-кулеметів.</td>
+            </tr>
+            <tr>
+                <td>9×21 мм</td>
+                <td>Спеціальні ПП/пістолети</td>
+                <td>Підвищена пробивна дія, переважно у спецпідрозділах.</td>
+            </tr>
+            <tr>
+                <td>5,45×39 мм</td>
+                <td>АК-74, АКС-74У, РПК-74</td>
+                <td>Основний радянський/український автоматний калібр.</td>
+            </tr>
+            <tr>
+                <td>5,56×45 мм</td>
+                <td>M4, HK416, інші гвинтівки НАТО</td>
+                <td>Стандарт НАТО, поступово поширюється в підрозділах ЗСУ.</td>
+            </tr>
+            <tr>
+                <td>7,62×39 мм</td>
+                <td>АКМ, АК-47, РПК</td>
+                <td>Класичний калібр з великою кількістю боєприпасів на складах.</td>
+            </tr>
+            <tr>
+                <td>7,62×51 мм NATO</td>
+                <td>Марксманські гвинтівки, кулемети</td>
+                <td>Стандарт НАТО для потужніших гвинтівок та кулеметів.</td>
+            </tr>
+            <tr>
+                <td>7,62×54R мм</td>
+                <td>ПКМ, ПКП, СВД</td>
+                <td>Кулемети та снайперські гвинтівки радянського зразка.</td>
+            </tr>
+            <tr>
+                <td>12,7×108 мм</td>
+                <td>ДШК, НСВ, КОРД, великокаліберні гвинтівки</td>
+                <td>Боротьба з легкою бронетехнікою, технікою, укріпленнями.</td>
+            </tr>
+            <tr>
+                <td>12,7×99 мм (.50 BMG)</td>
+                <td>Великокаліберні системи НАТО</td>
+                <td>Дальнє ураження техніки та матеріальних об’єктів.</td>
+            </tr>
+            <tr>
+                <td>14,5×114 мм</td>
+                <td>КПВТ, антиматеріальні гвинтівки</td>
+                <td>Потужний калібр проти бронетехніки та легких укріплень.</td>
+            </tr>
+            <tr>
+                <td>.338 Lapua Magnum</td>
+                <td>Сучасні снайперські комплекси</td>
+                <td>Дальнобійний снайпінг до 1500–1800 м.</td>
+            </tr>
+            <tr>
+                <td>.300 WinMag</td>
+                <td>Снайперські гвинтівки</td>
+                <td>Проміжний калібр між 7,62×51 та .338, для далеких пострілів.</td>
+            </tr>
+            <tr>
+                <td>4,6×30 мм</td>
+                <td>HK MP7</td>
+                <td>Сучасний калібр ПП з високою пробивною дією (обмежене використання).</td>
+            </tr>
+            <tr>
+                <td>5,7×28 мм</td>
+                <td>FN P90, FN Five-seveN</td>
+                <td>Спеціалізовані боєприпаси для ПП, можливе використання у спецнапрямках.</td>
+            </tr>
+            <tr>
+                <td>9×39 мм</td>
+                <td>СП-5/СП-6, спеціальна зброя</td>
+                <td>Субзвукові патрони для безшумних систем із підвищеною пробивною дією.</td>
+            </tr>
+            <tr>
+                <td>12×70 / 12×76</td>
+                <td>Гладкоствольні рушниці</td>
+                <td>Штурмові задачі, зачистка приміщень, спецоперації.</td>
+            </tr>
+            <tr>
+                <td>7,62×25 мм</td>
+                <td>ТТ (історично)</td>
+                <td>Старий пістолетний калібр, може зустрічатись у документації та на складах.</td>
+            </tr>
         </table>
     </div>
 </section>
 
-<!-- 4. РСЗВ -->
+<!-- 4. КАЛІБРИ РСЗВ ТА РАКЕТНИХ СИСТЕМ -->
 <section class="page">
-    <h2 class="section-title">4. Калібри РСЗВ та ракетних систем</h2>
-
     <div class="info-block">
-        <h3>РСЗВ та ракети</h3>
+        <h3>4. Калібри РСЗВ та ракетних комплексів</h3>
+        <p>
+            Реактивні системи залпового вогню та ракетні комплекси забезпечують глибоке ураження 
+            противника на оперативній і стратегічній глибині. Для них важливі не тільки калібр, 
+            а й дальність, тип бойової частини та система наведення.
+        </p>
+
         <table>
-            <tr><th>Калібр</th><th>Система</th><th>Тип</th></tr>
-            <tr><td>107 мм</td><td>Легкі РСЗВ</td><td>Мобільні</td></tr>
-            <tr><td>122 мм</td><td>БМ-21 «Град»</td><td>Масовий калібр</td></tr>
-            <tr><td>220 мм</td><td>«Ураган»</td><td>Середній калібр</td></tr>
-            <tr><td>300 мм</td><td>«Смерч»</td><td>Важка РСЗВ</td></tr>
-            <tr><td>227 мм</td><td>HIMARS</td><td>НАТО</td></tr>
+            <tr>
+                <th>Калібр</th>
+                <th>Система / зразок</th>
+                <th>Тип / призначення</th>
+            </tr>
+
+            <tr>
+                <td>107 мм</td>
+                <td>Легкі РСЗВ (китайські, іранські тощо)</td>
+                <td>Мобільні установки на пікапах, локальні удари.</td>
+            </tr>
+            <tr>
+                <td>122 мм</td>
+                <td>БМ-21 «Град», «Верба»</td>
+                <td>Масовий радянський калібр РСЗВ, широко застосовується в ЗСУ.</td>
+            </tr>
+            <tr>
+                <td>122 мм (керовані)</td>
+                <td>Модернізовані реактивні снаряди</td>
+                <td>Покращена точність, можливість корекції траєкторії.</td>
+            </tr>
+            <tr>
+                <td>220 мм</td>
+                <td>РСЗВ «Ураган»</td>
+                <td>Середній калібр, касетні, запальні, протитанкові підбоєприпаси.</td>
+            </tr>
+            <tr>
+                <td>300 мм</td>
+                <td>РСЗВ «Смерч»</td>
+                <td>Важка РСЗВ для ураження великих площ і важливих об’єктів.</td>
+            </tr>
+            <tr>
+                <td>227 мм</td>
+                <td>M142 HIMARS, M270</td>
+                <td>Стандарт НАТО для GMLRS та ATACMS, висока точність.</td>
+            </tr>
+            <tr>
+                <td>227 мм (GMLRS-ER)</td>
+                <td>Подовжені реактивні снаряди</td>
+                <td>Збільшена дальність ураження, GPS-наведення.</td>
+            </tr>
+            <tr>
+                <td>≈306 мм</td>
+                <td>ОТРК «Точка-У»</td>
+                <td>Оперативно-тактична ракета з касетною чи фугасною БЧ.</td>
+            </tr>
+            <tr>
+                <td>≈380 мм</td>
+                <td>РК-360МЦ «Нептун»</td>
+                <td>Український протикорабельний комплекс, адаптований для наземних цілей.</td>
+            </tr>
+            <tr>
+                <td>≈450 мм</td>
+                <td>RGM-84 «Harpoon»</td>
+                <td>Протикорабельна ракета, поставлялась країнами-партнерами.</td>
+            </tr>
+            <tr>
+                <td>≈533 мм</td>
+                <td>Класичні торпеди</td>
+                <td>Ураження кораблів, підводних човнів, морської інфраструктури.</td>
+            </tr>
+            <tr>
+                <td>≈170–230 мм</td>
+                <td>ПТРК великої дальності (Brimstone тощо)</td>
+                <td>Високоточні удари по бронетехніці, колонах, засобах ППО.</td>
+            </tr>
+            <tr>
+                <td>≈150–180 мм</td>
+                <td>«Стугна-П», «Корсар»</td>
+                <td>Протитанкові керовані ракети наземного та мобільного базування.</td>
+            </tr>
+            <tr>
+                <td>300+ мм (крила)</td>
+                <td>SCALP-EG, Storm Shadow</td>
+                <td>Крилаті ракети великої дальності для ураження стратегічних об’єктів.</td>
+            </tr>
+            <tr>
+                <td>≈210–240 мм</td>
+                <td>NASAMS, IRIS-T SLM (зенітні)</td>
+                <td>ППО середньої дальності, перехоплення літаків, БпЛА, ракет.</td>
+            </tr>
+            <tr>
+                <td>≈400–480 мм</td>
+                <td>Patriot, SAMP/T</td>
+                <td>Зенітні ракети великої дальності, у т.ч. протиракетна оборона.</td>
+            </tr>
+            <tr>
+                <td>122/220/300 мм (касетні)</td>
+                <td>Касетні реактивні снаряди</td>
+                <td>Ураження площинних цілей, техніки, живої сили.</td>
+            </tr>
+            <tr>
+                <td>227 мм (ATACMS)</td>
+                <td>Ракети для HIMARS/M270</td>
+                <td>Точкові удари по аеродромах, складах, командних пунктах.</td>
+            </tr>
         </table>
     </div>
 </section>
@@ -408,17 +940,21 @@ footer {
 
     menu.querySelectorAll('button[data-link]').forEach(btn => {
         btn.addEventListener('click', () => {
-            window.location.href = btn.dataset.link;
+            const link = btn.getAttribute('data-link');
+            if (link) window.location.href = link;
         });
     });
 
+    // BACK BUTTON
     const backBtn = document.getElementById("backBtn");
     backBtn.addEventListener("click", () => {
-        if (document.referrer && document.referrer !== location.href) history.back();
-        else window.location.href = "index.html";
+        if (document.referrer && document.referrer !== location.href) {
+            history.back();
+        } else {
+            window.location.href = "index.html";
+        }
     });
 </script>
 
 </body>
 </html>
-
